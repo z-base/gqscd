@@ -10,7 +10,7 @@
     ></script>
     <script class="remove">
       var respecConfig = {
-        specStatus: 'ED',
+        specStatus: 'unofficial',
         shortName: 'gqscd-core',
         github: 'z-base/gqscd',
         xref: 'web-platform',
@@ -294,10 +294,10 @@
         <dt><dfn>user approved object</dfn></dt>
         <dd>
           The exact full payload byte sequence presented to and approved by the
-          signer before signature creation; this profile does not permit
-          signing operations where only a partial or transformed subset is shown
-          as the approval target (<a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a
-          >, <a href="#ref-android-protected-confirmation"
+          signer before signature creation; this profile does not permit signing
+          operations where only a partial or transformed subset is shown as the
+          approval target (<a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a>,
+          <a href="#ref-android-protected-confirmation"
             >[ANDROID-PROTECTED-CONFIRMATION]</a
           >, <a href="#ref-rfc7515">[RFC7515]</a>,
           <a href="#ref-rfc9052">[RFC9052]</a>).
@@ -520,8 +520,8 @@
           <tr>
             <td>T-05 remote key mediation misuse</td>
             <td>
-              Keep key custody local to the signatory device; treat
-              [=remote signing model=] as out-of-scope for GQSCD-Core Class A.
+              Keep key custody local to the signatory device; treat [=remote
+              signing model=] as out-of-scope for GQSCD-Core Class A.
             </td>
             <td>
               <a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a>,
@@ -548,9 +548,9 @@
           [=ANNEXII-1d=]).
         </li>
         <li>
-          Each signature operation MUST be bound to one [=user approved
-          object=] and that object MUST be the complete payload intended for
-          signature ([=ANNEXII-2=]).
+          Each signature operation MUST be bound to one [=user approved object=]
+          and that object MUST be the complete payload intended for signature
+          ([=ANNEXII-2=]).
         </li>
         <li>
           Implementations MUST produce machine-verifiable evidence artifacts for
@@ -856,7 +856,9 @@
           <tr>
             <td>Public endpoints</td>
             <td>Integrity-protected publication and discovery</td>
-            <td>HTTPS/TLS + signed endpoint metadata + host consistency checks</td>
+            <td>
+              HTTPS/TLS + signed endpoint metadata + host consistency checks
+            </td>
             <td>T-04</td>
             <td>
               <code>/.well-known/gidas/gqtsp</code> SHOULD be exposed for
@@ -2266,9 +2268,10 @@
           <li>
             Evidence artifacts MUST be published as integrity-protected
             verifiable credentials and MUST include issuer, subject key
-            identifier, issuance time, expiration/status, and proof material
-            (<a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>,
-            <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
+            identifier, issuance time, expiration/status, and proof material (<a
+              href="#ref-w3c-vc-data-model2"
+              >[VC-DM2]</a
+            >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
           </li>
           <li>
             Each signing event evidence artifact MUST carry a digest of the
@@ -2281,8 +2284,8 @@
           <li>
             Evidence artifacts MUST include explicit claims for key
             non-exportability and MUST declare that private-key backup and
-            duplication are not supported by the profile instance ([=ANNEXII-1a=],
-            [=ANNEXII-1d=]).
+            duplication are not supported by the profile instance
+            ([=ANNEXII-1a=], [=ANNEXII-1d=]).
           </li>
           <li>
             Evidence artifacts MUST include a clause mapping array referencing
@@ -2858,8 +2861,8 @@
           <a href="#ref-rfc7515">[RFC7515]</a>).
         </li>
         <li>
-          Remote signing is not a recommended baseline for GQSCD-Core because
-          it weakens direct signatory-device custody guarantees; policy makers
+          Remote signing is not a recommended baseline for GQSCD-Core because it
+          weakens direct signatory-device custody guarantees; policy makers
           SHOULD require explicit, separate threat-model and assurance
           justification before accepting remote models (<a
             href="#ref-etsi-119431-1"
@@ -2900,8 +2903,8 @@
         Policy direction from this core profile: legislators and ecosystem
         operators are encouraged to prioritize local signatory-device key
         custody and can prohibit remote signing deployments when independent
-        verifier evidence
-        cannot demonstrate sole-control outcomes equivalent to local profiles.
+        verifier evidence cannot demonstrate sole-control outcomes equivalent to
+        local profiles.
       </p>
       <table class="simple">
         <thead>
@@ -3183,7 +3186,8 @@
             >
           </li>
           <li id="ref-iana-well-known-uris">
-            <a href="https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml"
+            <a
+              href="https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml"
               >[IANA-WELL-KNOWN-URIS] IANA Well-Known URI Registry</a
             >
           </li>
