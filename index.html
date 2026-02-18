@@ -90,6 +90,10 @@
         editor review determined normative content, accepted/rejected changes,
         and final wording.
       </p>
+      <p>
+        Source currency note: linked source pages were checked on February 17,
+        2026 and February 18, 2026.
+      </p>
     </section>
 
     <section>
@@ -133,6 +137,12 @@
         GQSCD-Core is designed to be extended by [=implementing specification=]
         documents for platform-specific implementation details, test suites, and
         jurisdiction-specific evidence publication workflows.
+      </p>
+      <p>
+        Companion specifications such as GQES (Globally Qualified Electronic
+        Signature), GQEAA (Globally Qualified Electronic Attestation of
+        Attributes), and GQTSP profiles can reuse this core device assurance
+        baseline while defining their own protocol-level requirements.
       </p>
       <ul>
         <li>
@@ -281,6 +291,18 @@
           >, <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>).
         </dd>
 
+        <dt><dfn>user approved object</dfn></dt>
+        <dd>
+          The exact full payload byte sequence presented to and approved by the
+          signer before signature creation; this profile does not permit
+          signing operations where only a partial or transformed subset is shown
+          as the approval target (<a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a
+          >, <a href="#ref-android-protected-confirmation"
+            >[ANDROID-PROTECTED-CONFIRMATION]</a
+          >, <a href="#ref-rfc7515">[RFC7515]</a>,
+          <a href="#ref-rfc9052">[RFC9052]</a>).
+        </dd>
+
         <dt><dfn>user verification</dfn></dt>
         <dd>
           Authenticator procedure that validates the user through local
@@ -320,6 +342,30 @@
           Machine-verifiable artifact set used to substantiate technical or
           legal property claims (<a href="#ref-etsi-319401">[ETSI-319401]</a>,
           <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
+        </dd>
+
+        <dt><dfn>gqtsp discovery endpoint</dfn></dt>
+        <dd>
+          HTTPS discovery path at <code>/.well-known/gidas/gqtsp</code> used to
+          publish evidence metadata and pointers for decentralized verifier
+          retrieval in this profile (<a href="#ref-rfc8615">[RFC8615]</a>,
+          <a href="#ref-rfc9110">[RFC9110]</a>,
+          <a href="#ref-gdis-core">[GDIS-CORE]</a>).
+        </dd>
+
+        <dt><dfn>local signing profile</dfn></dt>
+        <dd>
+          Model where signature creation data remains on the signatory-operated
+          [=end-user device=] and is not duplicated to remote service custody.
+        </dd>
+
+        <dt><dfn>remote signing model</dfn></dt>
+        <dd>
+          Model where signature creation data is created, managed, or activated
+          in server-side trust-service components external to the signatory
+          device (<a href="#ref-cen-419241-1">[CEN-419241-1]</a>,
+          <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>,
+          <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>).
         </dd>
 
         <dt><dfn>web profile</dfn></dt>
@@ -406,6 +452,15 @@
         <a href="#ref-rfc7515">[RFC7515]</a>,
         <a href="#ref-rfc9052">[RFC9052]</a>).
       </p>
+      <p>
+        GQSCD-Core Class A conformance targets a [=local signing profile=]:
+        [=signature creation data=] MUST remain inside signer-controlled
+        hardware-backed boundaries, MUST NOT be exported as raw key bytes, and
+        MUST NOT be duplicated for backup or escrow in this profile (<a
+          href="#ref-eidas-annex-ii"
+          >[EU-ANNEX-II]</a
+        >, <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
+      </p>
       <table class="simple">
         <thead>
           <tr>
@@ -462,8 +517,56 @@
               <a href="#ref-rfc9052">[RFC9052]</a>
             </td>
           </tr>
+          <tr>
+            <td>T-05 remote key mediation misuse</td>
+            <td>
+              Keep key custody local to the signatory device; treat
+              [=remote signing model=] as out-of-scope for GQSCD-Core Class A.
+            </td>
+            <td>
+              <a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a>,
+              <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>,
+              <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>,
+              <a href="#ref-etsi-119432">[ETSI-119432]</a>
+            </td>
+          </tr>
         </tbody>
       </table>
+    </section>
+
+    <section id="gqscd-core-requirements">
+      <h2>GQSCD Core Requirements</h2>
+      <ul>
+        <li>
+          Implementations MUST generate and use [=signature creation data=]
+          inside hardware-backed boundaries and MUST prevent private-key export
+          in raw form ([=ANNEXII-1a=], [=ANNEXII-1c=], [=ANNEXII-1d=]).
+        </li>
+        <li>
+          Implementations MUST NOT support private-key backup, escrow, or
+          duplication in GQSCD-Core Class A profiles ([=ANNEXII-1a=],
+          [=ANNEXII-1d=]).
+        </li>
+        <li>
+          Each signature operation MUST be bound to one [=user approved
+          object=] and that object MUST be the complete payload intended for
+          signature ([=ANNEXII-2=]).
+        </li>
+        <li>
+          Implementations MUST produce machine-verifiable evidence artifacts for
+          key custody, user-approval binding, and platform state assertions
+          ([=ANNEXII-1a=], [=ANNEXII-1d=], [=ANNEXII-2=]).
+        </li>
+        <li>
+          The [=remote signing model=] is NOT RECOMMENDED in this core profile
+          and is out-of-scope for Class A conformance; ecosystems choosing that
+          model MUST specify a separate threat model and assurance profile (<a
+            href="#ref-etsi-119431-1"
+            >[ETSI-119431-1]</a
+          >, <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>,
+          <a href="#ref-etsi-119432">[ETSI-119432]</a>).
+        </li>
+      </ul>
     </section>
 
     <section>
@@ -680,10 +783,13 @@
           </tr>
           <tr>
             <td>User intent ceremony</td>
-            <td>Exact object approved</td>
-            <td>Signed intent event with digest</td>
+            <td>Full payload approval binding</td>
+            <td>Signed intent event with payload digest binding</td>
             <td>T-02</td>
-            <td>MUST be auditable.</td>
+            <td>
+              MUST bind to one [=user approved object=] equal to the full
+              payload.
+            </td>
             <td>
               <a href="#ref-android-protected-confirmation"
                 >[ANDROID-PROTECTED-CONFIRMATION]</a
@@ -693,10 +799,10 @@
           </tr>
           <tr>
             <td>Key lifecycle management</td>
-            <td>Generate/backup/rotate/recover/revoke</td>
-            <td>Signed lifecycle log</td>
+            <td>Generate/rotate/revoke/destroy (no backup duplication)</td>
+            <td>Signed lifecycle log + destruction evidence</td>
             <td>T-01/T-03</td>
-            <td>Recovery MUST preserve auditability.</td>
+            <td>Private-key backup/export/duplication is not permitted.</td>
             <td>
               <a href="#ref-etsi-319401">[ETSI-319401]</a>,
               <a href="#ref-etsi-319411-2">[ETSI-319411-2]</a>,
@@ -749,12 +855,18 @@
           </tr>
           <tr>
             <td>Public endpoints</td>
-            <td>Integrity-protected publication</td>
-            <td>HTTPS/TLS or content hash proofs</td>
+            <td>Integrity-protected publication and discovery</td>
+            <td>HTTPS/TLS + signed endpoint metadata + host consistency checks</td>
             <td>T-04</td>
-            <td>IPFS/IPNS MAY be used for public artifacts.</td>
+            <td>
+              <code>/.well-known/gidas/gqtsp</code> SHOULD be exposed for
+              decentralized discovery; IPFS/IPNS MAY be used for public
+              artifacts.
+            </td>
             <td>
               <a href="#ref-rfc9110">[RFC9110]</a>,
+              <a href="#ref-rfc8615">[RFC8615]</a>,
+              <a href="#ref-gdis-core">[GDIS-CORE]</a>,
               <a href="#ref-ipfs-docs">[IPFS-DOCS]</a>
             </td>
           </tr>
@@ -2107,6 +2219,13 @@
             >, <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>).
           </li>
           <li>
+            Verifier checks that the [=user approved object=] is the complete
+            payload submitted for signature and that digest binding is exact
+            byte-equivalent (<a href="#ref-rfc7515">[RFC7515]</a>,
+            <a href="#ref-rfc9052">[RFC9052]</a>,
+            <a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a>).
+          </li>
+          <li>
             Verifier checks whether remote-verifiable key-property evidence (for
             example attestation artifacts) is emitted where the platform
             supports it (<a href="#ref-android-attestation"
@@ -2116,12 +2235,131 @@
           </li>
           <li>
             Verifier checks lifecycle controls for rotation, revocation hooks,
-            and rollback-resistance claims (<a href="#ref-etsi-319401"
+            destruction events, and rollback-resistance claims, and rejects
+            profiles that expose private-key backup/export semantics (<a
+              href="#ref-etsi-319401"
               >[ETSI-319401]</a
             >, <a href="#ref-etsi-319411-2">[ETSI-319411-2]</a>,
             <a href="#ref-android-keymint-version-binding"
               >[ANDROID-KEYMINT-VERSION-BINDING]</a
-            >).
+            >, <a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a>).
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="evidence-model">
+      <h2>Evidence Model</h2>
+      <p>
+        Conforming implementations MUST emit [=evidence record=] artifacts that
+        are independently verifiable by third parties and bound to explicit
+        Annex II clause IDs.
+      </p>
+      <p>
+        In this profile, published artifacts are treated as self-certifying only
+        after cryptographic verification and policy evaluation by a verifier.
+      </p>
+
+      <section id="evidence-artifact-profile">
+        <h3>Evidence Artifact Profile</h3>
+        <ul>
+          <li>
+            Evidence artifacts MUST be published as integrity-protected
+            verifiable credentials and MUST include issuer, subject key
+            identifier, issuance time, expiration/status, and proof material
+            (<a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>,
+            <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
+          </li>
+          <li>
+            Each signing event evidence artifact MUST carry a digest of the
+            [=user approved object=] and a digest or identifier of the produced
+            signature object so verifiers can check one-to-one binding (<a
+              href="#ref-rfc7515"
+              >[RFC7515]</a
+            >, <a href="#ref-rfc9052">[RFC9052]</a>).
+          </li>
+          <li>
+            Evidence artifacts MUST include explicit claims for key
+            non-exportability and MUST declare that private-key backup and
+            duplication are not supported by the profile instance ([=ANNEXII-1a=],
+            [=ANNEXII-1d=]).
+          </li>
+          <li>
+            Evidence artifacts MUST include a clause mapping array referencing
+            one or more of [=ANNEXII-1a=], [=ANNEXII-1b=], [=ANNEXII-1c=],
+            [=ANNEXII-1d=], and [=ANNEXII-2=] for each asserted security
+            property.
+          </li>
+        </ul>
+      </section>
+
+      <section id="evidence-publication-discovery">
+        <h3>Decentralized Publication and Discovery</h3>
+        <p>
+          This discovery profile is aligned with the host and governance
+          publication model used in GDIS and is structured so deployments can
+          transition naming to GQTSP without changing verifier mechanics (<a
+            href="#ref-gdis-core"
+            >[GDIS-CORE]</a
+          >).
+        </p>
+        <ul>
+          <li>
+            Evidence publication endpoints MUST use HTTPS and SHOULD expose
+            discovery metadata at [=gqtsp discovery endpoint=] (<a
+              href="#ref-rfc8615"
+              >[RFC8615]</a
+            >, <a href="#ref-rfc9110">[RFC9110]</a>).
+          </li>
+          <li>
+            Deployments SHOULD align <code>gidas</code> discovery suffix usage
+            with the IANA Well-Known URI registry process to reduce namespace
+            collision risk (<a href="#ref-iana-well-known-uris"
+              >[IANA-WELL-KNOWN-URIS]</a
+            >, <a href="#ref-rfc8615">[RFC8615]</a>).
+          </li>
+          <li>
+            Any operator MAY host a conformant discovery endpoint; host
+            participation does not grant implicit trust and verifiers MUST
+            validate signatures, issuer bindings, and freshness on every
+            retrieved artifact (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
+            <a href="#ref-rfc7515">[RFC7515]</a>,
+            <a href="#ref-rfc9052">[RFC9052]</a>).
+          </li>
+          <li>
+            Implementations SHOULD support replicated host retrieval so
+            verifiers can detect missing or divergent state views in adversarial
+            network conditions (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
+            <a href="#ref-nist-sp-800-207">[NIST-SP-800-207]</a>).
+          </li>
+        </ul>
+      </section>
+
+      <section id="evidence-verifier-checklist">
+        <h3>Verifier Checklist Profile</h3>
+        <ul>
+          <li>
+            Verify integrity and signature validity of each evidence credential
+            before policy evaluation (<a href="#ref-w3c-vc-data-integrity"
+              >[VC-DI]</a
+            >, <a href="#ref-rfc7515">[RFC7515]</a>,
+            <a href="#ref-rfc9052">[RFC9052]</a>).
+          </li>
+          <li>
+            Verify that evidence for each signature operation links to exactly
+            one [=user approved object=] and that the digest matches the full
+            payload bytes presented for signature ([=ANNEXII-2=]).
+          </li>
+          <li>
+            Verify policy flags asserting non-exportable key usage and reject
+            any profile state claiming key backup, escrow, duplication, or raw
+            key export support ([=ANNEXII-1a=], [=ANNEXII-1d=]).
+          </li>
+          <li>
+            Verify discovery metadata from [=gqtsp discovery endpoint=] and
+            governance references, then evaluate freshness windows and conflict
+            handling deterministically (<a href="#ref-gdis-core">[GDIS-CORE]</a
+            >, <a href="#ref-rfc8615">[RFC8615]</a>).
           </li>
         </ul>
       </section>
@@ -2145,6 +2383,11 @@
             >, <a href="#ref-rfc7517">[RFC7517]</a>,
             <a href="#ref-rfc9052">[RFC9052]</a>,
             <a href="#ref-rfc8949">[RFC8949]</a>).
+          </li>
+          <li>
+            MUST support VC-based evidence records for verifier exchange and
+            archival checks (<a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>,
+            <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
           </li>
           <li>
             SHOULD support WebAuthn for hardware authenticator mediation where
@@ -2192,6 +2435,14 @@
           <li>
             MUST output technical validity and legal recognition as separate
             results (<a href="#ref-etsi-319401">[ETSI-319401]</a>).
+          </li>
+          <li>
+            MUST treat EU remote signing frameworks as separate compatibility
+            targets and MUST NOT treat them as equivalent to GQSCD-Core Class A
+            conformance (<a href="#ref-eu-2025-1567">[EU-2025/1567]</a>,
+            <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>,
+            <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>,
+            <a href="#ref-etsi-119432">[ETSI-119432]</a>).
           </li>
         </ul>
       </section>
@@ -2500,6 +2751,20 @@
             >, <a href="#ref-msft-secure-boot-keys">[MSFT-SECURE-BOOT]</a>,
             <a href="#ref-apple-boot-process">[APPLE-BOOT]</a>).
           </li>
+          <li>
+            MUST NOT permit raw private-key export, backup, escrow, or
+            duplication for signing keys in this profile.
+          </li>
+          <li>
+            MUST bind each signature operation to one [=user approved object=]
+            equal to the full payload bytes and MUST emit verifier-checkable
+            evidence of that binding ([=ANNEXII-2=]).
+          </li>
+          <li>
+            MUST publish evidence metadata for verifier retrieval, including
+            support for [=gqtsp discovery endpoint=] where the deployment uses
+            decentralized host replication.
+          </li>
         </ul>
       </section>
       <section>
@@ -2519,6 +2784,14 @@
             MUST emit clause-level Annex II mapping results using
             [=ANNEXII-1a=], [=ANNEXII-1b=], [=ANNEXII-1c=], [=ANNEXII-1d=], and
             [=ANNEXII-2=].
+          </li>
+          <li>
+            MUST verify [=user approved object=] equality with the full payload
+            presented for signature and fail closed on mismatch.
+          </li>
+          <li>
+            MUST reject evidence records that indicate signing-key backup,
+            duplication, escrow, or raw export capability.
           </li>
           <li>
             MUST separate technical validity from legal recognition outcomes (<a
@@ -2544,6 +2817,12 @@
             (<a href="#ref-eidas-910">[EU-910/2014]</a>,
             <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
           </li>
+          <li>
+            MUST report remote-signing evidence as a distinct assessment path
+            from GQSCD-Core Class A conformance (<a href="#ref-eu-2025-1567"
+              >[EU-2025/1567]</a
+            >, <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>).
+          </li>
         </ul>
       </section>
     </section>
@@ -2566,9 +2845,10 @@
           <a href="#ref-rfc9052">[RFC9052]</a>).
         </li>
         <li>
-          Backup and recovery flows MUST preserve both confidentiality and
-          auditability (<a href="#ref-etsi-319401">[ETSI-319401]</a>,
-          <a href="#ref-etsi-319411-2">[ETSI-319411-2]</a>).
+          This profile forbids backup, escrow, and duplication of private
+          signing material; key confidentiality and sole-control objectives are
+          enforced through non-exportable local custody and verifier-checked
+          evidence assertions ([=ANNEXII-1a=], [=ANNEXII-1d=]).
         </li>
         <li>
           Signer authorization channels MUST defend against replay, overlay, and
@@ -2576,6 +2856,17 @@
             >[ANDROID-PROTECTED-CONFIRMATION]</a
           >, <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>,
           <a href="#ref-rfc7515">[RFC7515]</a>).
+        </li>
+        <li>
+          Remote signing is not a recommended baseline for GQSCD-Core because
+          it weakens direct signatory-device custody guarantees; policy makers
+          SHOULD require explicit, separate threat-model and assurance
+          justification before accepting remote models (<a
+            href="#ref-etsi-119431-1"
+            >[ETSI-119431-1]</a
+          >, <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>,
+          <a href="#ref-etsi-119432">[ETSI-119432]</a>,
+          <a href="#ref-cen-419241-1">[CEN-419241-1]</a>).
         </li>
       </ul>
     </section>
@@ -2605,6 +2896,13 @@
 
     <section class="informative">
       <h2>Interoperability Rationale</h2>
+      <p>
+        Policy direction from this core profile: legislators and ecosystem
+        operators are encouraged to prioritize local signatory-device key
+        custody and can prohibit remote signing deployments when independent
+        verifier evidence
+        cannot demonstrate sole-control outcomes equivalent to local profiles.
+      </p>
       <table class="simple">
         <thead>
           <tr>
@@ -2676,7 +2974,7 @@
       <h2>References</h2>
       <p>
         Reference currency note: links and version designations in this section
-        were checked on February 17, 2026.
+        were checked on February 17, 2026 and February 18, 2026.
       </p>
 
       <section>
@@ -2715,6 +3013,12 @@
             <a href="https://eur-lex.europa.eu/eli/reg_impl/2025/1570/oj/eng"
               >[EU-2025/1570] Commission Implementing Regulation (EU) 2025/1570
               (QSCD notification procedures and data fields)</a
+            >
+          </li>
+          <li id="ref-eu-2025-1567">
+            <a href="https://eur-lex.europa.eu/eli/reg_impl/2025/1567/oj/eng"
+              >[EU-2025/1567] Commission Implementing Regulation (EU) 2025/1567
+              (remote qualified signature/seal requirements)</a
             >
           </li>
           <li id="ref-eu-2024-2979">
@@ -2774,6 +3078,27 @@
               href="https://standards.iteh.ai/catalog/standards/cen/0a3d58ed-04b4-4d14-a69e-2647c47e26ba/en-419241-1-2018"
               >[CEN-419241-1] EN 419241-1:2018 Trustworthy systems supporting
               server signing</a
+            >
+          </li>
+          <li id="ref-etsi-119431-1">
+            <a
+              href="https://www.etsi.org/deliver/etsi_ts/119400_119499/11943101/01.03.01_60/ts_11943101v010301p.pdf"
+              >[ETSI-119431-1] ETSI TS 119 431-1 (Electronic Signatures and
+              Infrastructures)</a
+            >
+          </li>
+          <li id="ref-etsi-119431-2">
+            <a
+              href="https://www.etsi.org/deliver/etsi_ts/119400_119499/11943102/01.02.01_60/ts_11943102v010201p.pdf"
+              >[ETSI-119431-2] ETSI TS 119 431-2 (Electronic Signatures and
+              Infrastructures)</a
+            >
+          </li>
+          <li id="ref-etsi-119432">
+            <a
+              href="https://www.etsi.org/deliver/etsi_ts/119400_119499/119432/01.02.01_60/ts_119432v010201p.pdf"
+              >[ETSI-119432] ETSI TS 119 432 (Electronic Signatures and
+              Infrastructures)</a
             >
           </li>
           <li id="ref-cen-419221-5">
@@ -2852,6 +3177,16 @@
               >[RFC9110] HTTP Semantics</a
             >
           </li>
+          <li id="ref-rfc8615">
+            <a href="https://www.rfc-editor.org/rfc/rfc8615"
+              >[RFC8615] Well-Known Uniform Resource Identifiers (URIs)</a
+            >
+          </li>
+          <li id="ref-iana-well-known-uris">
+            <a href="https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml"
+              >[IANA-WELL-KNOWN-URIS] IANA Well-Known URI Registry</a
+            >
+          </li>
           <li id="ref-oidf-openid4vp">
             <a
               href="https://openid.net/specs/openid-4-verifiable-presentations-1_0.html"
@@ -2867,6 +3202,12 @@
           <li id="ref-ipfs-docs">
             <a href="https://docs.ipfs.tech/"
               >[IPFS-DOCS] IPFS and IPNS documentation</a
+            >
+          </li>
+          <li id="ref-gdis-core">
+            <a href="https://z-base.github.io/gdis/"
+              >[GDIS-CORE] Global Digital Identity Scheme (GDIS) Core
+              specification</a
             >
           </li>
         </ul>

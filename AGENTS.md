@@ -411,7 +411,17 @@ Rules:
 
 ---
 
-## 14) Reference corpus (MUST NOT delete; reorganise only)
+## 14) Framework items (MUST keep; add carefully)
+
+- **GQSCD (Globally Qualified Signature Creation Device)**  
+  Controller device profile used by GDIS. Defines verifiable technical security properties for signature-capable user devices, including hardware, firmware, OS, and application layers. Focuses on cryptographic evidence, non-exportable key custody, protected signing intent, attestation, rollback resistance, and interoperable verification artifacts. Not a legal certification — a machine-verifiable technical profile.  
+  https://z-base.github.io/gqscd/
+
+- **GDIS (Global Digital Identity Scheme)**  
+  Identity binding framework describing how physical identity evidence is deterministically transformed into verifiable digital identity material. Specifies MRZ-derived PID hash binding, issuance of a Verifiable Credential to a DID whose controller conforms to the GQSCD profile, governance verification endpoints, and publication of verification material in a decentralized event log. Provides deterministic verification logic but does not itself grant legal status.  
+  https://z-base.github.io/gdis/
+
+## 15) Reference corpus (MUST NOT delete; reorganise only)
 
 Raw reference links are preserved below as **data**, not as endorsement of any single governance model.
 Keep them intact; add to them carefully.
@@ -482,6 +492,8 @@ Infra / Language
 - Base64Url — https://base64.guru/standards/base64url
 - JSON — https://www.rfc-editor.org/rfc/rfc8259
 - URI — https://www.rfc-editor.org/rfc/rfc3986
+- RegExp -- https://datatracker.ietf.org/doc/html/rfc9485
+- RegExp Api --  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
 
 Formal Alternatives
 - SEDI — https://le.utah.gov/~2026/bills/static/SB0275.html
@@ -537,7 +549,7 @@ Ideas
 
 ---
 
-## 15) Philosophy
+## 16) Philosophy
 
 Small modules (for future tooling only, not the spec).
 Explicit contracts.
