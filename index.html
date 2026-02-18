@@ -129,80 +129,152 @@
     <section id="positioning-and-adoption" class="informative">
       <h2>Positioning and Adoption Model</h2>
       <p>
-        This document is a GQSCD-Core baseline specification: a formal technical
-        base document that defines cross-platform security invariants, evidence
-        artifacts, and clause-level Annex II traceability.
+        This specification defines web-native, verifier-checkable device-assurance
+        evidence for signature-creation security outcomes. Adoption is expressed
+        by stakeholder action chains:
+        <strong
+          >goal -> required artifact/interface -> verifier behavior -> adoption
+          pathway</strong
+        >.
       </p>
       <p>
-        GQSCD-Core is designed to be extended by [=implementing specification=]
-        documents for platform-specific implementation details, test suites, and
-        jurisdiction-specific evidence publication workflows.
+        Implementing specifications may profile this core for platform-specific
+        delivery while preserving the same conformance and verification semantics.
       </p>
-      <p>
-        Companion specifications such as GQES (Globally Qualified Electronic
-        Signature), GQEAA (Globally Qualified Electronic Attestation of
-        Attributes), and GQTSP profiles can reuse this core device assurance
-        baseline while defining their own protocol-level requirements.
-      </p>
-      <ul>
-        <li>
-          <strong>Manufacturer adoption objective:</strong> build certifiable
-          configurations from the outset and prepare auditable
-          hardware/firmware/software evidence for certification and notification
-          pipelines (<a href="#ref-eidas-consolidated">[EU-910-CONS]</a>,
-          <a href="#ref-eu-2025-1570">[EU-2025/1570]</a>).
-        </li>
-        <li>
-          <strong>EU deployment objective:</strong> accelerate compliant device
-          availability for the EU market by aligning engineering outputs with
-          Article 30/31 and Annex II evidence expectations (<a
-            href="#ref-eidas-consolidated"
-            >[EU-910-CONS]</a
-          >, <a href="#ref-eidas-annex-ii">[EU-ANNEX-II]</a>).
-        </li>
-        <li>
-          <strong>Decentralization and digital sovereignty objective:</strong>
-          reduce single-point trust dependencies through [=zero-trust
-          verification model=] checks and open interoperability, improving
-          market contestability, individual protection, and cost-effective
-          implementation choice (<a href="#ref-nist-sp-800-207"
-            >[NIST-SP-800-207]</a
-          >, <a href="#ref-rfc7515">[RFC7515]</a>,
-          <a href="#ref-rfc9052">[RFC9052]</a>,
-          <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>).
-        </li>
-        <li>
-          <strong>Cross-jurisdiction interoperability objective:</strong>
-          provide a neutral, web-first technical baseline that other
-          jurisdictions can map into their legislation or assurance governance
-          while separating technical validity from legal recognition (<a
-            href="#ref-rfc7515"
-            >[RFC7515]</a
-          >, <a href="#ref-rfc9052">[RFC9052]</a>,
-          <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>).
-        </li>
-      </ul>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Stakeholder</th>
+            <th>Goal</th>
+            <th>Required artifact/interface</th>
+            <th>Verifier behavior</th>
+            <th>Adoption pathway</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Device and platform manufacturers</td>
+            <td>Ship signer-controlled key-custody and intent-assurance controls</td>
+            <td>
+              Device evidence records, attestation outputs, and discovery metadata
+            </td>
+            <td>
+              Verify key non-exportability, approval binding, and state evidence
+              against policy
+            </td>
+            <td>
+              Publish conformance targets and implementation profiles for assessed
+              configurations
+            </td>
+          </tr>
+          <tr>
+            <td>Wallet and app implementers</td>
+            <td>Deliver end-user controlled signing and attestation flows</td>
+            <td>
+              User-approved-object binding artifacts and verifiable signing-event
+              evidence
+            </td>
+            <td>
+              Reject signing results lacking deterministic proof and payload
+              equality evidence
+            </td>
+            <td>
+              Publish profile conformance evidence and avoid remote-by-default
+              custody patterns
+            </td>
+          </tr>
+          <tr>
+            <td>Standards development organizations (SDOs)</td>
+            <td>Create interoperable profiles and test suites</td>
+            <td>
+              Profile specifications, test assertions, and registry/discovery
+              rules
+            </td>
+            <td>
+              Run deterministic pass/fail checks against declared profile
+              requirements
+            </td>
+            <td>
+              Standardize profile work items and reuse common terminology and
+              evidence formats
+            </td>
+          </tr>
+          <tr>
+            <td>Governments and regulators</td>
+            <td>
+              Support recognition procedures without conflating legal status and
+              cryptographic validity
+            </td>
+            <td>
+              Authoritative registries/discovery endpoints and status publication
+              procedures
+            </td>
+            <td>
+              Separate technical verification output from legal-recognition
+              determination
+            </td>
+            <td>
+              Publish compatibility-profile rules over the web profile baseline
+            </td>
+          </tr>
+          <tr>
+            <td>Auditors, CABs, and assessors</td>
+            <td>Evaluate implementation evidence with machine-verifiable checks</td>
+            <td>Test assertions, evaluation procedures, and evidence corpora</td>
+            <td>
+              Validate cryptographic proofs and reproducible requirement mappings
+            </td>
+            <td>
+              Issue assessment outcomes bound to reproducible artifacts instead of
+              narrative-only claims
+            </td>
+          </tr>
+          <tr>
+            <td>Verifiers and relying parties</td>
+            <td>Make deterministic acceptance/rejection decisions</td>
+            <td>
+              Evidence records, discovery metadata, and policy input independent of
+              UI labels
+            </td>
+            <td>
+              Verify every security claim cryptographically and report explicit
+              failure reasons
+            </td>
+            <td>
+              Adopt classed conformance verification and policy overlays per
+              jurisdiction
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section id="conformance">
       <p>
         The key words <em class="rfc2119">MUST</em>,
         <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">SHOULD</em>,
-        <em class="rfc2119">SHOULD NOT</em>, and
-        <em class="rfc2119">MAY</em> are to be interpreted as described in BCP
-        14 [[RFC2119]] [[RFC8174]].
+        <em class="rfc2119">SHOULD NOT</em>,
+        <em class="rfc2119">RECOMMENDED</em>,
+        <em class="rfc2119">NOT RECOMMENDED</em>,
+        <em class="rfc2119">MAY</em>,
+        <em class="rfc2119">OPTIONAL</em>, and
+        <em class="rfc2119">REQUIRED</em> are to be interpreted as described in
+        BCP 14 [[RFC2119]] [[RFC8174]].
       </p>
-      <p>
+      <p id="req-gqscd-54">
+        <strong>REQ-GQSCD-54:</strong>
         Requirement drafting follows W3C conformance conventions and ETSI-style
-        security requirement traceability; each security claim in normative and
-        profile matrices includes explicit reference basis links (<a
+        security requirement traceability; each normative requirement in this
+        specification has an explicit identifier in the form
+        <code>REQ-GQSCD-##</code>, and each conformance report MUST map
+        satisfied requirements to this document's section anchors (<a
           href="#ref-etsi-319401"
           >[ETSI-319401]</a
         >).
       </p>
-      <p>
-        A conforming implementation MUST satisfy all requirements of at least
-        one conformance class in this document.
+      <p id="req-gqscd-55">
+        <strong>REQ-GQSCD-55:</strong> A conforming implementation MUST satisfy
+        all requirements of at least one conformance class in this document.
       </p>
     </section>
 
@@ -346,10 +418,11 @@
 
         <dt><dfn>gqtsp discovery endpoint</dfn></dt>
         <dd>
-          HTTPS discovery path at <code>/.well-known/gidas/gqtsp</code> used to
-          publish evidence metadata and pointers for decentralized verifier
-          retrieval in this profile (<a href="#ref-rfc8615">[RFC8615]</a>,
-          <a href="#ref-rfc9110">[RFC9110]</a>,
+          Deployment-defined HTTPS discovery location used to publish evidence
+          metadata and pointers for decentralized verifier retrieval in this
+          profile (<a href="#ref-rfc8615"
+            >[RFC8615]</a
+          >, <a href="#ref-rfc9110">[RFC9110]</a>,
           <a href="#ref-gdis-core">[GDIS-CORE]</a>).
         </dd>
 
@@ -425,10 +498,108 @@
       </dl>
     </section>
 
+    <section id="data-model-and-proof-profile">
+      <h2>Data, Proof, and Media-Type Profile</h2>
+      <p id="req-gqscd-01">
+        <strong>REQ-GQSCD-01:</strong> Unless explicitly overridden in this
+        specification, data-model terms such as list, set, tuple, byte sequence,
+        and algorithm-step vocabulary MUST follow WHATWG Infra (<a
+          href="#ref-whatwg-infra"
+          >[WHATWG-INFRA]</a
+        >).
+      </p>
+      <p id="req-gqscd-02">
+        <strong>REQ-GQSCD-02:</strong> JSON values used for evidence payloads and
+        discovery metadata MUST conform to RFC 8259, and canonical JSON bytes
+        used by this profile for digest inputs MUST use RFC 8785 JCS (<a
+          href="#ref-rfc8259"
+          >[RFC8259]</a
+        >, <a href="#ref-rfc8785">[RFC8785]</a>).
+      </p>
+      <p id="req-gqscd-03">
+        <strong>REQ-GQSCD-03:</strong> If controller documents are used for key
+        and service endpoint discovery, they MUST conform to Controlled
+        Identifiers v1.0 semantics and processing rules (<a
+          href="#ref-controller-document"
+          >[CONTROLLER-DOCUMENT]</a
+        >).
+      </p>
+      <p id="req-gqscd-04">
+        <strong>REQ-GQSCD-04:</strong> Proof objects used for profile-level
+        integrity claims MUST use the Data Integrity model
+        (<code>type: DataIntegrityProof</code>) with a cryptosuite defined by
+        [VC-DI-ECDSA], and MUST include <code>cryptosuite</code> and
+        <code>proofValue</code> members (<a href="#ref-w3c-vc-data-integrity"
+          >[VC-DI]</a
+        >, <a href="#ref-vc-di-ecdsa">[VC-DI-ECDSA]</a>).
+      </p>
+      <p id="req-gqscd-05">
+        <strong>REQ-GQSCD-05:</strong> Payload digests and evidence digest values
+        defined by this profile MUST use <code>sha-256</code>, and digest bytes
+        MUST be serialized as base64url without padding (<a
+          href="#ref-rfc8785"
+          >[RFC8785]</a
+        >, <a href="#ref-base64url">[BASE64URL]</a>).
+      </p>
+
+      <section id="deterministic-verification-algorithm">
+        <h3>Deterministic Verification Algorithm</h3>
+        <p id="req-gqscd-06">
+          <strong>REQ-GQSCD-06:</strong> Verifiers MUST execute the following
+          deterministic algorithm for each evidence artifact:
+        </p>
+        <ol>
+          <li>
+            Parse the artifact as JSON and fail with
+            <code>ERR-GQSCD-MALFORMED-JSON</code> if RFC 8259 validation fails.
+          </li>
+          <li>
+            Validate required profile fields and fail with
+            <code>ERR-GQSCD-SCHEMA</code> if required members are absent.
+          </li>
+          <li>
+            Verify the Data Integrity proof using the transformation,
+            canonicalization, hashing, proof serialization, and proof
+            verification algorithm defined by the artifact's
+            <code>cryptosuite</code> and fail with
+            <code>ERR-GQSCD-PROOF</code> on failure.
+          </li>
+          <li>
+            Canonicalize the application payload bytes using RFC 8785 JCS,
+            compute <code>sha-256</code>, and compare against the declared
+            user-approved-object digest; fail with
+            <code>ERR-GQSCD-PAYLOAD-DIGEST</code> on mismatch.
+          </li>
+          <li>
+            Verify freshness windows (<code>issuedAt</code>,
+            <code>expiresAt</code>, and profile status metadata) and fail with
+            <code>ERR-GQSCD-FRESHNESS</code> if stale or not yet valid.
+          </li>
+          <li>
+            Emit deterministic pass/fail output containing the failing code set
+            and matching requirement identifiers.
+          </li>
+        </ol>
+      </section>
+
+      <section id="media-type-and-versioning-profile">
+        <h3>Media Type and Versioning Profile</h3>
+        <p id="req-gqscd-07">
+          <strong>REQ-GQSCD-07:</strong> Discovery metadata published by this
+          specification MUST use the media type
+          <code>application/gidas.gqtsp-discovery+json</code> and explicit
+          profile version fields (<a href="#ref-rfc6838"
+            >[RFC6838]</a
+          >).
+        </p>
+      </section>
+    </section>
+
     <section>
       <h2>Threat Model</h2>
-      <p>
-        Implementations MUST model attacker capabilities including network
+      <p id="req-gqscd-08">
+        <strong>REQ-GQSCD-08:</strong> Implementations MUST model attacker
+        capabilities including network
         control, malicious local process execution, UI overlay/tapjacking,
         software rollback attempts, and dishonest relying-party behavior (<a
           href="#ref-etsi-319401"
@@ -438,22 +609,25 @@
           >[ANDROID-PROTECTED-CONFIRMATION]</a
         >).
       </p>
-      <p>
-        A conformance report MUST explicitly list the [=trusted computing
+      <p id="req-gqscd-09">
+        <strong>REQ-GQSCD-09:</strong> A conformance report MUST explicitly list
+        the [=trusted computing
         base=], trust assumptions, and excluded trust assumptions (<a
           href="#ref-etsi-319401"
           >[ETSI-319401]</a
         >).
       </p>
-      <p>
-        Implementations MUST NOT treat UI labels, software allowlists, or
+      <p id="req-gqscd-10">
+        <strong>REQ-GQSCD-10:</strong> Implementations MUST NOT treat UI labels,
+        software allowlists, or
         relying-party declarations as sufficient security evidence without
         cryptographic verification (<a href="#ref-eidas-910">[EU-910/2014]</a>,
         <a href="#ref-rfc7515">[RFC7515]</a>,
         <a href="#ref-rfc9052">[RFC9052]</a>).
       </p>
-      <p>
-        GQSCD-Core Class A conformance targets a [=local signing profile=]:
+      <p id="req-gqscd-11">
+        <strong>REQ-GQSCD-11:</strong> GQSCD-Core Class A conformance targets a
+        [=local signing profile=]:
         [=signature creation data=] MUST remain inside signer-controlled
         hardware-backed boundaries, MUST NOT be exported as raw key bytes, and
         MUST NOT be duplicated for backup or escrow in this profile (<a
@@ -537,28 +711,34 @@
     <section id="gqscd-core-requirements">
       <h2>GQSCD Core Requirements</h2>
       <ul>
-        <li>
+        <li id="req-gqscd-12">
+          <strong>REQ-GQSCD-12:</strong>
           Implementations MUST generate and use [=signature creation data=]
           inside hardware-backed boundaries and MUST prevent private-key export
           in raw form ([=ANNEXII-1a=], [=ANNEXII-1c=], [=ANNEXII-1d=]).
         </li>
-        <li>
+        <li id="req-gqscd-13">
+          <strong>REQ-GQSCD-13:</strong>
           Implementations MUST NOT support private-key backup, escrow, or
           duplication in GQSCD-Core Class A profiles ([=ANNEXII-1a=],
           [=ANNEXII-1d=]).
         </li>
-        <li>
+        <li id="req-gqscd-14">
+          <strong>REQ-GQSCD-14:</strong>
           Each signature operation MUST be bound to one [=user approved object=]
           and that object MUST be the complete payload intended for signature
           ([=ANNEXII-2=]).
         </li>
-        <li>
+        <li id="req-gqscd-15">
+          <strong>REQ-GQSCD-15:</strong>
           Implementations MUST produce machine-verifiable evidence artifacts for
           key custody, user-approval binding, and platform state assertions
           ([=ANNEXII-1a=], [=ANNEXII-1d=], [=ANNEXII-2=]).
         </li>
-        <li>
-          The [=remote signing model=] is NOT RECOMMENDED in this core profile
+        <li id="req-gqscd-16">
+          <strong>REQ-GQSCD-16:</strong> The [=remote signing model=] is
+          <em class="rfc2119">NOT RECOMMENDED</em> as baseline behavior in this
+          core profile
           and is out-of-scope for Class A conformance; ecosystems choosing that
           model MUST specify a separate threat model and assurance profile (<a
             href="#ref-etsi-119431-1"
@@ -569,11 +749,13 @@
       </ul>
     </section>
 
-    <section>
-      <h2>Component Requirements</h2>
+    <section id="component-requirements" class="informative">
+      <h2>Component Evidence Matrix (Informative)</h2>
       <p>
-        Conforming implementations MUST maintain the matrix: component ->
-        property -> evidence -> threat mitigated -> notes -> reference basis (<a
+        Conformant implementations may use any internal architecture that
+        satisfies the normative requirements in this specification. The matrix
+        below is a non-exhaustive implementation reference showing common
+        component patterns and corresponding evidence artifacts (<a
           href="#ref-etsi-319401"
           >[ETSI-319401]</a
         >, <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
@@ -861,9 +1043,8 @@
             </td>
             <td>T-04</td>
             <td>
-              <code>/.well-known/gidas/gqtsp</code> SHOULD be exposed for
-              decentralized discovery; IPFS/IPNS MAY be used for public
-              artifacts.
+              A stable HTTPS discovery location SHOULD be exposed for
+              decentralized discovery; IPFS/IPNS MAY be used for public artifacts.
             </td>
             <td>
               <a href="#ref-rfc9110">[RFC9110]</a>,
@@ -2252,8 +2433,9 @@
 
     <section id="evidence-model">
       <h2>Evidence Model</h2>
-      <p>
-        Conforming implementations MUST emit [=evidence record=] artifacts that
+      <p id="req-gqscd-17">
+        <strong>REQ-GQSCD-17:</strong> Conforming implementations MUST emit
+        [=evidence record=] artifacts that
         are independently verifiable by third parties and bound to explicit
         Annex II clause IDs.
       </p>
@@ -2265,7 +2447,8 @@
       <section id="evidence-artifact-profile">
         <h3>Evidence Artifact Profile</h3>
         <ul>
-          <li>
+          <li id="req-gqscd-18">
+            <strong>REQ-GQSCD-18:</strong>
             Evidence artifacts MUST be published as integrity-protected
             verifiable credentials and MUST include issuer, subject key
             identifier, issuance time, expiration/status, and proof material (<a
@@ -2273,7 +2456,8 @@
               >[VC-DM2]</a
             >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
           </li>
-          <li>
+          <li id="req-gqscd-19">
+            <strong>REQ-GQSCD-19:</strong>
             Each signing event evidence artifact MUST carry a digest of the
             [=user approved object=] and a digest or identifier of the produced
             signature object so verifiers can check one-to-one binding (<a
@@ -2281,13 +2465,15 @@
               >[RFC7515]</a
             >, <a href="#ref-rfc9052">[RFC9052]</a>).
           </li>
-          <li>
+          <li id="req-gqscd-20">
+            <strong>REQ-GQSCD-20:</strong>
             Evidence artifacts MUST include explicit claims for key
             non-exportability and MUST declare that private-key backup and
             duplication are not supported by the profile instance
             ([=ANNEXII-1a=], [=ANNEXII-1d=]).
           </li>
-          <li>
+          <li id="req-gqscd-21">
+            <strong>REQ-GQSCD-21:</strong>
             Evidence artifacts MUST include a clause mapping array referencing
             one or more of [=ANNEXII-1a=], [=ANNEXII-1b=], [=ANNEXII-1c=],
             [=ANNEXII-1d=], and [=ANNEXII-2=] for each asserted security
@@ -2300,28 +2486,31 @@
         <h3>Decentralized Publication and Discovery</h3>
         <p>
           This discovery profile is aligned with the host and governance
-          publication model used in GDIS and is structured so deployments can
-          transition naming to GQTSP without changing verifier mechanics (<a
+          publication model used in GDIS. This section defines only verification
+          invariants and trust-boundary behavior (<a
             href="#ref-gdis-core"
             >[GDIS-CORE]</a
           >).
         </p>
         <ul>
-          <li>
-            Evidence publication endpoints MUST use HTTPS and SHOULD expose
-            discovery metadata at [=gqtsp discovery endpoint=] (<a
+          <li id="req-gqscd-22">
+            <strong>REQ-GQSCD-22:</strong> Deployments that expose
+            [=gqtsp discovery endpoint=] metadata MUST do so via HTTPS with
+            deterministic, machine-verifiable content (<a
               href="#ref-rfc8615"
               >[RFC8615]</a
             >, <a href="#ref-rfc9110">[RFC9110]</a>).
           </li>
-          <li>
+          <li id="req-gqscd-23">
+            <strong>REQ-GQSCD-23:</strong>
             Deployments SHOULD align <code>gidas</code> discovery suffix usage
             with the IANA Well-Known URI registry process to reduce namespace
             collision risk (<a href="#ref-iana-well-known-uris"
               >[IANA-WELL-KNOWN-URIS]</a
             >, <a href="#ref-rfc8615">[RFC8615]</a>).
           </li>
-          <li>
+          <li id="req-gqscd-24">
+            <strong>REQ-GQSCD-24:</strong>
             Any operator MAY host a conformant discovery endpoint; host
             participation does not grant implicit trust and verifiers MUST
             validate signatures, issuer bindings, and freshness on every
@@ -2329,7 +2518,8 @@
             <a href="#ref-rfc7515">[RFC7515]</a>,
             <a href="#ref-rfc9052">[RFC9052]</a>).
           </li>
-          <li>
+          <li id="req-gqscd-25">
+            <strong>REQ-GQSCD-25:</strong>
             Implementations SHOULD support replicated host retrieval so
             verifiers can detect missing or divergent state views in adversarial
             network conditions (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
@@ -2341,24 +2531,28 @@
       <section id="evidence-verifier-checklist">
         <h3>Verifier Checklist Profile</h3>
         <ul>
-          <li>
+          <li id="req-gqscd-26">
+            <strong>REQ-GQSCD-26:</strong>
             Verify integrity and signature validity of each evidence credential
             before policy evaluation (<a href="#ref-w3c-vc-data-integrity"
               >[VC-DI]</a
             >, <a href="#ref-rfc7515">[RFC7515]</a>,
             <a href="#ref-rfc9052">[RFC9052]</a>).
           </li>
-          <li>
+          <li id="req-gqscd-27">
+            <strong>REQ-GQSCD-27:</strong>
             Verify that evidence for each signature operation links to exactly
             one [=user approved object=] and that the digest matches the full
             payload bytes presented for signature ([=ANNEXII-2=]).
           </li>
-          <li>
+          <li id="req-gqscd-28">
+            <strong>REQ-GQSCD-28:</strong>
             Verify policy flags asserting non-exportable key usage and reject
             any profile state claiming key backup, escrow, duplication, or raw
             key export support ([=ANNEXII-1a=], [=ANNEXII-1d=]).
           </li>
-          <li>
+          <li id="req-gqscd-29">
+            <strong>REQ-GQSCD-29:</strong>
             Verify discovery metadata from [=gqtsp discovery endpoint=] and
             governance references, then evaluate freshness windows and conflict
             handling deterministically (<a href="#ref-gdis-core">[GDIS-CORE]</a
@@ -2373,42 +2567,51 @@
       <section id="web-profile">
         <h3>Web Profile (Primary)</h3>
         <ul>
-          <li>
-            MUST be the baseline profile for interoperability (<a
+          <li id="req-gqscd-30">
+            <strong>REQ-GQSCD-30:</strong> MUST be the baseline profile for
+            interoperability (<a
               href="#ref-w3c-webcrypto2"
               >[WEBCRYPTO-L2]</a
             >, <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>).
           </li>
-          <li>
-            MUST support JOSE/JWS/JWK or COSE/CBOR signature containers (<a
+          <li id="req-gqscd-31">
+            <strong>REQ-GQSCD-31:</strong> MUST support JOSE/JWS/JWK or
+            COSE/CBOR signature containers (<a
               href="#ref-rfc7515"
               >[RFC7515]</a
             >, <a href="#ref-rfc7517">[RFC7517]</a>,
             <a href="#ref-rfc9052">[RFC9052]</a>,
             <a href="#ref-rfc8949">[RFC8949]</a>).
           </li>
-          <li>
-            MUST support VC-based evidence records for verifier exchange and
-            archival checks (<a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>,
-            <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
+          <li id="req-gqscd-32">
+            <strong>REQ-GQSCD-32:</strong> MUST support VC-based evidence records
+            for verifier exchange and archival checks (<a
+              href="#ref-w3c-vc-data-model2"
+              >[VC-DM2]</a
+            >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
           </li>
-          <li>
-            SHOULD support WebAuthn for hardware authenticator mediation where
-            applicable (<a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>).
+          <li id="req-gqscd-33">
+            <strong>REQ-GQSCD-33:</strong> SHOULD support WebAuthn for hardware
+            authenticator mediation where applicable (<a
+              href="#ref-w3c-webauthn3"
+              >[WEBAUTHN-L3]</a
+            >).
           </li>
-          <li>
-            MAY use DID Core, VC Data Model, Data Integrity, OpenID4VP, and
-            SD-JWT VC when credentials are needed and deployment maturity
-            requirements are satisfied (<a href="#ref-w3c-did-core"
+          <li id="req-gqscd-34">
+            <strong>REQ-GQSCD-34:</strong> MAY use DID Core, VC Data Model, Data
+            Integrity, OpenID4VP, and SD-JWT VC when credentials are needed and
+            deployment maturity requirements are satisfied (<a
+              href="#ref-w3c-did-core"
               >[DID-CORE]</a
             >, <a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>,
             <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>,
             <a href="#ref-oidf-openid4vp">[OPENID4VP]</a>,
             <a href="#ref-ietf-sd-jwt-vc">[SD-JWT-VC]</a>).
           </li>
-          <li>
-            MUST define security properties in physical reality terms: key
-            custody, tamper resistance, and verifiable user intent (<a
+          <li id="req-gqscd-35">
+            <strong>REQ-GQSCD-35:</strong> MUST define security properties in
+            physical reality terms: key custody, tamper resistance, and
+            verifiable user intent (<a
               href="#ref-eidas-910"
               >[EU-910/2014]</a
             >, <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
@@ -2418,32 +2621,40 @@
       <section id="eu-compatibility-profile">
         <h3>EU Compatibility Profile (Mapping Layer)</h3>
         <ul>
-          <li>
-            MUST map Web Profile artifacts to EU objective/evidence checks (<a
+          <li id="req-gqscd-36">
+            <strong>REQ-GQSCD-36:</strong> MUST map Web Profile artifacts to EU
+            objective/evidence checks (<a
               href="#ref-eidas-910"
               >[EU-910/2014]</a
             >, <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
           </li>
-          <li>
-            MUST NOT replace the Web Profile as the primary technical model.
+          <li id="req-gqscd-37">
+            <strong>REQ-GQSCD-37:</strong> MUST NOT replace the Web Profile as
+            the primary technical model.
           </li>
-          <li>
-            Any [=qualified status claim=] MUST carry an [=evidence record=]
-            linked to current trusted-list and/or notification data (<a
+          <li id="req-gqscd-38">
+            <strong>REQ-GQSCD-38:</strong> Any [=qualified status claim=] MUST
+            carry an [=evidence record=] linked to current trusted-list and/or
+            notification data (<a
               href="#ref-eu-trusted-lists"
               >[EU-TRUSTED-LISTS]</a
             >,
             <a href="#ref-eu-qscd-notifications">[EU-QSCD-NOTIFICATIONS]</a>).
           </li>
-          <li>
-            MUST output technical validity and legal recognition as separate
-            results (<a href="#ref-etsi-319401">[ETSI-319401]</a>).
+          <li id="req-gqscd-39">
+            <strong>REQ-GQSCD-39:</strong> MUST output technical validity and
+            legal recognition as separate results (<a
+              href="#ref-etsi-319401"
+              >[ETSI-319401]</a
+            >).
           </li>
-          <li>
-            MUST treat EU remote signing frameworks as separate compatibility
-            targets and MUST NOT treat them as equivalent to GQSCD-Core Class A
-            conformance (<a href="#ref-eu-2025-1567">[EU-2025/1567]</a>,
-            <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>,
+          <li id="req-gqscd-40">
+            <strong>REQ-GQSCD-40:</strong> MUST treat EU remote signing
+            frameworks as separate compatibility targets and MUST NOT treat them
+            as equivalent to GQSCD-Core Class A conformance (<a
+              href="#ref-eu-2025-1567"
+              >[EU-2025/1567]</a
+            >, <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>,
             <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>,
             <a href="#ref-etsi-119432">[ETSI-119432]</a>).
           </li>
@@ -2457,9 +2668,10 @@
         For auditability, this section defines explicit clause-level IDs aligned
         to Annex II requirement units in eIDAS.
       </p>
-      <p>
-        Any normative requirement in this specification that claims Annex II
-        alignment MUST reference one or more clause IDs from this section.
+      <p id="req-gqscd-41">
+        <strong>REQ-GQSCD-41:</strong> Any normative requirement in this
+        specification that claims Annex II alignment MUST reference one or more
+        clause IDs from this section.
       </p>
 
       <table class="simple">
@@ -2738,99 +2950,173 @@
       <section>
         <h3>Class A: Device Stack</h3>
         <ul>
-          <li>
-            MUST satisfy all normative requirements in this specification for
-            device-side behavior.
+          <li id="req-gqscd-42">
+            <strong>REQ-GQSCD-42:</strong> Class A implementations MUST satisfy
+            REQ-GQSCD-08 through REQ-GQSCD-25.
           </li>
-          <li>
-            MUST implement the component matrix with machine-verifiable evidence
-            artifacts (<a href="#ref-etsi-319401">[ETSI-319401]</a>,
-            <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
+          <li id="req-gqscd-43">
+            <strong>REQ-GQSCD-43:</strong> Class A implementations MUST satisfy
+            REQ-GQSCD-41 for Annex II clause mapping traceability.
           </li>
-          <li>
-            MUST implement signed update verification and anti-rollback (<a
-              href="#ref-android-avb"
-              >[ANDROID-AVB]</a
-            >, <a href="#ref-msft-secure-boot-keys">[MSFT-SECURE-BOOT]</a>,
-            <a href="#ref-apple-boot-process">[APPLE-BOOT]</a>).
-          </li>
-          <li>
-            MUST NOT permit raw private-key export, backup, escrow, or
-            duplication for signing keys in this profile.
-          </li>
-          <li>
-            MUST bind each signature operation to one [=user approved object=]
-            equal to the full payload bytes and MUST emit verifier-checkable
-            evidence of that binding ([=ANNEXII-2=]).
-          </li>
-          <li>
-            MUST publish evidence metadata for verifier retrieval, including
-            support for [=gqtsp discovery endpoint=] where the deployment uses
-            decentralized host replication.
+          <li id="req-gqscd-44">
+            <strong>REQ-GQSCD-44:</strong> Class A implementations MUST produce
+            conformance reports with explicit pass/fail evidence for each
+            satisfied requirement ID.
           </li>
         </ul>
       </section>
       <section>
         <h3>Class B: Verifier</h3>
         <ul>
-          <li>
-            MUST validate cryptographic signatures and policy constraints (<a
-              href="#ref-rfc7515"
-              >[RFC7515]</a
-            >, <a href="#ref-rfc9052">[RFC9052]</a>).
+          <li id="req-gqscd-45">
+            <strong>REQ-GQSCD-45:</strong> Class B implementations MUST satisfy
+            REQ-GQSCD-06, REQ-GQSCD-26 through REQ-GQSCD-29, REQ-GQSCD-39, and
+            REQ-GQSCD-41.
           </li>
-          <li>
-            MUST process [=evidence record=] artifacts and emit explicit
-            pass/fail reasons (<a href="#ref-etsi-319401">[ETSI-319401]</a>).
+          <li id="req-gqscd-46">
+            <strong>REQ-GQSCD-46:</strong> Class B implementations MUST emit
+            clause-level Annex II mapping results using [=ANNEXII-1a=],
+            [=ANNEXII-1b=], [=ANNEXII-1c=], [=ANNEXII-1d=], and [=ANNEXII-2=].
           </li>
-          <li>
-            MUST emit clause-level Annex II mapping results using
-            [=ANNEXII-1a=], [=ANNEXII-1b=], [=ANNEXII-1c=], [=ANNEXII-1d=], and
-            [=ANNEXII-2=].
-          </li>
-          <li>
-            MUST verify [=user approved object=] equality with the full payload
-            presented for signature and fail closed on mismatch.
-          </li>
-          <li>
-            MUST reject evidence records that indicate signing-key backup,
-            duplication, escrow, or raw export capability.
-          </li>
-          <li>
-            MUST separate technical validity from legal recognition outcomes (<a
-              href="#ref-eidas-910"
-              >[EU-910/2014]</a
-            >).
+          <li id="req-gqscd-47">
+            <strong>REQ-GQSCD-47:</strong> Class B implementations MUST emit
+            deterministic, machine-readable failure codes from the
+            <a href="#deterministic-verification-algorithm"
+              >deterministic verification algorithm</a
+            >.
           </li>
         </ul>
       </section>
       <section>
         <h3>Class C: EU Compatibility Verifier</h3>
         <ul>
-          <li>MUST satisfy Class B.</li>
-          <li>
-            MUST verify trusted-list and QSCD-notification evidence for legal
-            qualification claims (<a href="#ref-eu-trusted-lists"
-              >[EU-TRUSTED-LISTS]</a
-            >,
+          <li id="req-gqscd-48">
+            <strong>REQ-GQSCD-48:</strong> Class C implementations MUST satisfy
+            Class B.
+          </li>
+          <li id="req-gqscd-49">
+            <strong>REQ-GQSCD-49:</strong> Class C implementations MUST satisfy
+            REQ-GQSCD-36 through REQ-GQSCD-40.
+          </li>
+          <li id="req-gqscd-50">
+            <strong>REQ-GQSCD-50:</strong> Class C implementations MUST verify
+            trusted-list and QSCD-notification evidence for legal qualification
+            claims (<a href="#ref-eu-trusted-lists">[EU-TRUSTED-LISTS]</a>,
             <a href="#ref-eu-qscd-notifications">[EU-QSCD-NOTIFICATIONS]</a>).
           </li>
-          <li>
-            MUST NOT infer legal qualification from cryptographic success alone
-            (<a href="#ref-eidas-910">[EU-910/2014]</a>,
-            <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
+          <li id="req-gqscd-51">
+            <strong>REQ-GQSCD-51:</strong> Class C implementations MUST NOT infer
+            legal qualification from cryptographic success alone (<a
+              href="#ref-eidas-910"
+              >[EU-910/2014]</a
+            >, <a href="#ref-eu-2016-650">[EU-2016/650]</a>).
           </li>
-          <li>
-            MUST report remote-signing evidence as a distinct assessment path
-            from GQSCD-Core Class A conformance (<a href="#ref-eu-2025-1567"
-              >[EU-2025/1567]</a
-            >, <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>).
+          <li id="req-gqscd-52">
+            <strong>REQ-GQSCD-52:</strong> Class C implementations MUST report
+            remote-signing evidence as a distinct assessment path from GQSCD-Core
+            Class A conformance (<a href="#ref-eu-2025-1567">[EU-2025/1567]</a>,
+            <a href="#ref-etsi-119431-1">[ETSI-119431-1]</a>).
           </li>
         </ul>
       </section>
     </section>
 
-    <section>
+    <section id="requirement-binding">
+      <h2>Requirement Binding and Reporting</h2>
+      <p id="req-gqscd-53">
+        <strong>REQ-GQSCD-53:</strong> Conformance reports MUST provide
+        machine-readable results for each applicable requirement identifier and
+        bind each result to this specification's section anchor.
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Requirement set</th>
+            <th>Primary anchors</th>
+            <th>Conformance classes</th>
+            <th>Binding target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>REQ-GQSCD-01 ... REQ-GQSCD-07</td>
+            <td>
+              <a href="#data-model-and-proof-profile"
+                >Data, Proof, and Media-Type Profile</a
+              >
+            </td>
+            <td>Class A, Class B, Class C</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-08 ... REQ-GQSCD-16</td>
+            <td>
+              <a href="#gqscd-core-requirements">GQSCD Core Requirements</a>
+            </td>
+            <td>Class A</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-17 ... REQ-GQSCD-25</td>
+            <td><a href="#evidence-model">Evidence Model</a></td>
+            <td>Class A</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-26 ... REQ-GQSCD-29</td>
+            <td><a href="#evidence-verifier-checklist">Verifier Checklist Profile</a></td>
+            <td>Class B, Class C</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-30 ... REQ-GQSCD-40</td>
+            <td>
+              <a href="#web-profile">Web Profile</a>,
+              <a href="#eu-compatibility-profile">EU Compatibility Profile</a>
+            </td>
+            <td>Class B, Class C</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-41</td>
+            <td>
+              <a href="#conformance-classes">Conformance Classes</a>
+            </td>
+            <td>Class A, Class B, Class C</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-42 ... REQ-GQSCD-44</td>
+            <td><a href="#conformance-classes">Class A: Device Stack</a></td>
+            <td>Class A</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-45 ... REQ-GQSCD-47</td>
+            <td><a href="#conformance-classes">Class B: Verifier</a></td>
+            <td>Class B, Class C</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-48 ... REQ-GQSCD-52</td>
+            <td><a href="#conformance-classes">Class C: EU Compatibility Verifier</a></td>
+            <td>Class C</td>
+            <td>ReSpec anchors</td>
+          </tr>
+          <tr>
+            <td>REQ-GQSCD-53 ... REQ-GQSCD-55</td>
+            <td>
+              <a href="#requirement-binding">Requirement Binding and Reporting</a>,
+              <a href="#conformance">Conformance</a>
+            </td>
+            <td>Class A, Class B, Class C</td>
+            <td>ReSpec anchors + report payload mapping</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="informative">
       <h2>Security Considerations</h2>
       <ul>
         <li>
@@ -2840,7 +3126,7 @@
           <a href="#ref-eidas-910">[EU-910/2014]</a>).
         </li>
         <li>
-          Implementations SHOULD apply a [=zero-trust verification model=] so
+          Implementations should apply a [=zero-trust verification model=] so
           that every signature decision is derived from fresh, signed evidence
           and explicit policy checks (<a href="#ref-nist-sp-800-207"
             >[NIST-SP-800-207]</a
@@ -2854,7 +3140,8 @@
           evidence assertions ([=ANNEXII-1a=], [=ANNEXII-1d=]).
         </li>
         <li>
-          Signer authorization channels MUST defend against replay, overlay, and
+          Signer authorization channels should defend against replay, overlay,
+          and
           confused-deputy attacks (<a href="#ref-android-protected-confirmation"
             >[ANDROID-PROTECTED-CONFIRMATION]</a
           >, <a href="#ref-w3c-webauthn3">[WEBAUTHN-L3]</a>,
@@ -2863,7 +3150,7 @@
         <li>
           Remote signing is not a recommended baseline for GQSCD-Core because it
           weakens direct signatory-device custody guarantees; policy makers
-          SHOULD require explicit, separate threat-model and assurance
+          should require explicit, separate threat-model and assurance
           justification before accepting remote models (<a
             href="#ref-etsi-119431-1"
             >[ETSI-119431-1]</a
@@ -2874,22 +3161,22 @@
       </ul>
     </section>
 
-    <section>
+    <section class="informative">
       <h2>Privacy Considerations</h2>
       <ul>
         <li>
-          Implementations SHOULD minimize personally identifying data in
+          Implementations should minimize personally identifying data in
           evidence artifacts (<a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>,
           <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>,
           <a href="#ref-eu-2024-2979">[EU-2024/2979]</a>).
         </li>
         <li>
-          Public verification endpoints MUST NOT disclose private sensitive
+          Public verification endpoints should not disclose private sensitive
           material (<a href="#ref-rfc9110">[RFC9110]</a>,
           <a href="#ref-etsi-319401">[ETSI-319401]</a>).
         </li>
         <li>
-          Selective disclosure SHOULD be used where policy permits (<a
+          Selective disclosure should be used where policy permits (<a
             href="#ref-ietf-sd-jwt-vc"
             >[SD-JWT-VC]</a
           >, <a href="#ref-w3c-vc-data-model2">[VC-DM2]</a>).
@@ -2979,6 +3266,96 @@
         Reference currency note: links and version designations in this section
         were checked on February 17, 2026 and February 18, 2026.
       </p>
+
+      <section>
+        <h3>GIDAS Canonical Baseline</h3>
+        <ul>
+          <li id="ref-rfc2119">
+            <a href="https://www.rfc-editor.org/rfc/rfc2119"
+              >[RFC2119] Key words for use in RFCs to Indicate Requirement
+              Levels</a
+            >
+          </li>
+          <li id="ref-rfc8174">
+            <a href="https://www.rfc-editor.org/rfc/rfc8174"
+              >[RFC8174] Ambiguity of Uppercase vs Lowercase in RFC 2119 Key
+              Words</a
+            >
+          </li>
+          <li id="ref-rfc6838">
+            <a href="https://www.rfc-editor.org/rfc/rfc6838"
+              >[RFC6838] Media Type Specifications and Registration
+              Procedures</a
+            >
+          </li>
+          <li id="ref-rfc8259">
+            <a href="https://www.rfc-editor.org/rfc/rfc8259"
+              >[RFC8259] The JavaScript Object Notation (JSON) Data Interchange
+              Format</a
+            >
+          </li>
+          <li id="ref-rfc8785">
+            <a href="https://www.rfc-editor.org/rfc/rfc8785"
+              >[RFC8785] JSON Canonicalization Scheme (JCS)</a
+            >
+          </li>
+          <li id="ref-ecma-262">
+            <a href="https://tc39.es/ecma262/"
+              >[ECMA-262] ECMAScript Language Specification</a
+            >
+          </li>
+          <li id="ref-whatwg-infra">
+            <a href="https://infra.spec.whatwg.org/"
+              >[WHATWG-INFRA] WHATWG Infra Standard</a
+            >
+          </li>
+          <li id="ref-xmlschema11-2">
+            <a href="https://www.w3.org/TR/xmlschema11-2/"
+              >[XMLSCHEMA11-2] XML Schema 1.1 Part 2: Datatypes</a
+            >
+          </li>
+          <li id="ref-base64url">
+            <a href="https://base64.guru/standards/base64url"
+              >[BASE64URL] Base64URL Reference</a
+            >
+          </li>
+          <li id="ref-controller-document">
+            <a href="https://www.w3.org/TR/cid-1.0/"
+              >[CONTROLLER-DOCUMENT] Controlled Identifiers v1.0</a
+            >
+          </li>
+          <li id="ref-vc-di-ecdsa">
+            <a href="https://www.w3.org/TR/vc-di-ecdsa/"
+              >[VC-DI-ECDSA] Data Integrity ECDSA Cryptosuites v1.0</a
+            >
+          </li>
+          <li id="ref-cel-spec">
+            <a href="https://w3c-ccg.github.io/cel-spec/"
+              >[CEL-SPEC] Composable Event Logs (CEL) Specification</a
+            >
+          </li>
+          <li id="ref-didwebvh">
+            <a href="https://identity.foundation/didwebvh/v1.0/"
+              >[DIDWEBVH] did:webvh DID Method v1.0</a
+            >
+          </li>
+          <li id="ref-json-web-history">
+            <a href="https://z-base.github.io/json-web-history/"
+              >[JSON-WEB-HISTORY] JSON Web History</a
+            >
+          </li>
+          <li id="ref-gqscd-core">
+            <a href="https://z-base.github.io/gqscd/"
+              >[GQSCD-CORE] Globally Qualified Signature Creation Device</a
+            >
+          </li>
+          <li id="ref-gqts-core">
+            <a href="https://z-base.github.io/gqts/"
+              >[GQTS-CORE] Globally Qualified Trust Service</a
+            >
+          </li>
+        </ul>
+      </section>
 
       <section>
         <h3>EU Regulatory and Governance</h3>
