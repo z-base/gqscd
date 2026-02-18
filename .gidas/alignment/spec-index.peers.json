@@ -1,0 +1,961 @@
+﻿[
+    {
+        "spec_id":  "GDIS-CORE",
+        "repo":  "z-base/gdis",
+        "commit_or_version":  "unspecified",
+        "files":  {
+                      "index_html":  "C:\\Users\\jorts\\gdis\\index.html",
+                      "openapi_yaml":  "C:\\Users\\jorts\\gdis\\openapi.yaml",
+                      "agents_md":  "C:\\Users\\jorts\\gdis\\AGENTS.md"
+                  },
+        "terms":  [
+                      {
+                          "term_text":  "governance area",
+                          "term_id":  "governance-area",
+                          "anchor":  "#governance-area",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "84dba951489323096d56c427ef6882022b4774fc0126060c2bcc92192ec547e4",
+                          "definition_text_excerpt":  "A legal and administrative domain that issues and governs identity items and their verification rules."
+                      },
+                      {
+                          "term_text":  "physical identity item",
+                          "term_id":  "physical-identity-item",
+                          "anchor":  "#physical-identity-item",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "20ad94d28f969ea5fd0c3d22a9bdba016dd98d27d6128347ff720913c6c9cf93",
+                          "definition_text_excerpt":  "A physical identity document or token issued under a governance area and recognized by that area for identity purposes."
+                      },
+                      {
+                          "term_text":  "chip-backed private key",
+                          "term_id":  "chip-backed-private-key",
+                          "anchor":  "#chip-backed-private-key",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "281c3453d8c6a7bc59956aafe109b35cfa0b2b2329c40b7c8122bd4b9d06b248",
+                          "definition_text_excerpt":  "Private-key material whose generation, storage, and signing operations are enforced by secure hardware boundaries."
+                      },
+                      {
+                          "term_text":  "governance verification endpoint",
+                          "term_id":  "governance-verification-endpoint",
+                          "anchor":  "#governance-verification-endpoint",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "a5adfa71a4d8be343329b3db269c80ad014ac7e73f883fe35d2d3e73fa4f5d0d",
+                          "definition_text_excerpt":  "A network endpoint exposing discovery and/or status information needed to validate document legitimacy within a governance area. In this profile, those endpoints are exposed under /.well-known/gidas/ ."
+                      },
+                      {
+                          "term_text":  "list",
+                          "term_id":  "list",
+                          "anchor":  "#list",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "a934559037ed21f5e56ab88bb952a778666c3601538ca9c3d986ab931ba7e015",
+                          "definition_text_excerpt":  "Data concept used as defined by Infra [INFRA] ."
+                      },
+                      {
+                          "term_text":  "set",
+                          "term_id":  "set",
+                          "anchor":  "#set",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "a934559037ed21f5e56ab88bb952a778666c3601538ca9c3d986ab931ba7e015",
+                          "definition_text_excerpt":  "Data concept used as defined by Infra [INFRA] ."
+                      },
+                      {
+                          "term_text":  "byte sequence",
+                          "term_id":  "byte-sequence",
+                          "anchor":  "#byte-sequence",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "a934559037ed21f5e56ab88bb952a778666c3601538ca9c3d986ab931ba7e015",
+                          "definition_text_excerpt":  "Data concept used as defined by Infra [INFRA] ."
+                      },
+                      {
+                          "term_text":  "tuple",
+                          "term_id":  "tuple",
+                          "anchor":  "#tuple",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "a934559037ed21f5e56ab88bb952a778666c3601538ca9c3d986ab931ba7e015",
+                          "definition_text_excerpt":  "Data concept used as defined by Infra [INFRA] ."
+                      },
+                      {
+                          "term_text":  "tuple expression",
+                          "term_id":  "tuple-expression",
+                          "anchor":  "#tuple-expression",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "c34954e8a8b4985ff9d6fbc720d3f8c38682e571475c304f88b6e042310381a4",
+                          "definition_text_excerpt":  "Canonical serialized tuple string. In this specification, tuple expressions use : as the component delimiter, without leading/trailing whitespace around components."
+                      },
+                      {
+                          "term_text":  "PID identification endpoint",
+                          "term_id":  "pid-identification-endpoint",
+                          "anchor":  "#pid-identification-endpoint",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "2e4c9952de42efd9832a4400d2cedb5be486b806acb6f769366f9433c9a0a595",
+                          "definition_text_excerpt":  "A governance-recognized endpoint that publishes normative machine-readable PID requirements for a jurisdiction, including the required MRZ-derived fields and field-level validation patterns."
+                      },
+                      {
+                          "term_text":  "PID field set",
+                          "term_id":  "pid-field-set",
+                          "anchor":  "#pid-field-set",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "e8c57d898fe2bfe8a0c45835c76a7ceee7b6aea8e81979807d9bb88bb6a61aa7",
+                          "definition_text_excerpt":  "A list of PID requirement entries for a governance area, serialized as a JSON array [RFC8259] . Membership semantics are a set keyed by fieldId (that is, fieldId values are unique). Each entry identifies a physical identity item field (as extracted from MRZ-compatible data), whether it is required, "
+                      },
+                      {
+                          "term_text":  "MRZ",
+                          "term_id":  "mrz",
+                          "anchor":  "#mrz",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "613364f948b7587610cdd791e6aad74fc897a7e82150bd5cbbfe59cccb14cdb2",
+                          "definition_text_excerpt":  "Machine Readable Zone data defined in ICAO Doc 9303 [ICAO-9303] [ICAO-9303-P3] ."
+                      },
+                      {
+                          "term_text":  "PID",
+                          "term_id":  "pid",
+                          "anchor":  "#pid",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "278ddd714b9fa6b263c0da29c72ef55071c25fa0269bc9758d9246c8e717abc6",
+                          "definition_text_excerpt":  "A set of data that identifies a person under applicable law or standards contexts."
+                      },
+                      {
+                          "term_text":  "PID hash",
+                          "term_id":  "pid-hash",
+                          "anchor":  "#pid-hash",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "114264fcd28db8e94285b6bf7dc5634b6dbeb3a1f1796e2b2d7a75136848c526",
+                          "definition_text_excerpt":  "A cryptographic hash over canonicalized PID fields extracted from MRZ-compatible document data, represented as a hash tuple expression ."
+                      },
+                      {
+                          "term_text":  "GDIS binding credential",
+                          "term_id":  "gdis-binding-credential",
+                          "anchor":  "#gdis-binding-credential",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "f178e4040bf9e81cedf6698fa0e7a1ce9fe5c9d36d366bcd94e0b377c7d34a54",
+                          "definition_text_excerpt":  "A verifiable credential binding a PID hash to a subject DID, issuer evidence, and governance verification material."
+                      },
+                      {
+                          "term_text":  "GDIS subject DID",
+                          "term_id":  "gdis-subject-did",
+                          "anchor":  "#gdis-subject-did",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "05930a6e3abc3653868b438382e6a676f936f301b77986326a96620db3509067",
+                          "definition_text_excerpt":  "Subject DID in a GDIS binding credential , controlled by a GQSCD-class controller."
+                      },
+                      {
+                          "term_text":  "GQSCD controller",
+                          "term_id":  "gqscd-controller",
+                          "anchor":  "#gqscd-controller",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "1373d43f8cb2e129d8d6791ac75338966a49b90a412d12080b3ef8c32b60beb3",
+                          "definition_text_excerpt":  "DID controller profile requiring protected key custody and signer-intent controls as defined by GQSCD Core [GQSCD-CORE] ."
+                      },
+                      {
+                          "term_text":  "decentralized event log",
+                          "term_id":  "decentralized-event-log",
+                          "anchor":  "#decentralized-event-log",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "e2b7552d2a94b182b9fd795677568edd7e03f8486ff78bc85b7d591dd41a1159",
+                          "definition_text_excerpt":  "Open-participation publication layer used to replicate GDIS verification material across many origins. Transport and host participation semantics are defined by the declared host profile (for example GQTS), not by this specification."
+                      },
+                      {
+                          "term_text":  "host profile",
+                          "term_id":  "host-profile",
+                          "anchor":  "#host-profile",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "ff0dc3bb991e369ca98fc9186ad797cb1d85df00a254300b8ccb059132c75700",
+                          "definition_text_excerpt":  "External specification that defines host role semantics, admission, transport, replication, and consistency behavior for publication participants (for example GQTS). [GQTS-CORE] ."
+                      },
+                      {
+                          "term_text":  "mandatory minimum hosts",
+                          "term_id":  "mandatory-minimum-hosts",
+                          "anchor":  "#mandatory-minimum-hosts",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "f3a9d6a770376df5c3c93ded78a64d533c13561305e7a958043900df0da1855b",
+                          "definition_text_excerpt":  "Governance-required publication targets in the selected host profile that define a minimum publication floor and not an exclusive publication ceiling."
+                      },
+                      {
+                          "term_text":  "publication set",
+                          "term_id":  "publication-set",
+                          "anchor":  "#publication-set",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "db64c025917a759c88f96951126cfb37822029729665d475de0f2a00717c0373",
+                          "definition_text_excerpt":  "Union of mandatory governance publication targets and person-selected additional targets to which subject materials are published."
+                      },
+                      {
+                          "term_text":  "asOf query parameter",
+                          "term_id":  "asof-query-parameter",
+                          "anchor":  "#asof-query-parameter",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "8f260d673ab29566949c4a2ad6147de7bb11a24ee728544d140391f9a3d39710",
+                          "definition_text_excerpt":  "URI query parameter whose value is an RFC 3339 date-time selecting the policy version that was effective at that instant [RFC3339] ."
+                      },
+                      {
+                          "term_text":  "evidence artifact",
+                          "term_id":  "evidence-artifact",
+                          "anchor":  "#evidence-artifact",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "ea96785b79aa15d69edf3d8ca06c2997507e05446ce8dffbeb1751fbb07a88e1",
+                          "definition_text_excerpt":  "A signed or hashed machine-verifiable artifact used by issuers, host-profile operators, or verifiers to substantiate a security or status claim."
+                      },
+                      {
+                          "term_text":  "conformance report",
+                          "term_id":  "conformance-report",
+                          "anchor":  "#conformance-report",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "8e227e688efbac00f9852356a9b8bfe06d12384268767fb704a18a1287c14849",
+                          "definition_text_excerpt":  "Implementation report that states conformance class coverage, policy assumptions, test outputs, and produced or consumed evidence artifact types."
+                      },
+                      {
+                          "term_text":  "verification result",
+                          "term_id":  "verification-result",
+                          "anchor":  "#verification-result",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "99f040b2a6dfafe71735c7893c70befe69b19d6259769d7a0b7a56662fe367f4",
+                          "definition_text_excerpt":  "Deterministic output object produced by a verifier after executing the normative processing rules in this specification."
+                      },
+                      {
+                          "term_text":  "web profile",
+                          "term_id":  "web-profile",
+                          "anchor":  "#web-profile",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91",
+                          "definition_text_excerpt":  "Imported term from [GQSCD-CORE] ."
+                      },
+                      {
+                          "term_text":  "EU compatibility profile",
+                          "term_id":  "eu-compatibility-profile",
+                          "anchor":  "#eu-compatibility-profile",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91",
+                          "definition_text_excerpt":  "Imported term from [GQSCD-CORE] ."
+                      }
+                  ],
+        "clauses":  [
+                        {
+                            "clause_id":  "REQ-GDIS-01",
+                            "anchor":  "#req-anchor",
+                            "section_anchor":  "#req-anchor",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "821bc625995502199f01ac37b03cb21ff8227f71240f63991942606c607b0b39"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-01",
+                            "anchor":  "#REQ-GDIS-01",
+                            "section_anchor":  "#req-anchor",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "14f9d1c274d3f9f88f16b64ad7fde934ac074bfed9820d09ce4d122d7c5eea7a"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-02",
+                            "anchor":  "#req-mrz-pid",
+                            "section_anchor":  "#req-mrz-pid",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "d54ab7b730b91d8882db4aa6b600567aebf8dcfa110b5203d647df9058df404b"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-02",
+                            "anchor":  "#REQ-GDIS-02",
+                            "section_anchor":  "#req-mrz-pid",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "f864c6e65529b2c3a981c017608f6e817894715b9cfa712a7da0e5aa4a1f3a58"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-03",
+                            "anchor":  "#req-endpoint",
+                            "section_anchor":  "#req-endpoint",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "2f792e473d5f3fb60f0f3f3816e24543c4e22640bc02b235c3959a7b726d70c4"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-03",
+                            "anchor":  "#REQ-GDIS-03",
+                            "section_anchor":  "#req-endpoint",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "096e7d02a7f1767bc027126dd9b157368b5fd861fab3ff834299957a0f4faed0"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-04",
+                            "anchor":  "#req-vc-did-gqscd",
+                            "section_anchor":  "#req-vc-did-gqscd",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "e69e0bcf82022be7dae94e415389c147e4aec2ad1246f45629b41f199b92af7b"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-04",
+                            "anchor":  "#REQ-GDIS-04",
+                            "section_anchor":  "#req-vc-did-gqscd",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "e0817bec60c6a932abafa4c8d43bef4d6a97c3bba41791089cf18cecdbcc0ffc"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-05",
+                            "anchor":  "#req-publication-profile",
+                            "section_anchor":  "#req-publication-profile",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "875e1bbc6bb5e9618561f854157b108b5ae9e5ddca20a35436567abe41fe4cdd"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-05",
+                            "anchor":  "#REQ-GDIS-05",
+                            "section_anchor":  "#req-publication-profile",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "7862ce72e3abbe86e046f78d048f8e104745a33126e3f91e8fcf16f8c784b978"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-06",
+                            "anchor":  "#req-replay",
+                            "section_anchor":  "#req-replay",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "439736988bc544275e4325b7a0df8032b4780683b1f6e295c20bb0f9b60dbc36"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-06",
+                            "anchor":  "#REQ-GDIS-06",
+                            "section_anchor":  "#req-replay",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "b31429e12743f6f546daabda5834b255606988dca8820c4f737922f5b0486896"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-07",
+                            "anchor":  "#req-crypto-agility",
+                            "section_anchor":  "#req-crypto-agility",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "aca9b11fcde054ea9b715407c9d68f38cd01ea8cae54d3f6bfae64f670120beb"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-07",
+                            "anchor":  "#REQ-GDIS-07",
+                            "section_anchor":  "#req-crypto-agility",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "512cf1a1fde3c276884d47c58cb90391281e841a12114ad15a304ebea0874d6a"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-08",
+                            "anchor":  "#REQ-GDIS-08",
+                            "section_anchor":  "#processing-issuer",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "db47446098dee75ff05f3bba29623b13cb11614c776560a8b2f445ac7f6f0f83"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-09",
+                            "anchor":  "#REQ-GDIS-09",
+                            "section_anchor":  "#processing-verifier",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "d09925668b3b5c77d365ec24f5e257f1ae38ccebe0905067e6c07b13e8992be6"
+                        }
+                    ],
+        "cross_spec_references":  {
+                                      "type":  "label",
+                                      "value":  "GQTS-CORE"
+                                  },
+        "openapi":  {
+                        "operations":  [
+                                           {
+                                               "operationId":  "getSchemeDescriptor",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-01"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "3f20fb473fea1fae21459fd56708c5692c3873c9a32132a41b84755eec97e18a"
+                                           },
+                                           {
+                                               "operationId":  "getEndpointKindCatalog",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}/endpoint-kinds",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-02"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "ca605c535287b2cb82f05955aa832c64aee2ad5dde7652c0ae7179a5cf39d2bd"
+                                           },
+                                           {
+                                               "operationId":  "getTypeDescriptor",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/type/{serviceId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-03"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "6b7b779984dbbfcb0dd9c97c6e0491fde48ecf5b8a46144a05e7fb201f0f95e4"
+                                           },
+                                           {
+                                               "operationId":  "getEventLogView",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-05"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "8a4dd35ef312658a9d02e37f2920cf6790077f8776c36c3ca9585a2d1143cf9f"
+                                           },
+                                           {
+                                               "operationId":  "postEventIngest",
+                                               "method":  "POST",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-06"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "afc7fbc7e0f7cd990fab79008fe2725ef4baf111eb90d2889095f705ddf6bfcc"
+                                           },
+                                           {
+                                               "operationId":  "getEventHeadMeta",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}/meta",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-04"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "e83d3d515bf83e28761f9aa4e3585f20c4c18b08a097fbe159c4a6d346537e0e"
+                                           },
+                                           {
+                                               "operationId":  "getEventById",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}/{eventId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-07"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "3d17e6fdea52d55e84bceb9b6045255f9747a14a631b7e953a2c91262847963f"
+                                           },
+                                           {
+                                               "operationId":  "getGdisPidIdentificationPolicy",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/pid-identification",
+                                               "x_requirement":  [
+                                                                     "REQ-GDIS-03"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "b789d887ebd1338ce5bbb016421e732a8f601ce9ef4695669868df892b823e51"
+                                           }
+                                       ],
+                        "schemas":  [
+                                        {
+                                            "name":  "GdisPidFieldRequirement",
+                                            "json_pointer":  "#/components/schemas/GdisPidFieldRequirement",
+                                            "key_constraints_hash":  "98a3caacb9a34b0a5450e4bc5b030603ba96750de2b20e73ffdc25f301573828"
+                                        },
+                                        {
+                                            "name":  "GdisPolicySignature",
+                                            "json_pointer":  "#/components/schemas/GdisPolicySignature",
+                                            "key_constraints_hash":  "29e67499bab447b87910febfaf19e6e51dfadb6f546d05a7a12f95416dc8b4e8"
+                                        },
+                                        {
+                                            "name":  "GdisPidIdentificationPolicy",
+                                            "json_pointer":  "#/components/schemas/GdisPidIdentificationPolicy",
+                                            "key_constraints_hash":  "6f96dd1ed747cd3fc30825ac18ada8bcb9da5a0a77fe41fcfa3a12e47d1a3120"
+                                        },
+                                        {
+                                            "name":  "EndpointKind",
+                                            "json_pointer":  "#/components/schemas/EndpointKind",
+                                            "key_constraints_hash":  "5f87713025c4752f76c43bc01f205c03741c82543361581796fbb3d87af77374"
+                                        },
+                                        {
+                                            "name":  "GovernanceCode",
+                                            "json_pointer":  "#/components/schemas/GovernanceCode",
+                                            "key_constraints_hash":  "29aa9cb86d09581021086124ef92d2e8ce542ff004c9f83a963db021fc95fad6"
+                                        },
+                                        {
+                                            "name":  "Identifier",
+                                            "json_pointer":  "#/components/schemas/Identifier",
+                                            "key_constraints_hash":  "9b10587f84a2c3749305f3421c8f2838ed88b0ab1e44326ff9eeb48083373144"
+                                        },
+                                        {
+                                            "name":  "DigestTuple",
+                                            "json_pointer":  "#/components/schemas/DigestTuple",
+                                            "key_constraints_hash":  "e55fcf8e219e30c94dcb2a33bbbe9ea0ec134d53cde7c5b289f7dce3a022f153"
+                                        },
+                                        {
+                                            "name":  "UriDigest",
+                                            "json_pointer":  "#/components/schemas/UriDigest",
+                                            "key_constraints_hash":  "dd1644ece9db8b738a6f901f4eb3200561c92249cebdfe650e4e55f115dac0dd"
+                                        },
+                                        {
+                                            "name":  "SchemeDescriptor",
+                                            "json_pointer":  "#/components/schemas/SchemeDescriptor",
+                                            "key_constraints_hash":  "dd696987a251a6bfb64dcf8dbacb24cf3416ae85c8db6742492003a1e41e7b7f"
+                                        },
+                                        {
+                                            "name":  "EndpointKindEntry",
+                                            "json_pointer":  "#/components/schemas/EndpointKindEntry",
+                                            "key_constraints_hash":  "e4b5e7304622ed362f2636815e93dfb767b7924c0570a30b8d7168a13e80505f"
+                                        },
+                                        {
+                                            "name":  "EndpointKindCatalog",
+                                            "json_pointer":  "#/components/schemas/EndpointKindCatalog",
+                                            "key_constraints_hash":  "f7cfc093eea5f31f2777dc60d7dbf6a9719b7118fee67da0122858ad9ddac91e"
+                                        },
+                                        {
+                                            "name":  "ServiceDescriptor",
+                                            "json_pointer":  "#/components/schemas/ServiceDescriptor",
+                                            "key_constraints_hash":  "aff2dcccc6a8867a3e3b383b4be6863b947a2aceabbcafc1dc8a514baff07a7c"
+                                        },
+                                        {
+                                            "name":  "EventLogView",
+                                            "json_pointer":  "#/components/schemas/EventLogView",
+                                            "key_constraints_hash":  "62733b4fd40f233e469dc0149d87433dadcc7d3d98cd067d8fdc12aeaa0addbf"
+                                        },
+                                        {
+                                            "name":  "EventHeadMeta",
+                                            "json_pointer":  "#/components/schemas/EventHeadMeta",
+                                            "key_constraints_hash":  "fba197b4ea7eedca89da46f17f4a4515b7c68d8fffa571155f0f68995a3a2fab"
+                                        },
+                                        {
+                                            "name":  "EventEnvelope",
+                                            "json_pointer":  "#/components/schemas/EventEnvelope",
+                                            "key_constraints_hash":  "b8714a448915826eb68ce9b3167f6b36e2aae47b124ca29b30e16bde87036854"
+                                        },
+                                        {
+                                            "name":  "Proof",
+                                            "json_pointer":  "#/components/schemas/Proof",
+                                            "key_constraints_hash":  "7fbb3ccf9640651f69af3626de6836fb302a0a088c7cd27721c367b8b530e502"
+                                        },
+                                        {
+                                            "name":  "EventIngestRequest",
+                                            "json_pointer":  "#/components/schemas/EventIngestRequest",
+                                            "key_constraints_hash":  "6b24f3edd4e73a8a3547a57ea63b001feecb589dcf13f464288367a3fef39748"
+                                        },
+                                        {
+                                            "name":  "AsyncReceipt",
+                                            "json_pointer":  "#/components/schemas/AsyncReceipt",
+                                            "key_constraints_hash":  "d3e7805f55bc75fa6073302078914807528f69548ecbd632ac07cce929f6b58b"
+                                        },
+                                        {
+                                            "name":  "ProblemDetails",
+                                            "json_pointer":  "#/components/schemas/ProblemDetails",
+                                            "key_constraints_hash":  "7af5a4a46353428b238c3e80b51e8177a7bc5d4f892700aca4f5acad2e61376b"
+                                        }
+                                    ],
+                        "note":  "Parsed with regex fallback (ConvertFrom-Yaml unavailable)."
+                    }
+    },
+    {
+        "spec_id":  "GQTS-CORE",
+        "repo":  "z-base/gqts",
+        "commit_or_version":  "unspecified",
+        "files":  {
+                      "index_html":  "C:\\Users\\jorts\\gqts\\index.html",
+                      "openapi_yaml":  "C:\\Users\\jorts\\gqts\\openapi.yaml",
+                      "agents_md":  "C:\\Users\\jorts\\gqts\\AGENTS.md"
+                  },
+        "terms":  [
+                      {
+                          "term_text":  "GQTS host",
+                          "term_id":  "gqts-host",
+                          "anchor":  "#gqts-host",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "85ce12269453575f0a7977db200a806722403716b3a1361867955287255aec7e",
+                          "definition_text_excerpt":  "An HTTP origin that serves GQTS resources and MAY ingest, replicate, and gossip append-only event history material."
+                      },
+                      {
+                          "term_text":  "service descriptor",
+                          "term_id":  "service-descriptor",
+                          "anchor":  "#service-descriptor",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "0123e9fc780defb474d23a625bfff0485281e85d26ff1a4e02c6f157898ce8ab",
+                          "definition_text_excerpt":  "A machine-readable object describing one trust-service instance, its type, and its current event-log head commitment."
+                      },
+                      {
+                          "term_text":  "scheme descriptor",
+                          "term_id":  "scheme-descriptor",
+                          "anchor":  "#scheme-descriptor",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "2498060e0d603134464bb2f35b4b8d494467b50510043e96941f4633005f4995",
+                          "definition_text_excerpt":  "A machine-readable governance-scoped object describing naming rules, proof profile, canonicalization profile, and publication floor requirements."
+                      },
+                      {
+                          "term_text":  "event namespace",
+                          "term_id":  "event-namespace",
+                          "anchor":  "#event-namespace",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "d5e64a7b57ab2f6472365149609a91c46dd07b51d6aded5c8bcb485aeae2d532",
+                          "definition_text_excerpt":  "A scoped event stream identified by a log identifier where entries form an append-only history."
+                      },
+                      {
+                          "term_text":  "head digest",
+                          "term_id":  "head-digest",
+                          "anchor":  "#head-digest",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "d690a7c7b4b502904155445968a38b87d26eef17855113a1f2170165da4f65b9",
+                          "definition_text_excerpt":  "Commitment to the latest accepted history head for an event namespace , used for cheap divergence detection before heavy synchronization."
+                      },
+                      {
+                          "term_text":  "merge event",
+                          "term_id":  "merge-event",
+                          "anchor":  "#merge-event",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "8dae7e7e28e083adf9c3dc1943b18de7015f29706c0b97596c8c61297d0a5453",
+                          "definition_text_excerpt":  "An event entry that references two or more parent heads to represent explicit history convergence."
+                      },
+                      {
+                          "term_text":  "mechanical validity",
+                          "term_id":  "mechanical-validity",
+                          "anchor":  "#mechanical-validity",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "24acc5652e1cd658704d0e16b0909397dbc661cfe9acf4354622f738ecbe3cc0",
+                          "definition_text_excerpt":  "A verifier result stating that schema constraints, signatures/proofs, canonicalization, and hash-chain requirements were satisfied."
+                      },
+                      {
+                          "term_text":  "recognition status",
+                          "term_id":  "recognition-status",
+                          "anchor":  "#recognition-status",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "84fbfb4fc84737989b4528aaffa3963ce9e6ecf9d500cb2b00946db04760dbf3",
+                          "definition_text_excerpt":  "A policy output derived from external governance sources (for example trusted lists, legal registries, contractual trust anchors), separate from mechanical validity ."
+                      },
+                      {
+                          "term_text":  "governance code",
+                          "term_id":  "governance-code",
+                          "anchor":  "#governance-code",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "b37bc9b8ff6a2c0767fbecde8c6cd7ad1569c4cfd4ae569c3f24e63eb4bdb6e2",
+                          "definition_text_excerpt":  "A normalized identifier for governance-scoped objects. In this profile, values MUST be lowercase ASCII and match the pattern defined by the OpenAPI schema `GovernanceCode` ."
+                      }
+                  ],
+        "clauses":  [
+                        {
+                            "clause_id":  "REQ-GQTS-01",
+                            "anchor":  "#req-gqts-01",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "MUST",
+                            "text_excerpt_hash":  "261910bc532f251d27464c2dc7b72af5d7d05e917c16f556086359c9deca9b1a"
+                        },
+                        {
+                            "clause_id":  "REQ-GQTS-02",
+                            "anchor":  "#req-gqts-02",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "MUST",
+                            "text_excerpt_hash":  "b0f65cfd582d01351121374b229be56e3ac6da3eb0aee4dd9f6bd1c6a62a4ff8"
+                        },
+                        {
+                            "clause_id":  "REQ-GQTS-03",
+                            "anchor":  "#req-gqts-03",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "MUST",
+                            "text_excerpt_hash":  "b5bbc1c4f0f81021380fd7b77ca30a5e0e330f4da2557cb9222f36a2fb05974e"
+                        },
+                        {
+                            "clause_id":  "REQ-GQTS-04",
+                            "anchor":  "#req-gqts-04",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "SHOULD",
+                            "text_excerpt_hash":  "f92536714a9481278097da7d3da70b17c6f548ac3473320e7b90a92feea474fd"
+                        },
+                        {
+                            "clause_id":  "REQ-GQTS-05",
+                            "anchor":  "#req-gqts-05",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "MUST",
+                            "text_excerpt_hash":  "740481b28ce741bba0c964041e93c26b4ebd872cbcdfd406d727d1da87ffde3f"
+                        },
+                        {
+                            "clause_id":  "REQ-GQTS-06",
+                            "anchor":  "#req-gqts-06",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "MUST",
+                            "text_excerpt_hash":  "d26e58c42b133f4abbc83019bbe5627865e3a0d49d468c9c779d292fa4751b58"
+                        },
+                        {
+                            "clause_id":  "REQ-GQTS-07",
+                            "anchor":  "#req-gqts-07",
+                            "section_anchor":  "#requirement-traceability",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  "MUST",
+                            "text_excerpt_hash":  "2db9489170c9beceff08f4482fa67181921dc2d38b0ac7f9086bad048c1c9a91"
+                        }
+                    ],
+        "cross_spec_references":  {
+                                      "type":  "label",
+                                      "value":  "GDIS-CORE"
+                                  },
+        "openapi":  {
+                        "operations":  [
+                                           {
+                                               "operationId":  "getSchemeDescriptor",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-01"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "3f20fb473fea1fae21459fd56708c5692c3873c9a32132a41b84755eec97e18a"
+                                           },
+                                           {
+                                               "operationId":  "getEndpointKindCatalog",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}/endpoint-kinds",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-02"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "ca605c535287b2cb82f05955aa832c64aee2ad5dde7652c0ae7179a5cf39d2bd"
+                                           },
+                                           {
+                                               "operationId":  "getTypeDescriptor",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/type/{serviceId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-03"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "6b7b779984dbbfcb0dd9c97c6e0491fde48ecf5b8a46144a05e7fb201f0f95e4"
+                                           },
+                                           {
+                                               "operationId":  "getEventLogView",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-05"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "8a4dd35ef312658a9d02e37f2920cf6790077f8776c36c3ca9585a2d1143cf9f"
+                                           },
+                                           {
+                                               "operationId":  "postEventIngest",
+                                               "method":  "POST",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-06"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "afc7fbc7e0f7cd990fab79008fe2725ef4baf111eb90d2889095f705ddf6bfcc"
+                                           },
+                                           {
+                                               "operationId":  "getEventHeadMeta",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}/meta",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-04"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "e83d3d515bf83e28761f9aa4e3585f20c4c18b08a097fbe159c4a6d346537e0e"
+                                           },
+                                           {
+                                               "operationId":  "getEventById",
+                                               "method":  "GET",
+                                               "path":  "/.well-known/gidas/gqts/event/{logId}/{eventId}",
+                                               "x_requirement":  [
+                                                                     "REQ-GQTS-07"
+                                                                 ],
+                                               "request_media_types":  [
+
+                                                                       ],
+                                               "response_media_types":  [
+
+                                                                        ],
+                                               "contract_hash":  "3d17e6fdea52d55e84bceb9b6045255f9747a14a631b7e953a2c91262847963f"
+                                           }
+                                       ],
+                        "schemas":  [
+                                        {
+                                            "name":  "EndpointKind",
+                                            "json_pointer":  "#/components/schemas/EndpointKind",
+                                            "key_constraints_hash":  "5f87713025c4752f76c43bc01f205c03741c82543361581796fbb3d87af77374"
+                                        },
+                                        {
+                                            "name":  "GovernanceCode",
+                                            "json_pointer":  "#/components/schemas/GovernanceCode",
+                                            "key_constraints_hash":  "29aa9cb86d09581021086124ef92d2e8ce542ff004c9f83a963db021fc95fad6"
+                                        },
+                                        {
+                                            "name":  "Identifier",
+                                            "json_pointer":  "#/components/schemas/Identifier",
+                                            "key_constraints_hash":  "9b10587f84a2c3749305f3421c8f2838ed88b0ab1e44326ff9eeb48083373144"
+                                        },
+                                        {
+                                            "name":  "DigestTuple",
+                                            "json_pointer":  "#/components/schemas/DigestTuple",
+                                            "key_constraints_hash":  "e55fcf8e219e30c94dcb2a33bbbe9ea0ec134d53cde7c5b289f7dce3a022f153"
+                                        },
+                                        {
+                                            "name":  "UriDigest",
+                                            "json_pointer":  "#/components/schemas/UriDigest",
+                                            "key_constraints_hash":  "dd1644ece9db8b738a6f901f4eb3200561c92249cebdfe650e4e55f115dac0dd"
+                                        },
+                                        {
+                                            "name":  "SchemeDescriptor",
+                                            "json_pointer":  "#/components/schemas/SchemeDescriptor",
+                                            "key_constraints_hash":  "dd696987a251a6bfb64dcf8dbacb24cf3416ae85c8db6742492003a1e41e7b7f"
+                                        },
+                                        {
+                                            "name":  "EndpointKindEntry",
+                                            "json_pointer":  "#/components/schemas/EndpointKindEntry",
+                                            "key_constraints_hash":  "e4b5e7304622ed362f2636815e93dfb767b7924c0570a30b8d7168a13e80505f"
+                                        },
+                                        {
+                                            "name":  "EndpointKindCatalog",
+                                            "json_pointer":  "#/components/schemas/EndpointKindCatalog",
+                                            "key_constraints_hash":  "f7cfc093eea5f31f2777dc60d7dbf6a9719b7118fee67da0122858ad9ddac91e"
+                                        },
+                                        {
+                                            "name":  "ServiceDescriptor",
+                                            "json_pointer":  "#/components/schemas/ServiceDescriptor",
+                                            "key_constraints_hash":  "aff2dcccc6a8867a3e3b383b4be6863b947a2aceabbcafc1dc8a514baff07a7c"
+                                        },
+                                        {
+                                            "name":  "EventLogView",
+                                            "json_pointer":  "#/components/schemas/EventLogView",
+                                            "key_constraints_hash":  "62733b4fd40f233e469dc0149d87433dadcc7d3d98cd067d8fdc12aeaa0addbf"
+                                        },
+                                        {
+                                            "name":  "EventHeadMeta",
+                                            "json_pointer":  "#/components/schemas/EventHeadMeta",
+                                            "key_constraints_hash":  "fba197b4ea7eedca89da46f17f4a4515b7c68d8fffa571155f0f68995a3a2fab"
+                                        },
+                                        {
+                                            "name":  "EventEnvelope",
+                                            "json_pointer":  "#/components/schemas/EventEnvelope",
+                                            "key_constraints_hash":  "b8714a448915826eb68ce9b3167f6b36e2aae47b124ca29b30e16bde87036854"
+                                        },
+                                        {
+                                            "name":  "Proof",
+                                            "json_pointer":  "#/components/schemas/Proof",
+                                            "key_constraints_hash":  "7fbb3ccf9640651f69af3626de6836fb302a0a088c7cd27721c367b8b530e502"
+                                        },
+                                        {
+                                            "name":  "ErrorCode",
+                                            "json_pointer":  "#/components/schemas/ErrorCode",
+                                            "key_constraints_hash":  "b1b889e0a6a2ea91c16814d220cb56db2a4be1f57d97c606f284be715113b588"
+                                        },
+                                        {
+                                            "name":  "EventIngestRequest",
+                                            "json_pointer":  "#/components/schemas/EventIngestRequest",
+                                            "key_constraints_hash":  "6b24f3edd4e73a8a3547a57ea63b001feecb589dcf13f464288367a3fef39748"
+                                        },
+                                        {
+                                            "name":  "AsyncReceipt",
+                                            "json_pointer":  "#/components/schemas/AsyncReceipt",
+                                            "key_constraints_hash":  "d3e7805f55bc75fa6073302078914807528f69548ecbd632ac07cce929f6b58b"
+                                        },
+                                        {
+                                            "name":  "ProblemDetails",
+                                            "json_pointer":  "#/components/schemas/ProblemDetails",
+                                            "key_constraints_hash":  "7af5a4a46353428b238c3e80b51e8177a7bc5d4f892700aca4f5acad2e61376b"
+                                        }
+                                    ],
+                        "note":  "Parsed with regex fallback (ConvertFrom-Yaml unavailable)."
+                    }
+    }
+]

@@ -1,0 +1,295 @@
+﻿{
+    "canonical_terms":  [
+                            {
+                                "canonical_term":  "eu compatibility profile",
+                                "canonical_owner_spec_id":  "GQSCD-CORE",
+                                "canonical_anchor":  "GQSCD-CORE#term-eu-compatibility-profile",
+                                "aliases":  [
+                                                "EU compatibility profile"
+                                            ],
+                                "members":  [
+                                                {
+                                                    "spec_id":  "GQSCD-CORE",
+                                                    "term_text":  "eu compatibility profile",
+                                                    "anchor":  "#term-eu-compatibility-profile",
+                                                    "term_id":  "term-eu-compatibility-profile",
+                                                    "definition_excerpt_hash":  "5767712e793c12845c80936994ff52b440f12c934e9fcf525ea3a986f2ecb161"
+                                                },
+                                                {
+                                                    "spec_id":  "GDIS-CORE",
+                                                    "term_text":  "EU compatibility profile",
+                                                    "anchor":  "#eu-compatibility-profile",
+                                                    "term_id":  "eu-compatibility-profile",
+                                                    "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+                                                }
+                                            ]
+                            },
+                            {
+                                "canonical_term":  "web profile",
+                                "canonical_owner_spec_id":  "GQSCD-CORE",
+                                "canonical_anchor":  "GQSCD-CORE#term-web-profile",
+                                "aliases":  [
+                                                "web profile"
+                                            ],
+                                "members":  [
+                                                {
+                                                    "spec_id":  "GQSCD-CORE",
+                                                    "term_text":  "web profile",
+                                                    "anchor":  "#term-web-profile",
+                                                    "term_id":  "term-web-profile",
+                                                    "definition_excerpt_hash":  "6f1f5d835b0102673af483547c629ef062740cd368b7bea8d0e4173b57de832f"
+                                                },
+                                                {
+                                                    "spec_id":  "GDIS-CORE",
+                                                    "term_text":  "web profile",
+                                                    "anchor":  "#web-profile",
+                                                    "term_id":  "web-profile",
+                                                    "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+                                                }
+                                            ]
+                            }
+                        ],
+    "canonical_clauses":  [
+                              {
+                                  "clause_concept":  "GET /.well-known/gidas/gqts/event/{logId} | getEventLogView",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-05",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-05"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                                      "operationId":  "getEventLogView",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-05"
+                                                                        ],
+                                                      "contract_hash":  "8a4dd35ef312658a9d02e37f2920cf6790077f8776c36c3ca9585a2d1143cf9f"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                                      "operationId":  "getEventLogView",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-05"
+                                                                        ],
+                                                      "contract_hash":  "8a4dd35ef312658a9d02e37f2920cf6790077f8776c36c3ca9585a2d1143cf9f"
+                                                  }
+                                              ]
+                              },
+                              {
+                                  "clause_concept":  "GET /.well-known/gidas/gqts/event/{logId}/{eventId} | getEventById",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-07",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-07"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}/{eventId}",
+                                                      "operationId":  "getEventById",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-07"
+                                                                        ],
+                                                      "contract_hash":  "3d17e6fdea52d55e84bceb9b6045255f9747a14a631b7e953a2c91262847963f"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}/{eventId}",
+                                                      "operationId":  "getEventById",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-07"
+                                                                        ],
+                                                      "contract_hash":  "3d17e6fdea52d55e84bceb9b6045255f9747a14a631b7e953a2c91262847963f"
+                                                  }
+                                              ]
+                              },
+                              {
+                                  "clause_concept":  "GET /.well-known/gidas/gqts/event/{logId}/meta | getEventHeadMeta",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-04",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-04"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}/meta",
+                                                      "operationId":  "getEventHeadMeta",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-04"
+                                                                        ],
+                                                      "contract_hash":  "e83d3d515bf83e28761f9aa4e3585f20c4c18b08a097fbe159c4a6d346537e0e"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}/meta",
+                                                      "operationId":  "getEventHeadMeta",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-04"
+                                                                        ],
+                                                      "contract_hash":  "e83d3d515bf83e28761f9aa4e3585f20c4c18b08a097fbe159c4a6d346537e0e"
+                                                  }
+                                              ]
+                              },
+                              {
+                                  "clause_concept":  "GET /.well-known/gidas/gqts/scheme/{governanceCode} | getSchemeDescriptor",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-01",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-01"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}",
+                                                      "operationId":  "getSchemeDescriptor",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-01"
+                                                                        ],
+                                                      "contract_hash":  "3f20fb473fea1fae21459fd56708c5692c3873c9a32132a41b84755eec97e18a"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}",
+                                                      "operationId":  "getSchemeDescriptor",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-01"
+                                                                        ],
+                                                      "contract_hash":  "3f20fb473fea1fae21459fd56708c5692c3873c9a32132a41b84755eec97e18a"
+                                                  }
+                                              ]
+                              },
+                              {
+                                  "clause_concept":  "GET /.well-known/gidas/gqts/scheme/{governanceCode}/endpoint-kinds | getEndpointKindCatalog",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-02",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-02"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}/endpoint-kinds",
+                                                      "operationId":  "getEndpointKindCatalog",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-02"
+                                                                        ],
+                                                      "contract_hash":  "ca605c535287b2cb82f05955aa832c64aee2ad5dde7652c0ae7179a5cf39d2bd"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/scheme/{governanceCode}/endpoint-kinds",
+                                                      "operationId":  "getEndpointKindCatalog",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-02"
+                                                                        ],
+                                                      "contract_hash":  "ca605c535287b2cb82f05955aa832c64aee2ad5dde7652c0ae7179a5cf39d2bd"
+                                                  }
+                                              ]
+                              },
+                              {
+                                  "clause_concept":  "GET /.well-known/gidas/gqts/type/{serviceId} | getTypeDescriptor",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-03",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-03"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/type/{serviceId}",
+                                                      "operationId":  "getTypeDescriptor",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-03"
+                                                                        ],
+                                                      "contract_hash":  "6b7b779984dbbfcb0dd9c97c6e0491fde48ecf5b8a46144a05e7fb201f0f95e4"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "GET",
+                                                      "path":  "/.well-known/gidas/gqts/type/{serviceId}",
+                                                      "operationId":  "getTypeDescriptor",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-03"
+                                                                        ],
+                                                      "contract_hash":  "6b7b779984dbbfcb0dd9c97c6e0491fde48ecf5b8a46144a05e7fb201f0f95e4"
+                                                  }
+                                              ]
+                              },
+                              {
+                                  "clause_concept":  "POST /.well-known/gidas/gqts/event/{logId} | postEventIngest",
+                                  "canonical_owner_spec_id":  "GQTS-CORE",
+                                  "canonical_clause_id":  "REQ-GQTS-06",
+                                  "member_clause_ids":  [
+                                                            "REQ-GQTS-06"
+                                                        ],
+                                  "members":  [
+                                                  {
+                                                      "spec_id":  "GDIS-CORE",
+                                                      "method":  "POST",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                                      "operationId":  "postEventIngest",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-06"
+                                                                        ],
+                                                      "contract_hash":  "afc7fbc7e0f7cd990fab79008fe2725ef4baf111eb90d2889095f705ddf6bfcc"
+                                                  },
+                                                  {
+                                                      "spec_id":  "GQTS-CORE",
+                                                      "method":  "POST",
+                                                      "path":  "/.well-known/gidas/gqts/event/{logId}",
+                                                      "operationId":  "postEventIngest",
+                                                      "x_requirement":  [
+                                                                            "REQ-GQTS-06"
+                                                                        ],
+                                                      "contract_hash":  "afc7fbc7e0f7cd990fab79008fe2725ef4baf111eb90d2889095f705ddf6bfcc"
+                                                  }
+                                              ]
+                              }
+                          ],
+    "conflicts":  [
+                      {
+                          "type":  "term-definition-conflict",
+                          "normalized_term":  "eu compatibility profile",
+                          "member_specs":  [
+                                               "GDIS-CORE",
+                                               "GQSCD-CORE"
+                                           ],
+                          "definition_hashes":  [
+                                                    "5767712e793c12845c80936994ff52b440f12c934e9fcf525ea3a986f2ecb161",
+                                                    "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+                                                ]
+                      },
+                      {
+                          "type":  "term-definition-conflict",
+                          "normalized_term":  "web profile",
+                          "member_specs":  [
+                                               "GDIS-CORE",
+                                               "GQSCD-CORE"
+                                           ],
+                          "definition_hashes":  [
+                                                    "6f1f5d835b0102673af483547c629ef062740cd368b7bea8d0e4173b57de832f",
+                                                    "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+                                                ]
+                      }
+                  ],
+    "gaps":  {
+                 "type":  "undefined-term-use",
+                 "spec_id":  "GQSCD-CORE",
+                 "term_used":  "ANNEXII-1d"
+             }
+}
