@@ -1,0 +1,65 @@
+openapi: 3.1.2
+info:
+  title: GQSCD Core Schema Bindings
+  version: 1.0.0-draft
+  summary: Machine-readable schema bindings for GQSCD Core proof objects.
+  description: |
+    This OpenAPI file defines reusable JSON schema objects for GQSCD Core.
+    It does not define protocol endpoints.
+  license:
+    name: MIT
+    url: https://opensource.org/license/mit
+  x-document-authority:
+    status: unofficial-draft
+    note: Not an adopted ETSI deliverable and not a W3C Recommendation.
+
+servers: []
+security: []
+
+x-gqscd-requirements:
+  REQ-GQSCD-04: Proof-object structure for profile-level integrity claims.
+
+paths: {}
+
+components:
+  schemas:
+    ProofObject:
+      type: object
+      description: |
+        Generic cryptographic proof container bound to an artifact for
+        deterministic integrity verification.
+      required: [type, cryptosuite, proofValue]
+      properties:
+        type:
+          type: string
+          description: Proof type identifier.
+        cryptosuite:
+          type: string
+          minLength: 1
+          description: Cryptosuite identifier used by proof verification.
+        proofValue:
+          type: string
+          minLength: 1
+          description: Serialized proof bytes encoded by the selected cryptosuite.
+        created:
+          type: string
+          format: date-time
+          description: Optional proof creation timestamp.
+        proofPurpose:
+          type: string
+          description: Optional proof-purpose identifier.
+        verificationMethod:
+          type: string
+          description: Optional verifier-resolvable key reference.
+
+    DataIntegrityProof:
+      allOf:
+        - $ref: '#/components/schemas/ProofObject'
+        - type: object
+          properties:
+            type:
+              type: string
+              const: DataIntegrityProof
+      description: |
+        W3C Data Integrity proof object used by GQSCD Core profile-level
+        integrity claims.
