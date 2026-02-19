@@ -258,6 +258,11 @@
         satisfied requirements to this document's section anchors (<a
           href="#ref-etsi-319401"
           >[ETSI-319401]</a
+        >, <a href="https://z-base.github.io/gdis/#conformance-reporting"
+          >GDIS conformance reporting</a
+        >,
+        <a href="https://z-base.github.io/gqts/#conformance-reporting"
+          >GQTS conformance reporting</a
         >).
       </p>
       <p id="req-gqscd-55">
@@ -398,7 +403,21 @@
           profile (<a href="#ref-rfc8615"
             >[RFC8615]</a
           >, <a href="#ref-rfc9110">[RFC9110]</a>,
-          <a href="#ref-gdis-core">[GDIS-CORE]</a>).
+          <a href="#ref-gdis-core">[GDIS-CORE]</a>,
+          <a href="https://z-base.github.io/gdis/#req-publication-profile"
+            >REQ-GDIS-05</a
+          >, <a href="https://z-base.github.io/gqts/#op-getSchemeDescriptor"
+            ><code>getSchemeDescriptor</code></a
+          >,
+          <a href="https://z-base.github.io/gqts/#op-getEndpointKindCatalog"
+            ><code>getEndpointKindCatalog</code></a
+          >,
+          <a href="https://z-base.github.io/gqts/#op-getEventLogView"
+            ><code>getEventLogView</code></a
+          >, and
+          <a href="https://z-base.github.io/gqts/#op-getEventHeadMeta"
+            ><code>getEventHeadMeta</code></a
+          >).
         </dd>
 
         <dt><dfn>local signing profile</dfn></dt>
@@ -541,9 +560,19 @@
           </li>
           <li>
             Emit deterministic pass/fail output containing the failing code set
-            and matching requirement identifiers.
+            and matching requirement identifiers aligned with
+            <a href="https://z-base.github.io/gqts/#failure-semantics"
+              >GQTS failure semantics</a
+            >.
           </li>
         </ol>
+        <p>
+          Cryptographic suite transitions and verifier compatibility policy
+          SHOULD remain aligned with
+          <a href="https://z-base.github.io/gdis/#req-crypto-agility"
+            >REQ-GDIS-07</a
+          >.
+        </p>
       </section>
 
       <section id="media-type-and-versioning-profile">
@@ -768,10 +797,20 @@
         <h3>Decentralized Publication and Discovery</h3>
         <p>
           This discovery profile is aligned with the host and governance
-          publication model used in GDIS. This section defines only verification
+          publication model used in GDIS and the host-profile operation
+          invariants defined by GQTS. This section defines only verification
           invariants and trust-boundary behavior (<a
             href="#ref-gdis-core"
             >[GDIS-CORE]</a
+          >,
+          <a href="https://z-base.github.io/gdis/#req-publication-profile"
+            >REQ-GDIS-05</a
+          >,
+          <a href="https://z-base.github.io/gqts/#req-gqts-01"
+            >REQ-GQTS-01</a
+          > through
+          <a href="https://z-base.github.io/gqts/#req-gqts-07"
+            >REQ-GQTS-07</a
           >).
         </p>
         <ul>
@@ -781,7 +820,13 @@
             deterministic, machine-verifiable content (<a
               href="#ref-rfc8615"
               >[RFC8615]</a
-            >, <a href="#ref-rfc9110">[RFC9110]</a>).
+            >, <a href="#ref-rfc9110">[RFC9110]</a>,
+            <a href="https://z-base.github.io/gqts/#op-getSchemeDescriptor"
+              ><code>getSchemeDescriptor</code></a
+            >,
+            <a href="https://z-base.github.io/gqts/#op-getEndpointKindCatalog"
+              ><code>getEndpointKindCatalog</code></a
+            >).
           </li>
           <li id="req-gqscd-23">
             <strong>REQ-GQSCD-23:</strong>
@@ -797,6 +842,18 @@
             participation does not grant implicit trust and verifiers MUST
             validate signatures, issuer bindings, and freshness on every
             retrieved artifact (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
+            <a href="https://z-base.github.io/gdis/#processing-verifier"
+              >REQ-GDIS-09</a
+            >,
+            <a href="https://z-base.github.io/gqts/#req-gqts-03"
+              >REQ-GQTS-03</a
+            >,
+            <a href="https://z-base.github.io/gqts/#req-gqts-05"
+              >REQ-GQTS-05</a
+            >, and
+            <a href="https://z-base.github.io/gqts/#req-gqts-07"
+              >REQ-GQTS-07</a
+            >,
             <a href="#ref-rfc7515">[RFC7515]</a>,
             <a href="#ref-rfc9052">[RFC9052]</a>).
           </li>
@@ -805,6 +862,12 @@
             Implementations SHOULD support replicated host retrieval so
             verifiers can detect missing or divergent state views in adversarial
             network conditions (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
+            <a href="https://z-base.github.io/gqts/#req-gqts-04"
+              >REQ-GQTS-04</a
+            >,
+            <a href="https://z-base.github.io/gqts/#req-gqts-05"
+              >REQ-GQTS-05</a
+            >,
             <a href="#ref-nist-sp-800-207">[NIST-SP-800-207]</a>).
           </li>
         </ul>
@@ -819,7 +882,10 @@
             before policy evaluation (<a href="#ref-w3c-vc-data-integrity"
               >[VC-DI]</a
             >, <a href="#ref-rfc7515">[RFC7515]</a>,
-            <a href="#ref-rfc9052">[RFC9052]</a>).
+            <a href="#ref-rfc9052">[RFC9052]</a>,
+            <a href="https://z-base.github.io/gdis/#processing-verifier"
+              >REQ-GDIS-09</a
+            >).
           </li>
           <li id="req-gqscd-27">
             <strong>REQ-GQSCD-27:</strong>
@@ -838,6 +904,21 @@
             Verify discovery metadata from [=gqtsp discovery endpoint=] and
             governance references, then evaluate freshness windows and conflict
             handling deterministically (<a href="#ref-gdis-core">[GDIS-CORE]</a
+            >,
+            <a href="https://z-base.github.io/gdis/#processing-verifier"
+              >REQ-GDIS-09</a
+            >,
+            <a href="https://z-base.github.io/gqts/#req-gqts-04"
+              >REQ-GQTS-04</a
+            >,
+            <a href="https://z-base.github.io/gqts/#req-gqts-05"
+              >REQ-GQTS-05</a
+            >,
+            <a href="https://z-base.github.io/gqts/#req-gqts-07"
+              >REQ-GQTS-07</a
+            >,
+            <a href="https://z-base.github.io/gqts/#failure-semantics"
+              >GQTS failure semantics</a
             >, <a href="#ref-rfc8615">[RFC8615]</a>).
           </li>
         </ul>
@@ -848,6 +929,12 @@
       <h2>Interoperability Profiles</h2>
       <section id="web-profile">
         <h3>Web Profile (Primary)</h3>
+        <p>
+          The primary web profile baseline aligns with
+          <a href="https://z-base.github.io/gdis/#web-profile-primary"
+            >GDIS Web Profile (Primary)</a
+          >.
+        </p>
         <ul>
           <li id="req-gqscd-30">
             <strong>REQ-GQSCD-30:</strong> MUST be the baseline profile for
@@ -902,6 +989,16 @@
       </section>
       <section id="eu-compatibility-profile">
         <h3>EU Compatibility Profile (Mapping Layer)</h3>
+        <p>
+          This EU mapping layer aligns with
+          <a href="https://z-base.github.io/gdis/#eu-compat-profile"
+            >GDIS EU Compatibility Profile</a
+          >
+          and the
+          <a href="https://z-base.github.io/gdis/#eu-web-conceptual-mapping"
+            >GDIS EU-to-Web conceptual mapping</a
+          >.
+        </p>
         <ul>
           <li id="req-gqscd-36">
             <strong>REQ-GQSCD-36:</strong> MUST map Web Profile artifacts to EU
@@ -1394,6 +1491,19 @@
             </td>
             <td>Class A, Class B, Class C</td>
             <td>ReSpec anchors + report payload mapping</td>
+          </tr>
+          <tr>
+            <td>Cross-spec dependency declarations</td>
+            <td>
+              <a href="https://z-base.github.io/gdis/#conformance-reporting"
+                >GDIS conformance reporting</a
+              >,
+              <a href="https://z-base.github.io/gqts/#conformance-reporting"
+                >GQTS conformance reporting</a
+              >
+            </td>
+            <td>Class B, Class C (when applicable)</td>
+            <td>External stable anchors</td>
           </tr>
         </tbody>
       </table>

@@ -18,6 +18,36 @@ security: []
 
 x-gqscd-requirements:
   REQ-GQSCD-04: Proof-object structure for profile-level integrity claims.
+  REQ-GQSCD-22: Discovery metadata publication invariants.
+  REQ-GQSCD-24: Verifier validation requirements for retrieved artifacts.
+  REQ-GQSCD-25: Replicated retrieval and divergence detection support.
+  REQ-GQSCD-29: Deterministic discovery verification and conflict handling.
+
+x-gidas-cross-spec-dependencies:
+  REQ-GQSCD-22:
+    gdis:
+      - REQ-GDIS-05
+    gqts:
+      - REQ-GQTS-01
+      - REQ-GQTS-02
+  REQ-GQSCD-24:
+    gdis:
+      - REQ-GDIS-09
+    gqts:
+      - REQ-GQTS-03
+      - REQ-GQTS-05
+      - REQ-GQTS-07
+  REQ-GQSCD-25:
+    gqts:
+      - REQ-GQTS-04
+      - REQ-GQTS-05
+  REQ-GQSCD-29:
+    gdis:
+      - REQ-GDIS-09
+    gqts:
+      - REQ-GQTS-04
+      - REQ-GQTS-05
+      - REQ-GQTS-07
 
 paths: {}
 
