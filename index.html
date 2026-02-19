@@ -103,7 +103,7 @@
     </section>
 
     <section id="sotd">
-      <p>This is an unofficial draft (not an Editor's Draft).</p>
+      <p>This is an unofficial draft.</p>
       <p>
         AI assistance disclosure: this draft used OpenAI GPT-5 Codex for
         drafting support, structure proposals, and editorial rewrites. Human
@@ -116,8 +116,9 @@
       </p>
     </section>
 
-    <section>
+    <section id="scope">
       <h2>Scope</h2>
+      <p>This specification covers:</p>
       <ul>
         <li>
           Defines a component security profile for end-user signing devices (<a
@@ -278,14 +279,13 @@
     <section id="conformance">
       <p>
         The key words <em class="rfc2119">MUST</em>,
-        <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">SHOULD</em>,
-        <em class="rfc2119">SHOULD NOT</em>,
-        <em class="rfc2119">RECOMMENDED</em>,
-        <em class="rfc2119">NOT RECOMMENDED</em>,
-        <em class="rfc2119">MAY</em>,
-        <em class="rfc2119">OPTIONAL</em>, and
-        <em class="rfc2119">REQUIRED</em> are to be interpreted as described in
-        BCP 14 [[RFC2119]] [[RFC8174]].
+        <em class="rfc2119">MUST NOT</em>, <em class="rfc2119">REQUIRED</em>,
+        <em class="rfc2119">SHALL</em>, <em class="rfc2119">SHALL NOT</em>,
+        <em class="rfc2119">SHOULD</em>, <em class="rfc2119">SHOULD NOT</em>,
+        <em class="rfc2119">RECOMMENDED</em>, <em class="rfc2119">MAY</em>,
+        and <em class="rfc2119">OPTIONAL</em> are to be interpreted as
+        described in BCP 14 [[RFC2119]] [[RFC8174]] when, and only when, they
+        appear in all capitals.
       </p>
       <p id="req-gqscd-54">
         <strong>REQ-GQSCD-54:</strong>
@@ -316,7 +316,25 @@
       </p>
     </section>
 
-    <section>
+    <section id="normative-interface-surface">
+      <h2>Normative Interface Surface</h2>
+      <p>
+        This specification defines invariants, processing rules, and
+        conformance semantics. Contract details in <code>openapi.yaml</code>
+        are draft interface artifacts and this document does not restate
+        field-level wire details.
+      </p>
+      <aside class="note">
+        <p>
+          OpenAPI status note: the current <code>openapi.yaml</code> contracts
+          are <em>suuntaa antavia</em> (indicative) and are not yet normative.
+          Final normative schemas and endpoint contracts will be fixed after the
+          first reference implementation.
+        </p>
+      </aside>
+    </section>
+
+    <section id="terminology">
       <h2>Terminology</h2>
       <dl>
         <dt><dfn>end-user device</dfn></dt>
@@ -514,8 +532,9 @@
       </dl>
     </section>
 
-    <section id="data-model-and-proof-profile">
-      <h2>Data, Proof, and Media-Type Profile</h2>
+    <section id="architecture-and-data-model">
+      <span id="data-model-and-proof-profile"></span>
+      <h2>Architecture and Data Model</h2>
       <p id="req-gqscd-01">
         <strong>REQ-GQSCD-01:</strong> Unless explicitly overridden in this
         specification, data-model terms such as list, set, tuple, byte sequence,
@@ -739,8 +758,9 @@
       </table>
     </section>
 
-    <section id="gqscd-core-requirements">
-      <h2>GQSCD Core Requirements</h2>
+    <section id="normative-requirements">
+      <span id="gqscd-core-requirements"></span>
+      <h2>Normative Requirements</h2>
       <ul>
         <li id="req-gqscd-12">
           <strong>REQ-GQSCD-12:</strong>
@@ -2846,8 +2866,9 @@
       </section>
     </section>
 
-    <section id="requirement-binding">
-      <h2>Requirement Binding and Reporting</h2>
+    <section id="conformance-reporting">
+      <span id="requirement-binding"></span>
+      <h2>Conformance Reporting</h2>
       <p id="req-gqscd-53">
         <strong>REQ-GQSCD-53:</strong> Conformance reports MUST provide
         machine-readable results for each applicable requirement identifier and
@@ -2866,8 +2887,8 @@
           <tr>
             <td>REQ-GQSCD-01 ... REQ-GQSCD-07</td>
             <td>
-              <a href="#data-model-and-proof-profile"
-                >Data, Proof, and Media-Type Profile</a
+              <a href="#architecture-and-data-model"
+                >Architecture and Data Model</a
               >
             </td>
             <td>Class A, Class B, Class C</td>
@@ -2877,7 +2898,7 @@
             <td>REQ-GQSCD-08 ... REQ-GQSCD-16</td>
             <td>
               <a href="#threat-model">Threat Model</a>,
-              <a href="#gqscd-core-requirements">GQSCD Core Requirements</a>
+              <a href="#normative-requirements">Normative Requirements</a>
             </td>
             <td>Class A</td>
             <td>ReSpec anchors</td>
@@ -2932,7 +2953,7 @@
           <tr>
             <td>REQ-GQSCD-53 ... REQ-GQSCD-56</td>
             <td>
-              <a href="#requirement-binding">Requirement Binding and Reporting</a>,
+              <a href="#conformance-reporting">Conformance Reporting</a>,
               <a href="#conformance">Conformance</a>
             </td>
             <td>Class A, Class B, Class C</td>
