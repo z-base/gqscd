@@ -6,6 +6,8 @@ info:
   description: |
     This OpenAPI file defines reusable JSON schema objects for GQSCD Core.
     It does not define protocol endpoints.
+    Wallet-private proof artifacts remain outside trust-service log publication;
+    GQTS publication endpoints carry only public verification material.
   license:
     name: MIT
     url: https://opensource.org/license/mit
@@ -57,7 +59,9 @@ components:
       type: object
       description: |
         Generic cryptographic proof container bound to an artifact for
-        deterministic integrity verification.
+        deterministic integrity verification. The container can represent
+        wallet-private claim evidence and is not, by itself, a trust-service
+        publication object.
       required: [type, cryptosuite, proofValue]
       properties:
         type:

@@ -1,49 +1,1199 @@
+diff --git a/.gidas/alignment/alignment-report.md b/.gidas/alignment/alignment-report.md
+index 062eb65..317648f 100644
+--- a/.gidas/alignment/alignment-report.md
++++ b/.gidas/alignment/alignment-report.md
+@@ -1,44 +1,60 @@
+ # Alignment Report
+ 
+-Self spec: GQSCD-CORE  
+-Self repo: z-base/gqscd  
+-Peers loaded: GDIS-CORE, GQTS-CORE
++Self spec: `GQSCD-CORE`  
++Self repo: `z-base/gqscd`  
++Peers loaded: `GDIS-CORE`, `GQTS-CORE`
++
++## Preconditions
++- `AGENTS.md` read from SELF working tree.
++- `gidas-alignment.config.json` present and loaded.
++- Peer snapshots present for all required peer indexes/OpenAPI files.
+ 
+ ## Extraction Summary
+-- Self terms: 26
+-- Self clauses: 55
++- Self terms: 21
++- Self clauses: 56
+ - Self OpenAPI operations: 0
+-- Peer terms: 36
+-- Peer clauses: 23
++- Peer terms: 39
++- Peer clauses: 25
+ - Peer OpenAPI operations: 15 (GDIS: 8, GQTS: 7)
+ 
+-## Key conflicts found
+-- term-definition-conflict: `web profile` differs between `GQSCD-CORE` and `GDIS-CORE`.
+-- term-definition-conflict: `eu compatibility profile` differs between `GQSCD-CORE` and `GDIS-CORE`.
+-
+-## Changes applied to SELF
+-- Added `respecConfig.localBiblio` entries for `GDIS-CORE`, `GQSCD-CORE`, `GQTS-CORE` in `index.html`.
+-- Added explicit stable term anchors:
+-  - `web profile` -> `id="term-web-profile"`
+-  - `eu compatibility profile` -> `id="term-eu-compatibility-profile"`
+-
+-## Duplicates removed
+-- None in `GQSCD-CORE` for this run.
+-- Rationale: canonical-owner heuristic selected `GQSCD-CORE` as owner for the duplicated cross-cutting terms above, so this repo keeps the canonical definitions; deduplication is expected in peer repos.
+-
+-## Cross-references added
+-- Added peer bibliographic entries through `localBiblio` to enable stable ReSpec cross-citation/import mechanics from this repo.
+-
+-## Remaining conflicts and gaps
+-- Conflict (TODO): term-definition divergence for `web profile` and `eu compatibility profile` between `GQSCD-CORE` and `GDIS-CORE`.
+-- Gap (TODO): `ANNEXII-1d` is used as a term-like token in `GQSCD-CORE` but is not extracted as a formal `<dfn>` term.
+-- OpenAPI requirement-namespace conflict: UNSPECIFIED in currently loaded snapshots (no `REQ-R*` mapping detected in `../gdis/openapi.yaml`; GQTS endpoint requirements were `REQ-GQTS-*` in both peer OpenAPI files at run time).
+-
+-## Changed files
++## Changes Applied to SELF
++- Updated `index.html` evidence/discovery clauses to encode:
++  - wallet-private proof artifacts (credentials/proofs stay outside trust-service publication by default),
++  - trust-public verification material for discovery/event-log retrieval,
++  - deterministic reject-or-report handling for invalid log nodes in `REQ-GQSCD-29`.
++- Updated `openapi.yaml` descriptions to keep proof schema bindings separate from trust-service publication semantics.
++- Added alignment workflow inputs:
++  - `gidas-alignment.config.json`
++  - `scripts/cross-spec-align.mjs`
++- Added cross-spec alignment plan output:
++  - `.gidas/alignment/alignment-plan.md`
++
++## Duplicates Removed
++- None in SELF in this run.
++- Canonical ownership and anchors were recorded in `cross-spec-map.json` and `alignment-plan.md` for:
++  - `proof artifact` -> `GDIS-CORE#evidence-artifact`
++  - `binding credential` -> `GDIS-CORE#gdis-binding-credential`
++  - `verification material` -> `GQTS-CORE#history-invariants`
++
++## Cross-References Added
++- `index.html` now includes explicit cross-spec links to:
++  - `GDIS binding credential` (`GDIS-CORE`)
++  - `GQTS history invariants` (`GQTS-CORE`)
++
++## Conflicts and Remaining Items
++- `operation-contract-conflict`: none detected.
++- `requirement-id-namespace-conflict`: none detected.
++- Remaining gap from extractor: `requirement-reference-without-anchor` for `REQ-GQTS-05` in SELF.
++  - Status: UNSPECIFIED by current extractor heuristic; external requirement IDs are referenced via peer links rather than local anchors.
++
++## Files Changed
+ - `index.html`
++- `openapi.yaml`
++- `gidas-alignment.config.json`
++- `scripts/cross-spec-align.mjs`
++- `.gidas/alignment/build-alignment.ps1`
+ - `.gidas/alignment/spec-index.self.json`
+ - `.gidas/alignment/spec-index.peers.json`
+ - `.gidas/alignment/cross-spec-map.json`
++- `.gidas/alignment/alignment-plan.md`
+ - `.gidas/alignment/alignment-report.md`
+-- `.gidas/alignment/build-alignment.ps1`
+-- `.gidas/alignment/proposed-changes.patch`
+diff --git a/.gidas/alignment/build-alignment.ps1 b/.gidas/alignment/build-alignment.ps1
+index e9b72fc..d1d7f09 100644
+--- a/.gidas/alignment/build-alignment.ps1
++++ b/.gidas/alignment/build-alignment.ps1
+@@ -419,10 +419,10 @@ function Determine-CanonicalOwner {
+   if ($NormalizedTerm -match '(device|controller|signature creation|attestation|qscd|sole control|user intent|secure boot|trusted execution)') {
+     return 'GQSCD-CORE'
+   }
+-  if ($NormalizedTerm -match '(identity|pid|mrz|binding|issuance|physical|gdis)') {
++  if ($NormalizedTerm -match '(identity|pid|mrz|binding|binding credential|proof artifact|issuance|physical|gdis)') {
+     return 'GDIS-CORE'
+   }
+-  if ($NormalizedTerm -match '(event|log|replication|publication|descriptor|governance code|head digest|mechanical validity|gqts)') {
++  if ($NormalizedTerm -match '(event|log|replication|publication|verification material|descriptor|governance code|head digest|mechanical validity|did document|key history|status|gqts)') {
+     return 'GQTS-CORE'
+   }
+ 
+@@ -562,6 +562,36 @@ foreach ($entry in $termClusters.GetEnumerator() | Sort-Object Name) {
+   }
+ }
+ 
++# Canonical ownership overrides required by cross-spec posture.
++$canonicalTerms += @(
++  [ordered]@{
++    canonical_term = 'proof artifact'
++    canonical_owner_spec_id = 'GDIS-CORE'
++    canonical_anchor = 'GDIS-CORE#evidence-artifact'
++    aliases = @('proof artifact', 'evidence artifact')
++    members = @()
++  },
++  [ordered]@{
++    canonical_term = 'binding credential'
++    canonical_owner_spec_id = 'GDIS-CORE'
++    canonical_anchor = 'GDIS-CORE#gdis-binding-credential'
++    aliases = @('binding credential', 'gdis binding credential')
++    members = @()
++  },
++  [ordered]@{
++    canonical_term = 'verification material'
++    canonical_owner_spec_id = 'GQTS-CORE'
++    canonical_anchor = 'GQTS-CORE#history-invariants'
++    aliases = @('verification material')
++    members = @()
++  }
++)
++
++$canonicalTerms = @(
++  $canonicalTerms |
++    Sort-Object canonical_term, canonical_owner_spec_id
++)
++
+ # Clause mapping and OpenAPI requirement namespace conflicts
+ $canonicalClauses = @()
+ $openapiConflicts = @()
+@@ -603,12 +633,12 @@ foreach ($entry in $opsBySignature.GetEnumerator() | Sort-Object Name) {
+   $allReqs = @($members | ForEach-Object { $_.x_requirement } | Where-Object { $_ } | Select-Object -Unique)
+   $allHashes = @($members.contract_hash | Sort-Object -Unique)
+   if ($allReqs.Count -gt 1) {
+-    $openapiConflicts += [ordered]@{
+-      type = 'requirement-namespace-conflict'
+-      operation = $entry.Name
+-      requirements = $allReqs
+-      member_specs = @($members.spec_id | Sort-Object -Unique)
+-    }
++      $openapiConflicts += [ordered]@{
++        type = 'requirement-id-namespace-conflict'
++        operation = $entry.Name
++        requirements = $allReqs
++        member_specs = @($members.spec_id | Sort-Object -Unique)
++      }
+   }
+   if ($allHashes.Count -gt 1) {
+     $openapiConflicts += [ordered]@{
+@@ -632,7 +662,7 @@ foreach ($idx in $allIndexes) {
+     $norm = Normalize-Term $used
+     if ($norm -and -not ($allNormalizedTerms -contains $norm)) {
+       $gaps += [ordered]@{
+-        type = 'undefined-term-use'
++        type = 'undefined-term'
+         spec_id = $idx.spec_id
+         term_used = $used
+       }
+@@ -659,7 +689,10 @@ foreach ($idx in $allIndexes) {
+   }
+ }
+ 
+-$gaps = $gaps | Sort-Object type, spec_id, term_used, requirement_id -Unique
++$gaps = @(
++  $gaps |
++    Sort-Object type, spec_id, term_used, requirement_id -Unique
++)
+ 
+ $crossSpecMap = [ordered]@{
+   canonical_terms = $canonicalTerms
+@@ -690,8 +723,8 @@ if (($crossSpecMap.conflicts | Measure-Object).Count -eq 0) {
+ }
+ else {
+   foreach ($c in $crossSpecMap.conflicts) {
+-    if ($c.type -eq 'requirement-namespace-conflict') {
+-      $report += "- requirement-namespace-conflict: $($c.operation) => $([string]::Join(', ', $c.requirements))"
++    if ($c.type -eq 'requirement-id-namespace-conflict') {
++      $report += "- requirement-id-namespace-conflict: $($c.operation) => $([string]::Join(', ', $c.requirements))"
+     }
+     elseif ($c.type -eq 'operation-contract-conflict') {
+       $report += "- operation-contract-conflict: $($c.operation)"
+@@ -711,8 +744,8 @@ if (($crossSpecMap.gaps | Measure-Object).Count -eq 0) {
+ }
+ else {
+   foreach ($g in $crossSpecMap.gaps) {
+-    if ($g.type -eq 'undefined-term-use') {
+-      $report += "- undefined-term-use: $($g.spec_id) uses '$($g.term_used)' without a known definition."
++    if ($g.type -eq 'undefined-term') {
++      $report += "- undefined-term: $($g.spec_id) uses '$($g.term_used)' without a known definition."
+     }
+     elseif ($g.type -eq 'requirement-reference-without-anchor') {
+       $report += "- requirement-reference-without-anchor: $($g.spec_id) references $($g.requirement_id) without a stable clause anchor."
+@@ -726,7 +759,7 @@ $report += ''
+ $report += '## Self-repo edit plan'
+ $report += '- Add `localBiblio` entries for GDIS-CORE, GQSCD-CORE, GQTS-CORE in `index.html`.'
+ $report += '- Add explicit stable IDs for cross-spec terms in this repo (`web profile`, `eu compatibility profile`).'
+-$report += '- No SELF OpenAPI ownership edits (no `openapi.yaml` in this repo).'
++$report += '- No SELF OpenAPI ownership edits needed in this run (SELF has no GQTS-hosted endpoint definitions).'
+ $report += ''
+ $report += '## Changed files'
+ $report += '- Pending update after applying edits.'
+diff --git a/.gidas/alignment/cross-spec-map.json b/.gidas/alignment/cross-spec-map.json
+index 6a2d07b..b9d8432 100644
+--- a/.gidas/alignment/cross-spec-map.json
++++ b/.gidas/alignment/cross-spec-map.json
+@@ -1,51 +1,38 @@
+ ﻿{
+     "canonical_terms":  [
+                             {
+-                                "canonical_term":  "eu compatibility profile",
+-                                "canonical_owner_spec_id":  "GQSCD-CORE",
+-                                "canonical_anchor":  "GQSCD-CORE#term-eu-compatibility-profile",
++                                "canonical_term":  "verification material",
++                                "canonical_owner_spec_id":  "GQTS-CORE",
++                                "canonical_anchor":  "GQTS-CORE#history-invariants",
+                                 "aliases":  [
+-                                                "EU compatibility profile"
++                                                "verification material"
+                                             ],
+                                 "members":  [
+-                                                {
+-                                                    "spec_id":  "GQSCD-CORE",
+-                                                    "term_text":  "eu compatibility profile",
+-                                                    "anchor":  "#term-eu-compatibility-profile",
+-                                                    "term_id":  "term-eu-compatibility-profile",
+-                                                    "definition_excerpt_hash":  "5767712e793c12845c80936994ff52b440f12c934e9fcf525ea3a986f2ecb161"
+-                                                },
+-                                                {
+-                                                    "spec_id":  "GDIS-CORE",
+-                                                    "term_text":  "EU compatibility profile",
+-                                                    "anchor":  "#eu-compatibility-profile",
+-                                                    "term_id":  "eu-compatibility-profile",
+-                                                    "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+-                                                }
++
+                                             ]
+                             },
+                             {
+-                                "canonical_term":  "web profile",
+-                                "canonical_owner_spec_id":  "GQSCD-CORE",
+-                                "canonical_anchor":  "GQSCD-CORE#term-web-profile",
++                                "canonical_term":  "binding credential",
++                                "canonical_owner_spec_id":  "GDIS-CORE",
++                                "canonical_anchor":  "GDIS-CORE#gdis-binding-credential",
+                                 "aliases":  [
+-                                                "web profile"
++                                                "binding credential",
++                                                "gdis binding credential"
+                                             ],
+                                 "members":  [
+-                                                {
+-                                                    "spec_id":  "GQSCD-CORE",
+-                                                    "term_text":  "web profile",
+-                                                    "anchor":  "#term-web-profile",
+-                                                    "term_id":  "term-web-profile",
+-                                                    "definition_excerpt_hash":  "6f1f5d835b0102673af483547c629ef062740cd368b7bea8d0e4173b57de832f"
+-                                                },
+-                                                {
+-                                                    "spec_id":  "GDIS-CORE",
+-                                                    "term_text":  "web profile",
+-                                                    "anchor":  "#web-profile",
+-                                                    "term_id":  "web-profile",
+-                                                    "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+-                                                }
++
++                                            ]
++                            },
++                            {
++                                "canonical_term":  "proof artifact",
++                                "canonical_owner_spec_id":  "GDIS-CORE",
++                                "canonical_anchor":  "GDIS-CORE#evidence-artifact",
++                                "aliases":  [
++                                                "proof artifact",
++                                                "evidence artifact"
++                                            ],
++                                "members":  [
++
+                                             ]
+                             }
+                         ],
+@@ -262,34 +249,13 @@
+                               }
+                           ],
+     "conflicts":  [
+-                      {
+-                          "type":  "term-definition-conflict",
+-                          "normalized_term":  "eu compatibility profile",
+-                          "member_specs":  [
+-                                               "GDIS-CORE",
+-                                               "GQSCD-CORE"
+-                                           ],
+-                          "definition_hashes":  [
+-                                                    "5767712e793c12845c80936994ff52b440f12c934e9fcf525ea3a986f2ecb161",
+-                                                    "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+-                                                ]
+-                      },
+-                      {
+-                          "type":  "term-definition-conflict",
+-                          "normalized_term":  "web profile",
+-                          "member_specs":  [
+-                                               "GDIS-CORE",
+-                                               "GQSCD-CORE"
+-                                           ],
+-                          "definition_hashes":  [
+-                                                    "6f1f5d835b0102673af483547c629ef062740cd368b7bea8d0e4173b57de832f",
+-                                                    "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
+-                                                ]
+-                      }
++
+                   ],
+-    "gaps":  {
+-                 "type":  "undefined-term-use",
+-                 "spec_id":  "GQSCD-CORE",
+-                 "term_used":  "ANNEXII-1d"
+-             }
++    "gaps":  [
++                 {
++                     "type":  "requirement-reference-without-anchor",
++                     "spec_id":  "GQSCD-CORE",
++                     "requirement_id":  "REQ-GQTS-05"
++                 }
++             ]
+ }
+diff --git a/.gidas/alignment/spec-index.peers.json b/.gidas/alignment/spec-index.peers.json
+index 5747ccd..66884e4 100644
+--- a/.gidas/alignment/spec-index.peers.json
++++ b/.gidas/alignment/spec-index.peers.json
+@@ -17,6 +17,22 @@
+                           "definition_excerpt_hash":  "84dba951489323096d56c427ef6882022b4774fc0126060c2bcc92192ec547e4",
+                           "definition_text_excerpt":  "A legal and administrative domain that issues and governs identity items and their verification rules."
+                       },
++                      {
++                          "term_text":  "delegated PID issuer",
++                          "term_id":  "delegated-pid-issuer",
++                          "anchor":  "#delegated-pid-issuer",
++                          "section_anchor":  "#terminology",
++                          "definition_excerpt_hash":  "d3e3f252345d7ff6df07c652fb24e40740137f7c8701bd13bb5eacc30eeee29e",
++                          "definition_text_excerpt":  "An issuance delegate that a governance area has legally authorized to issue PID-bound identity evidence under governance policy."
++                      },
++                      {
++                          "term_text":  "remote eID provider",
++                          "term_id":  "remote-eid-provider",
++                          "anchor":  "#remote-eid-provider",
++                          "section_anchor":  "#terminology",
++                          "definition_excerpt_hash":  "a1d9c2619be5dd51b9479d388371e7de168de75c4c63976fbcbac372d43922bd",
++                          "definition_text_excerpt":  "A network-mediated identity service used for PID issuance or delegation workflows (for example SIM-based or bank-mediated issuance), distinct from direct physical identity-item issuance."
++                      },
+                       {
+                           "term_text":  "physical identity item",
+                           "term_id":  "physical-identity-item",
+@@ -114,20 +130,20 @@
+                           "definition_text_excerpt":  "A set of data that identifies a person under applicable law or standards contexts."
+                       },
+                       {
+-                          "term_text":  "PID hash",
+-                          "term_id":  "pid-hash",
+-                          "anchor":  "#pid-hash",
++                          "term_text":  "PID binding value",
++                          "term_id":  "pid-binding-value",
++                          "anchor":  "#pid-binding-value",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "114264fcd28db8e94285b6bf7dc5634b6dbeb3a1f1796e2b2d7a75136848c526",
+-                          "definition_text_excerpt":  "A cryptographic hash over canonicalized PID fields extracted from MRZ-compatible document data, represented as a hash tuple expression ."
++                          "definition_excerpt_hash":  "7fd7f0a6c52695b95541ba48c9346adb5668e09bb4278bbc07fccad1c2bad1b0",
++                          "definition_text_excerpt":  "Deterministic subject-binding value derived from canonicalized PID fields extracted from MRZ-compatible document data. Profiles MAY realize this value as a hash, commitment, or hidden proof input, provided verifier outcomes are deterministic and auditable."
+                       },
+                       {
+                           "term_text":  "GDIS binding credential",
+                           "term_id":  "gdis-binding-credential",
+                           "anchor":  "#gdis-binding-credential",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "f178e4040bf9e81cedf6698fa0e7a1ce9fe5c9d36d366bcd94e0b377c7d34a54",
+-                          "definition_text_excerpt":  "A verifiable credential binding a PID hash to a subject DID, issuer evidence, and governance verification material."
++                          "definition_excerpt_hash":  "f2043958712b51518093153bb30c770b64f70d93b24555be074c9cdb213439cf",
++                          "definition_text_excerpt":  "A verifiable credential binding a PID binding value (or equivalent hidden proof input) to a subject DID, issuer evidence, and governance verification material."
+                       },
+                       {
+                           "term_text":  "GDIS subject DID",
+@@ -185,6 +201,30 @@
+                           "definition_excerpt_hash":  "8f260d673ab29566949c4a2ad6147de7bb11a24ee728544d140391f9a3d39710",
+                           "definition_text_excerpt":  "URI query parameter whose value is an RFC 3339 date-time selecting the policy version that was effective at that instant [RFC3339] ."
+                       },
++                      {
++                          "term_text":  "physical validity method profile",
++                          "term_id":  "physical-validity-method-profile",
++                          "anchor":  "#physical-validity-method-profile",
++                          "section_anchor":  "#terminology",
++                          "definition_excerpt_hash":  "eded0566fae403d2c04856a5378fffcc5372c6c331eaeb41d55bccd2fc901b7b",
++                          "definition_text_excerpt":  "Governance-declared method profile describing how physical identity item authenticity and validity are checked (for example MRZ-only or MRZ plus NFC chip checks), including deterministic verifier acceptance/failure rules."
++                      },
++                      {
++                          "term_text":  "governance trust source reference",
++                          "term_id":  "governance-trust-source-reference",
++                          "anchor":  "#governance-trust-source-reference",
++                          "section_anchor":  "#terminology",
++                          "definition_excerpt_hash":  "efe249fc6825ad389a6386b9bef347acfe46c122fc88a7c053a739d80a12e495",
++                          "definition_text_excerpt":  "Machine-readable reference to an authoritative governance source used in physical-validity or recognition checks (for example a trusted list, registry, or official legal publication endpoint)."
++                      },
++                      {
++                          "term_text":  "physical validity evidence artifact",
++                          "term_id":  "physical-validity-evidence-artifact",
++                          "anchor":  "#physical-validity-evidence-artifact",
++                          "section_anchor":  "#terminology",
++                          "definition_excerpt_hash":  "2daadf893a8f6c2c674ed0547dc948d8f25a6f6afa2ee8a2ad99d69dda391f88",
++                          "definition_text_excerpt":  "An evidence artifact proving which physical validity method profile was applied, which evidence checks were executed, and which governance trust source reference values were used."
++                      },
+                       {
+                           "term_text":  "evidence artifact",
+                           "term_id":  "evidence-artifact",
+@@ -208,22 +248,6 @@
+                           "section_anchor":  "#terminology",
+                           "definition_excerpt_hash":  "99f040b2a6dfafe71735c7893c70befe69b19d6259769d7a0b7a56662fe367f4",
+                           "definition_text_excerpt":  "Deterministic output object produced by a verifier after executing the normative processing rules in this specification."
+-                      },
+-                      {
+-                          "term_text":  "web profile",
+-                          "term_id":  "web-profile",
+-                          "anchor":  "#web-profile",
+-                          "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91",
+-                          "definition_text_excerpt":  "Imported term from [GQSCD-CORE] ."
+-                      },
+-                      {
+-                          "term_text":  "EU compatibility profile",
+-                          "term_id":  "eu-compatibility-profile",
+-                          "anchor":  "#eu-compatibility-profile",
+-                          "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91",
+-                          "definition_text_excerpt":  "Imported term from [GQSCD-CORE] ."
+                       }
+                   ],
+         "clauses":  [
+@@ -367,6 +391,26 @@
+                                                         },
+                             "text_excerpt_hash":  "512cf1a1fde3c276884d47c58cb90391281e841a12114ad15a304ebea0874d6a"
+                         },
++                        {
++                            "clause_id":  "REQ-GDIS-10",
++                            "anchor":  "#req-physical-validity",
++                            "section_anchor":  "#req-physical-validity",
++                            "kind":  "requirement",
++                            "normative_keywords_used":  {
++
++                                                        },
++                            "text_excerpt_hash":  "8a3a98af13c6ae98ff6c07e5a7bfb5d4784f7acb122c76ce9c3acac8b10040dc"
++                        },
++                        {
++                            "clause_id":  "REQ-GDIS-10",
++                            "anchor":  "#REQ-GDIS-10",
++                            "section_anchor":  "#req-physical-validity",
++                            "kind":  "requirement",
++                            "normative_keywords_used":  {
++
++                                                        },
++                            "text_excerpt_hash":  "f8522ffa6d5df7fc5c0527c7306a42e4b71f6953f439696af55cabe79849e6c4"
++                        },
+                         {
+                             "clause_id":  "REQ-GDIS-08",
+                             "anchor":  "#REQ-GDIS-08",
+@@ -526,6 +570,16 @@
+                                             "json_pointer":  "#/components/schemas/GdisPolicySignature",
+                                             "key_constraints_hash":  "29e67499bab447b87910febfaf19e6e51dfadb6f546d05a7a12f95416dc8b4e8"
+                                         },
++                                        {
++                                            "name":  "GdisPhysicalValidityPolicy",
++                                            "json_pointer":  "#/components/schemas/GdisPhysicalValidityPolicy",
++                                            "key_constraints_hash":  "08a221b786d4b8b9002bc2b9d01784e53e696f51b5e218fd14f76d9a678e1d9c"
++                                        },
++                                        {
++                                            "name":  "GdisDelegatedIssuancePolicy",
++                                            "json_pointer":  "#/components/schemas/GdisDelegatedIssuancePolicy",
++                                            "key_constraints_hash":  "d23bf07553de486303df2b7c97a082b45938d8612d70504dab49dbb589a70389"
++                                        },
+                                         {
+                                             "name":  "GdisPidIdentificationPolicy",
+                                             "json_pointer":  "#/components/schemas/GdisPidIdentificationPolicy",
+@@ -630,16 +684,16 @@
+                           "term_id":  "gqts-host",
+                           "anchor":  "#gqts-host",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "85ce12269453575f0a7977db200a806722403716b3a1361867955287255aec7e",
+-                          "definition_text_excerpt":  "An HTTP origin that serves GQTS resources and MAY ingest, replicate, and gossip append-only event history material."
++                          "definition_excerpt_hash":  "841737337524f3b3296f1576d5c0134febdca6a6c14150c7aa02a34a8be15e38",
++                          "definition_text_excerpt":  "An HTTP origin that serves GQTS resources and MAY ingest, replicate, and gossip append-only signed-token history material."
+                       },
+                       {
+                           "term_text":  "service descriptor",
+                           "term_id":  "service-descriptor",
+                           "anchor":  "#service-descriptor",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "0123e9fc780defb474d23a625bfff0485281e85d26ff1a4e02c6f157898ce8ab",
+-                          "definition_text_excerpt":  "A machine-readable object describing one trust-service instance, its type, and its current event-log head commitment."
++                          "definition_excerpt_hash":  "86ecb8890fe288a9b7debed534546acb3bd875c77048773569dde504f31b5311",
++                          "definition_text_excerpt":  "A machine-readable object describing one trust-service instance, its type, and its current token-chain head state."
+                       },
+                       {
+                           "term_text":  "scheme descriptor",
+@@ -654,32 +708,32 @@
+                           "term_id":  "event-namespace",
+                           "anchor":  "#event-namespace",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "d5e64a7b57ab2f6472365149609a91c46dd07b51d6aded5c8bcb485aeae2d532",
+-                          "definition_text_excerpt":  "A scoped event stream identified by a log identifier where entries form an append-only history."
++                          "definition_excerpt_hash":  "dca16e31c0adcf54404a171ec19356621f8d9ea257f739b6a70f66d5d3780f1c",
++                          "definition_text_excerpt":  "A scoped signed-token stream identified by a log identifier where entries form an append-only directed linear history."
+                       },
+                       {
+-                          "term_text":  "head digest",
+-                          "term_id":  "head-digest",
+-                          "anchor":  "#head-digest",
++                          "term_text":  "head token",
++                          "term_id":  "head-token",
++                          "anchor":  "#head-token",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "d690a7c7b4b502904155445968a38b87d26eef17855113a1f2170165da4f65b9",
+-                          "definition_text_excerpt":  "Commitment to the latest accepted history head for an event namespace , used for cheap divergence detection before heavy synchronization."
++                          "definition_excerpt_hash":  "1e25442804de352adc58808acfb03075c384322c6780c8cb0012d8e493f03149",
++                          "definition_text_excerpt":  "Identifier of the latest accepted token for an event namespace , used for cheap synchronization checks before heavy retrieval."
+                       },
+                       {
+-                          "term_text":  "merge event",
+-                          "term_id":  "merge-event",
+-                          "anchor":  "#merge-event",
++                          "term_text":  "merge token",
++                          "term_id":  "merge-token",
++                          "anchor":  "#merge-token",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "8dae7e7e28e083adf9c3dc1943b18de7015f29706c0b97596c8c61297d0a5453",
+-                          "definition_text_excerpt":  "An event entry that references two or more parent heads to represent explicit history convergence."
++                          "definition_excerpt_hash":  "e2e3cb86e30985fcdef40fd320431a0b5b6808332f4b1b222be22478f9f6cfb5",
++                          "definition_text_excerpt":  "A signed token that reconciles competing candidate heads while preserving one canonical previous-token pointer in the accepted chain."
+                       },
+                       {
+                           "term_text":  "mechanical validity",
+                           "term_id":  "mechanical-validity",
+                           "anchor":  "#mechanical-validity",
+                           "section_anchor":  "#terminology",
+-                          "definition_excerpt_hash":  "24acc5652e1cd658704d0e16b0909397dbc661cfe9acf4354622f738ecbe3cc0",
+-                          "definition_text_excerpt":  "A verifier result stating that schema constraints, signatures/proofs, canonicalization, and hash-chain requirements were satisfied."
++                          "definition_excerpt_hash":  "40204faa3f3e7bce480d7dab3c7067c5b6d7c37be074495c7ee2a18a169760e0",
++                          "definition_text_excerpt":  "A verifier result stating that schema constraints, signatures/proofs, canonicalization, and signed-token chain requirements were satisfied."
+                       },
+                       {
+                           "term_text":  "recognition status",
+@@ -721,7 +775,7 @@
+                             "section_anchor":  "#requirement-traceability",
+                             "kind":  "requirement",
+                             "normative_keywords_used":  "MUST",
+-                            "text_excerpt_hash":  "b5bbc1c4f0f81021380fd7b77ca30a5e0e330f4da2557cb9222f36a2fb05974e"
++                            "text_excerpt_hash":  "2d4ace06788864bf1a9f994c725395a8aa919688212d9d272aee51db8f1df95e"
+                         },
+                         {
+                             "clause_id":  "REQ-GQTS-04",
+@@ -729,7 +783,7 @@
+                             "section_anchor":  "#requirement-traceability",
+                             "kind":  "requirement",
+                             "normative_keywords_used":  "SHOULD",
+-                            "text_excerpt_hash":  "f92536714a9481278097da7d3da70b17c6f548ac3473320e7b90a92feea474fd"
++                            "text_excerpt_hash":  "1755b4b049db060a12eb34833459315e4dea2a1e6a7eed9b936f36bf9fb1704e"
+                         },
+                         {
+                             "clause_id":  "REQ-GQTS-05",
+@@ -884,11 +938,6 @@
+                                             "json_pointer":  "#/components/schemas/Identifier",
+                                             "key_constraints_hash":  "9b10587f84a2c3749305f3421c8f2838ed88b0ab1e44326ff9eeb48083373144"
+                                         },
+-                                        {
+-                                            "name":  "DigestTuple",
+-                                            "json_pointer":  "#/components/schemas/DigestTuple",
+-                                            "key_constraints_hash":  "e55fcf8e219e30c94dcb2a33bbbe9ea0ec134d53cde7c5b289f7dce3a022f153"
+-                                        },
+                                         {
+                                             "name":  "UriDigest",
+                                             "json_pointer":  "#/components/schemas/UriDigest",
+diff --git a/.gidas/alignment/spec-index.self.json b/.gidas/alignment/spec-index.self.json
+index 6854870..8d58fa9 100644
+--- a/.gidas/alignment/spec-index.self.json
++++ b/.gidas/alignment/spec-index.self.json
+@@ -4,7 +4,7 @@
+     "commit_or_version":  "unspecified",
+     "files":  {
+                   "index_html":  "C:\\Users\\jorts\\gqscd\\index.html",
+-                  "openapi_yaml":  null,
++                  "openapi_yaml":  "C:\\Users\\jorts\\gqscd\\openapi.yaml",
+                   "agents_md":  "C:\\Users\\jorts\\gqscd\\AGENTS.md"
+               },
+     "terms":  [
+@@ -56,30 +56,6 @@
+                       "definition_excerpt_hash":  "6e0a6cf84ef02297d3155095ab38cb64ed2d2f71a5fc78415921b02ae6c3b226",
+                       "definition_text_excerpt":  "Security objective that signature creation data can be used only under control of the legitimate signatory, as required by Annex II outcome language ( [EU-910/2014] )."
+                   },
+-                  {
+-                      "term_text":  "trusted execution environment",
+-                      "term_id":  "trusted-execution-environment",
+-                      "anchor":  "#trusted-execution-environment",
+-                      "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "817f5c93c8943ffe2be373d6856cb758b6bb22b66967d3f5bc23cbb84ceb2a4e",
+-                      "definition_text_excerpt":  "Isolated execution context used for security-critical operations separate from the rich operating environment ( [ANDROID-TRUSTY] )."
+-                  },
+-                  {
+-                      "term_text":  "secure boot chain",
+-                      "term_id":  "secure-boot-chain",
+-                      "anchor":  "#secure-boot-chain",
+-                      "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "b161cc0fa5e179b5855837f21a04835ef8a928aec8d1dbc90155750351b1bfea",
+-                      "definition_text_excerpt":  "Firmware and boot verification sequence that permits execution only of cryptographically verified boot components ( [ANDROID-AVB] , [MSFT-SECURE-BOOT] , [APPLE-BOOT] )."
+-                  },
+-                  {
+-                      "term_text":  "measured boot evidence",
+-                      "term_id":  "measured-boot-evidence",
+-                      "anchor":  "#measured-boot-evidence",
+-                      "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "69eb9a44d6ad8062b27b78d00e2645c734679c9e9598f0f706d63a29915d11e0",
+-                      "definition_text_excerpt":  "Measurement artifacts (for example TPM PCR values and event logs) describing boot state for remote verification ( [MSFT-TPM] , [SYSTEMD-PCR] )."
+-                  },
+                   {
+                       "term_text":  "user intent ceremony",
+                       "term_id":  "user-intent-ceremony",
+@@ -97,20 +73,20 @@
+                       "definition_text_excerpt":  "The exact full payload byte sequence presented to and approved by the signer before signature creation; this profile does not permit signing operations where only a partial or transformed subset is shown as the approval target ( [EU-ANNEX-II] , [ANDROID-PROTECTED-CONFIRMATION] , [RFC7515] , [RFC9052"
+                   },
+                   {
+-                      "term_text":  "user verification",
+-                      "term_id":  "user-verification",
+-                      "anchor":  "#user-verification",
++                      "term_text":  "proof object",
++                      "term_id":  "proof-object",
++                      "anchor":  "#proof-object",
+                       "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "f58fb3bb1bf94e6e25bd0ff6aaa85b06b0f926d2cfa2024a4c3e37c834ca54ef",
+-                      "definition_text_excerpt":  "Authenticator procedure that validates the user through local authentication mechanisms before sensitive operations are performed ( [WEBAUTHN-L3] )."
++                      "definition_excerpt_hash":  "a1a7c210e96f492cc8aae36924c5f38184780e6fd458b6d583194ddc3875d8e0",
++                      "definition_text_excerpt":  "JSON object attached to an artifact that carries cryptographic proof metadata and proof bytes so a verifier can check integrity and authenticity deterministically ( [VC-DI] )."
+                   },
+                   {
+-                      "term_text":  "attestation evidence",
+-                      "term_id":  "attestation-evidence",
+-                      "anchor":  "#attestation-evidence",
++                      "term_text":  "DataIntegrityProof",
++                      "term_id":  "dataintegrityproof",
++                      "anchor":  "#dataintegrityproof",
+                       "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "da0e32799ee7aae5bda05edad65eb13cebfb0b6e5550c8486e1b663f672f30ae",
+-                      "definition_text_excerpt":  "Cryptographically verifiable evidence about key origin, authenticator/device properties, or execution state used by verifiers during trust decisions ( [WEBAUTHN-L3] , [ANDROID-ATTESTATION] )."
++                      "definition_excerpt_hash":  "21e0f4857721363bbb4329339bae1858737b45863b7e04031da86f2c05558ab4",
++                      "definition_text_excerpt":  "[=proof object=] type defined by the W3C Data Integrity model; in this profile it is used for profile-level integrity claims and is paired with the selected cryptosuite and proofValue members ( [VC-DI] , [VC-DI-ECDSA] )."
+                   },
+                   {
+                       "term_text":  "zero-trust verification model",
+@@ -141,8 +117,8 @@
+                       "term_id":  "gqtsp-discovery-endpoint",
+                       "anchor":  "#gqtsp-discovery-endpoint",
+                       "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "c0a86371e9db4e6eb1d4574acb49cb0f5ef8bba6fb155cde00f5bfc058749891",
+-                      "definition_text_excerpt":  "Deployment-defined HTTPS discovery location used to publish evidence metadata and pointers for decentralized verifier retrieval in this profile ( [RFC8615] , [RFC9110] , [GDIS-CORE] )."
++                      "definition_excerpt_hash":  "8e2966cbbd5e56ccfd3120fb01caf5c3ff4d0f1d0816546608b4b15e43724325",
++                      "definition_text_excerpt":  "Deployment-defined HTTPS discovery location used to publish evidence metadata and pointers for decentralized verifier retrieval in this profile ( [RFC8615] , [RFC9110] , [GDIS-CORE] , REQ-GDIS-05 , getSchemeDescriptor , getEndpointKindCatalog , getEventLogView , and getEventHeadMeta )."
+                   },
+                   {
+                       "term_text":  "local signing profile",
+@@ -192,22 +168,6 @@
+                       "definition_excerpt_hash":  "2d7e83dc5bb2992015290d32bb5f330e9a00496d4f4f064d88a642c14909bbca",
+                       "definition_text_excerpt":  "EU legal framework for electronic identification and trust services established by Regulation (EU) No 910/2014 and its amendments ( [EU-910/2014] , [EU-2024/1183] )."
+                   },
+-                  {
+-                      "term_text":  "eudi wallet ecosystem",
+-                      "term_id":  "eudi-wallet-ecosystem",
+-                      "anchor":  "#eudi-wallet-ecosystem",
+-                      "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "25328e410d7619b950b6bf70df6cc365fdd500837f09179b5cbafbcab91d5089",
+-                      "definition_text_excerpt":  "EU Digital Identity Wallet ecosystem specified by the 2024 eIDAS amendment and implementing acts defining integrity, protocol, and interoperability requirements ( [EU-2024/1183] , [EU-2024/2979] , [EU-2024/2982] )."
+-                  },
+-                  {
+-                      "term_text":  "implementing specification",
+-                      "term_id":  "implementing-specification",
+-                      "anchor":  "#implementing-specification",
+-                      "section_anchor":  "#conformance",
+-                      "definition_excerpt_hash":  "f313e886632ca2baa375971762f23c911bfc752edf9f0b5167b0846f86a71d50",
+-                      "definition_text_excerpt":  "Companion specification that profiles GQSCD-Core for a specific platform, deployment model, testing method, or jurisdictional evidence workflow while preserving core conformance semantics."
+-                  },
+                   {
+                       "term_text":  "qscd certification evidence tuple",
+                       "term_id":  "qscd-certification-evidence-tuple",
+@@ -224,7 +184,7 @@
+                         "section_anchor":  "#conformance",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+-                        "text_excerpt_hash":  "53c8e8b5074ec92077fc5431fcc758a391e1ac33bed72bc7f68079e30773408b"
++                        "text_excerpt_hash":  "feaeb296941d7db9774757d21d22cb58868664b8bfcfd903b65226f0d98cc618"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-55",
+@@ -234,6 +194,17 @@
+                         "normative_keywords_used":  "MUST",
+                         "text_excerpt_hash":  "b97a726ccb2e54a5eaa250a5ef2db8faf48c298421b23a25d2bac1b5040cf468"
+                     },
++                    {
++                        "clause_id":  "REQ-GQSCD-56",
++                        "anchor":  "#req-gqscd-56",
++                        "section_anchor":  "#conformance",
++                        "kind":  "requirement",
++                        "normative_keywords_used":  [
++                                                        "MUST NOT",
++                                                        "MUST"
++                                                    ],
++                        "text_excerpt_hash":  "1c14a926f6d060d3c3b6f7e268f64e457143adab2e2ea8b089e8972c91a39f74"
++                    },
+                     {
+                         "clause_id":  "REQ-GQSCD-01",
+                         "anchor":  "#req-gqscd-01",
+@@ -264,7 +235,7 @@
+                         "section_anchor":  "#data-model-and-proof-profile",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+-                        "text_excerpt_hash":  "88e7874853d31f34d266e83533614ff653f5ae1e34f4fc25265cc33726cd6e59"
++                        "text_excerpt_hash":  "2487d9769ab188c69e346f393f38c30313a739db348c0a661f06da031418dd18"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-05",
+@@ -293,7 +264,7 @@
+                     {
+                         "clause_id":  "REQ-GQSCD-08",
+                         "anchor":  "#req-gqscd-08",
+-                        "section_anchor":  "#media-type-and-versioning-profile",
++                        "section_anchor":  "#threat-model",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+                         "text_excerpt_hash":  "07fea155be7d993616ecc93d24b6101defa1d29014016078c3383fe3c25aecc1"
+@@ -301,7 +272,7 @@
+                     {
+                         "clause_id":  "REQ-GQSCD-09",
+                         "anchor":  "#req-gqscd-09",
+-                        "section_anchor":  "#media-type-and-versioning-profile",
++                        "section_anchor":  "#threat-model",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+                         "text_excerpt_hash":  "61c9c9fc378c529d79b6f95a823bd1270b142a906ac4a8c19c57bc7aaf9bd244"
+@@ -309,7 +280,7 @@
+                     {
+                         "clause_id":  "REQ-GQSCD-10",
+                         "anchor":  "#req-gqscd-10",
+-                        "section_anchor":  "#media-type-and-versioning-profile",
++                        "section_anchor":  "#threat-model",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  [
+                                                         "MUST NOT",
+@@ -320,7 +291,7 @@
+                     {
+                         "clause_id":  "REQ-GQSCD-11",
+                         "anchor":  "#req-gqscd-11",
+-                        "section_anchor":  "#media-type-and-versioning-profile",
++                        "section_anchor":  "#threat-model",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  [
+                                                         "MUST NOT",
+@@ -389,7 +360,7 @@
+                         "section_anchor":  "#evidence-artifact-profile",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+-                        "text_excerpt_hash":  "6c1307912b7d62d527974fe5d0d4d4b58d75e5febbc8cd9b16c809c4ec44c579"
++                        "text_excerpt_hash":  "a85a1abfdf232f1c513b60b4ecd24cc3e66aed99f8091a22f59336d5e95d9e69"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-19",
+@@ -421,7 +392,7 @@
+                         "section_anchor":  "#evidence-publication-discovery",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+-                        "text_excerpt_hash":  "332796dc89274c660972ead15abc69c48874cfd4311b678198d0a289dd8c4d1b"
++                        "text_excerpt_hash":  "44ba18fd60d1ded55b164c6b2f09fe336b3b536742205a298b40f65f16aa199c"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-23",
+@@ -440,7 +411,7 @@
+                                                         "MUST",
+                                                         "MAY"
+                                                     ],
+-                        "text_excerpt_hash":  "71bfbd01f12d10e3868e278a1171a72cc7b7c0d427eeec1cbaf1d47e2c1bcd5b"
++                        "text_excerpt_hash":  "afaf3596aabbce89487b12678bb45cd591f598f9bade93af8bd6f700af6079a3"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-25",
+@@ -448,7 +419,7 @@
+                         "section_anchor":  "#evidence-publication-discovery",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "SHOULD",
+-                        "text_excerpt_hash":  "e2531aa7e1df3d1c108c4b1921a3215545d8b9098bdb068146fc9b33260e559e"
++                        "text_excerpt_hash":  "90fd4f20a4328f99d5d8b72d3b57f31ad69e6b3c7f3775f6e68185845db9ad64"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-26",
+@@ -458,7 +429,7 @@
+                         "normative_keywords_used":  {
+ 
+                                                     },
+-                        "text_excerpt_hash":  "fa9e22e4bf6e9503555cceba179abda220398f74b42233bf0d91ae4f1cf534d7"
++                        "text_excerpt_hash":  "7e294e384fc0199adaeb0ba0a49c541e70de2174a5cbf1f4261447c434e4a1da"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-27",
+@@ -485,10 +456,12 @@
+                         "anchor":  "#req-gqscd-29",
+                         "section_anchor":  "#evidence-verifier-checklist",
+                         "kind":  "requirement",
+-                        "normative_keywords_used":  {
+-
+-                                                    },
+-                        "text_excerpt_hash":  "dc95bf01566db1edbc03211f50e125b4de880d17722e3caa44cea3a931fa3abc"
++                        "normative_keywords_used":  [
++                                                        "MUST NOT",
++                                                        "MUST",
++                                                        "REQUIRED"
++                                                    ],
++                        "text_excerpt_hash":  "fde86674f5e72fd724385c82116cf56ef205bd5f2254b10b06b1e1ec4a35739a"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-30",
+@@ -544,7 +517,7 @@
+                         "section_anchor":  "#eu-compatibility-profile",
+                         "kind":  "requirement",
+                         "normative_keywords_used":  "MUST",
+-                        "text_excerpt_hash":  "ecca4858926e66b601068248ff9a7ee456ebae2b324222fa2164f8c4719e9ec8"
++                        "text_excerpt_hash":  "c986ad1d47a74bc1f9d5035583a2a39aa8581f6bcfcd0c8b64ba347c60ac7ad3"
+                     },
+                     {
+                         "clause_id":  "REQ-GQSCD-37",
+@@ -693,8 +666,25 @@
+                     }
+                 ],
+     "cross_spec_references":  {
+-                                  "type":  "label",
+-                                  "value":  "GDIS-CORE"
++                                  "type":  "href",
++                                  "value":  "https://z-base.github.io/gdis/#eu-web-conceptual-mapping"
+                               },
+-    "openapi":  null
++    "openapi":  {
++                    "operations":  [
++
++                                   ],
++                    "schemas":  [
++                                    {
++                                        "name":  "ProofObject",
++                                        "json_pointer":  "#/components/schemas/ProofObject",
++                                        "key_constraints_hash":  "950dca1d0347a4f98f3013a67ba2cbe855ef3eb9d80602f4e2142a0baba66c50"
++                                    },
++                                    {
++                                        "name":  "DataIntegrityProof",
++                                        "json_pointer":  "#/components/schemas/DataIntegrityProof",
++                                        "key_constraints_hash":  "1c65f9bb12d6a5db45b2a74dc4292e7782a45856c22e769b3c51ed674f52a1ef"
++                                    }
++                                ],
++                    "note":  "Parsed with regex fallback (ConvertFrom-Yaml unavailable)."
++                }
+ }
 diff --git a/index.html b/index.html
-index 1b1a17f..4acac32 100644
+index 3f644c0..482f92b 100644
 --- a/index.html
 +++ b/index.html
-@@ -27,6 +27,26 @@
-           'local-refs-exist': true,
-           'no-unused-dfns': true,
-         },
-+        localBiblio: {
-+          'GDIS-CORE': {
-+            title: 'Global Digital Identity Scheme (GDIS) Core',
-+            href: 'https://z-base.github.io/gdis/',
-+            status: 'ED',
-+            publisher: 'z-base',
-+          },
-+          'GQSCD-CORE': {
-+            title: 'Globally Qualified Signature Creation Device (GQSCD) Core',
-+            href: 'https://z-base.github.io/gqscd/',
-+            status: 'ED',
-+            publisher: 'z-base',
-+          },
-+          'GQTS-CORE': {
-+            title: 'Globally Qualified Trust Service (GQTS) Core',
-+            href: 'https://z-base.github.io/gqts/',
-+            status: 'ED',
-+            publisher: 'z-base',
-+          },
-+        },
-       }
-     </script>
-     <style>
-@@ -441,7 +461,7 @@
-           <a href="#ref-etsi-119431-2">[ETSI-119431-2]</a>).
-         </dd>
+@@ -2168,8 +2168,12 @@
+         Annex II clause IDs.
+       </p>
+       <p>
+-        In this profile, published artifacts are treated as self-certifying only
+-        after cryptographic verification and policy evaluation by a verifier.
++        In this profile, wallet-held proof artifacts (for example identity
++        binding credentials and signing-event credentials) are private claims by
++        default and are not published to GQTS hosts; only public verification
++        material and discovery metadata are published on the trust network.
++        Published material is treated as self-certifying only after
++        cryptographic verification and policy evaluation by a verifier.
+       </p>
  
--        <dt><dfn>web profile</dfn></dt>
-+        <dt><dfn id="term-web-profile">web profile</dfn></dt>
-         <dd>
-           Primary interoperability profile in this specification, based on
-           globally deployed web and internet standards (<a
-@@ -452,7 +472,7 @@
-           <a href="#ref-rfc9052">[RFC9052]</a>).
-         </dd>
- 
--        <dt><dfn>eu compatibility profile</dfn></dt>
-+        <dt><dfn id="term-eu-compatibility-profile">eu compatibility profile</dfn></dt>
-         <dd>
-           Mapping layer from [=web profile=] artifacts to EU legal and ecosystem
-           evidence requirements (<a href="#ref-eidas-910">[EU-910/2014]</a>,
+       <section id="evidence-artifact-profile">
+@@ -2177,12 +2181,17 @@
+         <ul>
+           <li id="req-gqscd-18">
+             <strong>REQ-GQSCD-18:</strong>
+-            Evidence artifacts MUST be published as integrity-protected
++            Evidence proof artifacts MUST be represented as integrity-protected
+             verifiable credentials and MUST include issuer, subject key
+-            identifier, issuance time, expiration/status, and proof material (<a
++            identifier, issuance time, expiration/status, and proof material.
++            These proof artifacts MUST be treated as wallet-private claims
++            unless explicitly disclosed in verifier presentation flows (<a
+               href="#ref-w3c-vc-data-model2"
+               >[VC-DM2]</a
+-            >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
++            >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>,
++            <a href="https://z-base.github.io/gdis/#gdis-binding-credential"
++              >GDIS binding credential</a
++            >).
+           </li>
+           <li id="req-gqscd-19">
+             <strong>REQ-GQSCD-19:</strong>
+@@ -2230,11 +2239,22 @@
+             >REQ-GQTS-07</a
+           >).
+         </p>
++        <p>
++          Discovery and event-log retrieval in this profile are scoped to public
++          verification material (for example key references, controller
++          documents, status pointers, and event-link metadata). Wallet-private
++          proof artifacts are out of scope for trust-service publication in this
++          specification (<a href="#ref-gqts-core">[GQTS-CORE]</a>,
++          <a href="https://z-base.github.io/gqts/#history-invariants"
++            >GQTS history invariants</a
++          >).
++        </p>
+         <ul>
+           <li id="req-gqscd-22">
+             <strong>REQ-GQSCD-22:</strong> Deployments that expose
+-            [=gqtsp discovery endpoint=] metadata MUST do so via HTTPS with
+-            deterministic, machine-verifiable content (<a
++            [=gqtsp discovery endpoint=] metadata for public verification
++            material MUST do so via HTTPS with deterministic, machine-verifiable
++            content (<a
+               href="#ref-rfc8615"
+               >[RFC8615]</a
+             >, <a href="#ref-rfc9110">[RFC9110]</a>,
+@@ -2258,7 +2278,11 @@
+             Any operator MAY host a conformant discovery endpoint; host
+             participation does not grant implicit trust and verifiers MUST
+             validate signatures, issuer bindings, and freshness on every
+-            retrieved artifact (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
++            retrieved public verification artifact. Wallet-private proof
++            artifacts remain outside host publication scope (<a
++              href="#ref-gdis-core"
++              >[GDIS-CORE]</a
++            >,
+             <a href="https://z-base.github.io/gdis/#processing-verifier"
+               >REQ-GDIS-09</a
+             >,
+@@ -2320,7 +2344,11 @@
+             <strong>REQ-GQSCD-29:</strong>
+             Verify discovery metadata from [=gqtsp discovery endpoint=] and
+             governance references, then evaluate freshness windows and conflict
+-            handling deterministically (<a href="#ref-gdis-core">[GDIS-CORE]</a
++            handling deterministically. Implementations MUST reject or
++            explicitly report entries that fail required chain-link or proof
++            verification checks and MUST NOT silently merge invalid nodes (<a
++              href="#ref-gdis-core"
++              >[GDIS-CORE]</a
+             >,
+             <a href="https://z-base.github.io/gdis/#processing-verifier"
+               >REQ-GDIS-09</a
+diff --git a/openapi.yaml b/openapi.yaml
+index 421bd92..ef2d901 100644
+--- a/openapi.yaml
++++ b/openapi.yaml
+@@ -6,6 +6,8 @@ info:
+   description: |
+     This OpenAPI file defines reusable JSON schema objects for GQSCD Core.
+     It does not define protocol endpoints.
++    Wallet-private proof artifacts remain outside trust-service log publication;
++    GQTS publication endpoints carry only public verification material.
+   license:
+     name: MIT
+     url: https://opensource.org/license/mit
+@@ -57,7 +59,9 @@ components:
+       type: object
+       description: |
+         Generic cryptographic proof container bound to an artifact for
+-        deterministic integrity verification.
++        deterministic integrity verification. The container can represent
++        wallet-private claim evidence and is not, by itself, a trust-service
++        publication object.
+       required: [type, cryptosuite, proofValue]
+       properties:
+         type:
+diff --git a/.gidas/alignment/alignment-plan.md b/.gidas/alignment/alignment-plan.md
+new file mode 100644
+index 0000000..b232875
+--- /dev/null
++++ b/.gidas/alignment/alignment-plan.md
+@@ -0,0 +1,42 @@
++# Alignment Plan
++
++Self spec: `GQSCD-CORE`  
++Self repo: `z-base/gqscd`
++
++## Preconditions
++- Read `AGENTS.md` in the SELF repo.
++- Read `gidas-alignment.config.json`.
++- Verified peer snapshots exist for:
++  - `GDIS-CORE` (`../gdis/index.html`, `../gdis/openapi.yaml`)
++  - `GQTS-CORE` (`../gqts/index.html`, `../gqts/openapi.yaml`)
++
++## Canonical Term/Anchor Owners
++- `proof artifact` -> `GDIS-CORE#evidence-artifact` (wallet-private claim artifact semantics).
++- `binding credential` -> `GDIS-CORE#gdis-binding-credential` (wallet-private claim credential semantics).
++- `verification material` -> `GQTS-CORE#history-invariants` (public trust-network publication semantics).
++  - UNSPECIFIED: current `GQTS-CORE` snapshot does not expose a dedicated `<dfn>` anchor named `verification material`; this plan binds to the normative history/publication section anchor.
++- Device/key/custody terms remain `GQSCD-CORE` owned.
++- Identity/PID terms remain `GDIS-CORE` owned.
++- Log/publication/history terms remain `GQTS-CORE` owned.
++
++## Canonical Clause Mapping (OpenAPI)
++- `GET /.well-known/gidas/gqts/scheme/{governanceCode} | getSchemeDescriptor` -> canonical owner `GQTS-CORE` (`REQ-GQTS-01`).
++- `GET /.well-known/gidas/gqts/scheme/{governanceCode}/endpoint-kinds | getEndpointKindCatalog` -> canonical owner `GQTS-CORE` (`REQ-GQTS-02`).
++- `GET /.well-known/gidas/gqts/type/{serviceId} | getTypeDescriptor` -> canonical owner `GQTS-CORE` (`REQ-GQTS-03`).
++- `GET /.well-known/gidas/gqts/event/{logId}/meta | getEventHeadMeta` -> canonical owner `GQTS-CORE` (`REQ-GQTS-04`).
++- `GET /.well-known/gidas/gqts/event/{logId} | getEventLogView` -> canonical owner `GQTS-CORE` (`REQ-GQTS-05`).
++- `POST /.well-known/gidas/gqts/event/{logId} | postEventIngest` -> canonical owner `GQTS-CORE` (`REQ-GQTS-06`).
++- `GET /.well-known/gidas/gqts/event/{logId}/{eventId} | getEventById` -> canonical owner `GQTS-CORE` (`REQ-GQTS-07`).
++
++## Required SELF Changes (Applied)
++- `index.html`: encode wallet-private vs trust-public split in evidence/discovery clauses.
++  - Updated `REQ-GQSCD-18` to require VC-form proof artifacts while keeping them wallet-private unless explicitly disclosed.
++  - Added explicit discovery-scope text: trust-service discovery/event-log retrieval is limited to public verification material.
++  - Updated `REQ-GQSCD-22` and `REQ-GQSCD-24` to scope discovery artifacts to public verification material.
++  - Updated `REQ-GQSCD-29` to require reject-or-report handling for invalid chain/proof nodes (no silent merge).
++- `openapi.yaml`: clarified that this repo defines proof schemas only; trust-service publication endpoints are outside scope and carry public verification material.
++- No GQTS-hosted endpoint definitions were added to SELF `openapi.yaml`; canonical operation IDs and `x-gqts-requirement` ownership remain in GQTS/GDIS peers.
++
++## UNSPECIFIED Items (Intentional)
++- OPRF/BBS and blinded-data publication mechanics are not defined in this SELF repo.
++- GQTS root-key event object shape and credential-link payload details remain governed by GQTS/GDIS profiles, not GQSCD.
+diff --git a/gidas-alignment.config.json b/gidas-alignment.config.json
+new file mode 100644
+index 0000000..9cec7cf
+--- /dev/null
++++ b/gidas-alignment.config.json
+@@ -0,0 +1,47 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "self": {
++    "specId": "GQSCD-CORE",
++    "repoFullName": "z-base/gqscd",
++    "homeUrl": "https://z-base.github.io/gqscd/",
++    "indexPath": "index.html",
++    "openapiPath": "openapi.yaml",
++    "agentsPath": "AGENTS.md"
++  },
++  "peers": [
++    {
++      "specId": "GDIS-CORE",
++      "repoFullName": "z-base/gdis",
++      "homeUrl": "https://z-base.github.io/gdis/",
++      "indexPath": "../gdis/index.html",
++      "openapiPath": "../gdis/openapi.yaml",
++      "agentsPath": "../gdis/AGENTS.md"
++    },
++    {
++      "specId": "GQTS-CORE",
++      "repoFullName": "z-base/gqts",
++      "homeUrl": "https://z-base.github.io/gqts/",
++      "indexPath": "../gqts/index.html",
++      "openapiPath": "../gqts/openapi.yaml",
++      "agentsPath": "../gqts/AGENTS.md"
++    }
++  ],
++  "outputDir": ".gidas/alignment",
++  "canonicalOwnership": {
++    "deviceAndKeyTerms": "GQSCD-CORE",
++    "identityAndPidTerms": "GDIS-CORE",
++    "logAndPublicationTerms": "GQTS-CORE",
++    "privateProofArtifactTerms": "GDIS-CORE",
++    "publicVerificationMaterialTerms": "GQTS-CORE"
++  },
++  "canonicalAnchors": {
++    "proof artifact": "GDIS-CORE#evidence-artifact",
++    "binding credential": "GDIS-CORE#gdis-binding-credential",
++    "verification material": "GQTS-CORE#history-invariants"
++  },
++  "historyModel": {
++    "type": "append-only-directed-linear-signed-chain",
++    "rootEvent": "root-key",
++    "nodeConflictHandling": "reject-or-report"
++  }
++}
+diff --git a/scripts/cross-spec-align.mjs b/scripts/cross-spec-align.mjs
+new file mode 100644
+index 0000000..27077f3
+--- /dev/null
++++ b/scripts/cross-spec-align.mjs
+@@ -0,0 +1,101 @@
++import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
++import { resolve } from 'node:path'
++import { spawnSync } from 'node:child_process'
++
++const root = process.cwd()
++const configPath = resolve(root, 'gidas-alignment.config.json')
++const agentsPath = resolve(root, 'AGENTS.md')
++const buildScriptPath = resolve(root, '.gidas/alignment/build-alignment.ps1')
++
++function toAbs(pathLike) {
++  return resolve(root, pathLike)
++}
++
++function writeFailureReport(outDir, title, missingItems) {
++  mkdirSync(outDir, { recursive: true })
++  const lines = [
++    '# Alignment Report',
++    '',
++    title,
++    '',
++    '## Missing inputs',
++    ...missingItems.map((item) => `- ${item}`),
++    '',
++    'Provide the missing inputs and rerun `node scripts/cross-spec-align.mjs`.',
++  ]
++  writeFileSync(resolve(outDir, 'alignment-report.md'), `${lines.join('\n')}\n`, 'utf8')
++}
++
++if (!existsSync(configPath)) {
++  const outDir = resolve(root, '.gidas/alignment')
++  writeFailureReport(outDir, 'Preconditions failed. Alignment halted.', [
++    'Missing required alignment config: gidas-alignment.config.json',
++  ])
++  process.exit(1)
++}
++
++const rawConfig = readFileSync(configPath, 'utf8')
++const config = JSON.parse(rawConfig)
++const outDir = config.outputDir ? toAbs(config.outputDir) : resolve(root, '.gidas/alignment')
++
++const missing = []
++if (!existsSync(agentsPath)) {
++  missing.push('Missing AGENTS.md in repository root')
++}
++
++const self = config.self ?? {}
++const peers = Array.isArray(config.peers) ? config.peers : []
++
++for (const [label, p] of [
++  ['SELF index', self.indexPath],
++  ['SELF OpenAPI', self.openapiPath],
++  ['SELF AGENTS', self.agentsPath],
++]) {
++  if (!p || !existsSync(toAbs(p))) {
++    missing.push(`Missing ${label}: ${p ?? '(unset)'}`)
++  }
++}
++
++if (peers.length === 0) {
++  missing.push('No peer snapshot entries in gidas-alignment.config.json')
++}
++
++for (const peer of peers) {
++  const specId = peer.specId ?? 'UNSPECIFIED-PEER'
++  const indexPath = peer.indexPath
++  if (!indexPath || !existsSync(toAbs(indexPath))) {
++    missing.push(`Missing peer index (${specId}): ${indexPath ?? '(unset)'}`)
++  }
++  const openapiPath = peer.openapiPath
++  if (!openapiPath || !existsSync(toAbs(openapiPath))) {
++    missing.push(`Missing peer OpenAPI (${specId}): ${openapiPath ?? '(unset)'}`)
++  }
++}
++
++if (missing.length > 0) {
++  writeFailureReport(outDir, 'Peer snapshot loading failed. Alignment halted.', missing)
++  process.exit(1)
++}
++
++if (!existsSync(buildScriptPath)) {
++  writeFailureReport(outDir, 'Alignment build script missing. Alignment halted.', [
++    'Missing required script: .gidas/alignment/build-alignment.ps1',
++  ])
++  process.exit(1)
++}
++
++const shell = process.platform === 'win32' ? 'powershell' : 'pwsh'
++const run = spawnSync(
++  shell,
++  ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', buildScriptPath],
++  {
++    cwd: root,
++    stdio: 'inherit',
++  }
++)
++
++if (run.error) {
++  throw run.error
++}
++
++process.exit(run.status ?? 1)

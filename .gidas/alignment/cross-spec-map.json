@@ -1,51 +1,38 @@
 ﻿{
     "canonical_terms":  [
                             {
-                                "canonical_term":  "eu compatibility profile",
-                                "canonical_owner_spec_id":  "GQSCD-CORE",
-                                "canonical_anchor":  "GQSCD-CORE#term-eu-compatibility-profile",
+                                "canonical_term":  "verification material",
+                                "canonical_owner_spec_id":  "GQTS-CORE",
+                                "canonical_anchor":  "GQTS-CORE#history-invariants",
                                 "aliases":  [
-                                                "EU compatibility profile"
+                                                "verification material"
                                             ],
                                 "members":  [
-                                                {
-                                                    "spec_id":  "GQSCD-CORE",
-                                                    "term_text":  "eu compatibility profile",
-                                                    "anchor":  "#term-eu-compatibility-profile",
-                                                    "term_id":  "term-eu-compatibility-profile",
-                                                    "definition_excerpt_hash":  "5767712e793c12845c80936994ff52b440f12c934e9fcf525ea3a986f2ecb161"
-                                                },
-                                                {
-                                                    "spec_id":  "GDIS-CORE",
-                                                    "term_text":  "EU compatibility profile",
-                                                    "anchor":  "#eu-compatibility-profile",
-                                                    "term_id":  "eu-compatibility-profile",
-                                                    "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
-                                                }
+
                                             ]
                             },
                             {
-                                "canonical_term":  "web profile",
-                                "canonical_owner_spec_id":  "GQSCD-CORE",
-                                "canonical_anchor":  "GQSCD-CORE#term-web-profile",
+                                "canonical_term":  "binding credential",
+                                "canonical_owner_spec_id":  "GDIS-CORE",
+                                "canonical_anchor":  "GDIS-CORE#gdis-binding-credential",
                                 "aliases":  [
-                                                "web profile"
+                                                "binding credential",
+                                                "gdis binding credential"
                                             ],
                                 "members":  [
-                                                {
-                                                    "spec_id":  "GQSCD-CORE",
-                                                    "term_text":  "web profile",
-                                                    "anchor":  "#term-web-profile",
-                                                    "term_id":  "term-web-profile",
-                                                    "definition_excerpt_hash":  "6f1f5d835b0102673af483547c629ef062740cd368b7bea8d0e4173b57de832f"
-                                                },
-                                                {
-                                                    "spec_id":  "GDIS-CORE",
-                                                    "term_text":  "web profile",
-                                                    "anchor":  "#web-profile",
-                                                    "term_id":  "web-profile",
-                                                    "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
-                                                }
+
+                                            ]
+                            },
+                            {
+                                "canonical_term":  "proof artifact",
+                                "canonical_owner_spec_id":  "GDIS-CORE",
+                                "canonical_anchor":  "GDIS-CORE#evidence-artifact",
+                                "aliases":  [
+                                                "proof artifact",
+                                                "evidence artifact"
+                                            ],
+                                "members":  [
+
                                             ]
                             }
                         ],
@@ -262,34 +249,13 @@
                               }
                           ],
     "conflicts":  [
-                      {
-                          "type":  "term-definition-conflict",
-                          "normalized_term":  "eu compatibility profile",
-                          "member_specs":  [
-                                               "GDIS-CORE",
-                                               "GQSCD-CORE"
-                                           ],
-                          "definition_hashes":  [
-                                                    "5767712e793c12845c80936994ff52b440f12c934e9fcf525ea3a986f2ecb161",
-                                                    "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
-                                                ]
-                      },
-                      {
-                          "type":  "term-definition-conflict",
-                          "normalized_term":  "web profile",
-                          "member_specs":  [
-                                               "GDIS-CORE",
-                                               "GQSCD-CORE"
-                                           ],
-                          "definition_hashes":  [
-                                                    "6f1f5d835b0102673af483547c629ef062740cd368b7bea8d0e4173b57de832f",
-                                                    "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91"
-                                                ]
-                      }
+
                   ],
-    "gaps":  {
-                 "type":  "undefined-term-use",
-                 "spec_id":  "GQSCD-CORE",
-                 "term_used":  "ANNEXII-1d"
-             }
+    "gaps":  [
+                 {
+                     "type":  "requirement-reference-without-anchor",
+                     "spec_id":  "GQSCD-CORE",
+                     "requirement_id":  "REQ-GQTS-05"
+                 }
+             ]
 }

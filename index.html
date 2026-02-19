@@ -2168,8 +2168,12 @@
         Annex II clause IDs.
       </p>
       <p>
-        In this profile, published artifacts are treated as self-certifying only
-        after cryptographic verification and policy evaluation by a verifier.
+        In this profile, wallet-held proof artifacts (for example identity
+        binding credentials and signing-event credentials) are private claims by
+        default and are not published to GQTS hosts; only public verification
+        material and discovery metadata are published on the trust network.
+        Published material is treated as self-certifying only after
+        cryptographic verification and policy evaluation by a verifier.
       </p>
 
       <section id="evidence-artifact-profile">
@@ -2177,12 +2181,17 @@
         <ul>
           <li id="req-gqscd-18">
             <strong>REQ-GQSCD-18:</strong>
-            Evidence artifacts MUST be published as integrity-protected
+            Evidence proof artifacts MUST be represented as integrity-protected
             verifiable credentials and MUST include issuer, subject key
-            identifier, issuance time, expiration/status, and proof material (<a
+            identifier, issuance time, expiration/status, and proof material.
+            These proof artifacts MUST be treated as wallet-private claims
+            unless explicitly disclosed in verifier presentation flows (<a
               href="#ref-w3c-vc-data-model2"
               >[VC-DM2]</a
-            >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>).
+            >, <a href="#ref-w3c-vc-data-integrity">[VC-DI]</a>,
+            <a href="https://z-base.github.io/gdis/#gdis-binding-credential"
+              >GDIS binding credential</a
+            >).
           </li>
           <li id="req-gqscd-19">
             <strong>REQ-GQSCD-19:</strong>
@@ -2230,11 +2239,22 @@
             >REQ-GQTS-07</a
           >).
         </p>
+        <p>
+          Discovery and event-log retrieval in this profile are scoped to public
+          verification material (for example key references, controller
+          documents, status pointers, and event-link metadata). Wallet-private
+          proof artifacts are out of scope for trust-service publication in this
+          specification (<a href="#ref-gqts-core">[GQTS-CORE]</a>,
+          <a href="https://z-base.github.io/gqts/#history-invariants"
+            >GQTS history invariants</a
+          >).
+        </p>
         <ul>
           <li id="req-gqscd-22">
             <strong>REQ-GQSCD-22:</strong> Deployments that expose
-            [=gqtsp discovery endpoint=] metadata MUST do so via HTTPS with
-            deterministic, machine-verifiable content (<a
+            [=gqtsp discovery endpoint=] metadata for public verification
+            material MUST do so via HTTPS with deterministic, machine-verifiable
+            content (<a
               href="#ref-rfc8615"
               >[RFC8615]</a
             >, <a href="#ref-rfc9110">[RFC9110]</a>,
@@ -2258,7 +2278,11 @@
             Any operator MAY host a conformant discovery endpoint; host
             participation does not grant implicit trust and verifiers MUST
             validate signatures, issuer bindings, and freshness on every
-            retrieved artifact (<a href="#ref-gdis-core">[GDIS-CORE]</a>,
+            retrieved public verification artifact. Wallet-private proof
+            artifacts remain outside host publication scope (<a
+              href="#ref-gdis-core"
+              >[GDIS-CORE]</a
+            >,
             <a href="https://z-base.github.io/gdis/#processing-verifier"
               >REQ-GDIS-09</a
             >,
@@ -2320,7 +2344,11 @@
             <strong>REQ-GQSCD-29:</strong>
             Verify discovery metadata from [=gqtsp discovery endpoint=] and
             governance references, then evaluate freshness windows and conflict
-            handling deterministically (<a href="#ref-gdis-core">[GDIS-CORE]</a
+            handling deterministically. Implementations MUST reject or
+            explicitly report entries that fail required chain-link or proof
+            verification checks and MUST NOT silently merge invalid nodes (<a
+              href="#ref-gdis-core"
+              >[GDIS-CORE]</a
             >,
             <a href="https://z-base.github.io/gdis/#processing-verifier"
               >REQ-GDIS-09</a

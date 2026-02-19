@@ -4,7 +4,7 @@
     "commit_or_version":  "unspecified",
     "files":  {
                   "index_html":  "C:\\Users\\jorts\\gqscd\\index.html",
-                  "openapi_yaml":  null,
+                  "openapi_yaml":  "C:\\Users\\jorts\\gqscd\\openapi.yaml",
                   "agents_md":  "C:\\Users\\jorts\\gqscd\\AGENTS.md"
               },
     "terms":  [
@@ -57,30 +57,6 @@
                       "definition_text_excerpt":  "Security objective that signature creation data can be used only under control of the legitimate signatory, as required by Annex II outcome language ( [EU-910/2014] )."
                   },
                   {
-                      "term_text":  "trusted execution environment",
-                      "term_id":  "trusted-execution-environment",
-                      "anchor":  "#trusted-execution-environment",
-                      "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "817f5c93c8943ffe2be373d6856cb758b6bb22b66967d3f5bc23cbb84ceb2a4e",
-                      "definition_text_excerpt":  "Isolated execution context used for security-critical operations separate from the rich operating environment ( [ANDROID-TRUSTY] )."
-                  },
-                  {
-                      "term_text":  "secure boot chain",
-                      "term_id":  "secure-boot-chain",
-                      "anchor":  "#secure-boot-chain",
-                      "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "b161cc0fa5e179b5855837f21a04835ef8a928aec8d1dbc90155750351b1bfea",
-                      "definition_text_excerpt":  "Firmware and boot verification sequence that permits execution only of cryptographically verified boot components ( [ANDROID-AVB] , [MSFT-SECURE-BOOT] , [APPLE-BOOT] )."
-                  },
-                  {
-                      "term_text":  "measured boot evidence",
-                      "term_id":  "measured-boot-evidence",
-                      "anchor":  "#measured-boot-evidence",
-                      "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "69eb9a44d6ad8062b27b78d00e2645c734679c9e9598f0f706d63a29915d11e0",
-                      "definition_text_excerpt":  "Measurement artifacts (for example TPM PCR values and event logs) describing boot state for remote verification ( [MSFT-TPM] , [SYSTEMD-PCR] )."
-                  },
-                  {
                       "term_text":  "user intent ceremony",
                       "term_id":  "user-intent-ceremony",
                       "anchor":  "#user-intent-ceremony",
@@ -97,20 +73,20 @@
                       "definition_text_excerpt":  "The exact full payload byte sequence presented to and approved by the signer before signature creation; this profile does not permit signing operations where only a partial or transformed subset is shown as the approval target ( [EU-ANNEX-II] , [ANDROID-PROTECTED-CONFIRMATION] , [RFC7515] , [RFC9052"
                   },
                   {
-                      "term_text":  "user verification",
-                      "term_id":  "user-verification",
-                      "anchor":  "#user-verification",
+                      "term_text":  "proof object",
+                      "term_id":  "proof-object",
+                      "anchor":  "#proof-object",
                       "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "f58fb3bb1bf94e6e25bd0ff6aaa85b06b0f926d2cfa2024a4c3e37c834ca54ef",
-                      "definition_text_excerpt":  "Authenticator procedure that validates the user through local authentication mechanisms before sensitive operations are performed ( [WEBAUTHN-L3] )."
+                      "definition_excerpt_hash":  "a1a7c210e96f492cc8aae36924c5f38184780e6fd458b6d583194ddc3875d8e0",
+                      "definition_text_excerpt":  "JSON object attached to an artifact that carries cryptographic proof metadata and proof bytes so a verifier can check integrity and authenticity deterministically ( [VC-DI] )."
                   },
                   {
-                      "term_text":  "attestation evidence",
-                      "term_id":  "attestation-evidence",
-                      "anchor":  "#attestation-evidence",
+                      "term_text":  "DataIntegrityProof",
+                      "term_id":  "dataintegrityproof",
+                      "anchor":  "#dataintegrityproof",
                       "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "da0e32799ee7aae5bda05edad65eb13cebfb0b6e5550c8486e1b663f672f30ae",
-                      "definition_text_excerpt":  "Cryptographically verifiable evidence about key origin, authenticator/device properties, or execution state used by verifiers during trust decisions ( [WEBAUTHN-L3] , [ANDROID-ATTESTATION] )."
+                      "definition_excerpt_hash":  "21e0f4857721363bbb4329339bae1858737b45863b7e04031da86f2c05558ab4",
+                      "definition_text_excerpt":  "[=proof object=] type defined by the W3C Data Integrity model; in this profile it is used for profile-level integrity claims and is paired with the selected cryptosuite and proofValue members ( [VC-DI] , [VC-DI-ECDSA] )."
                   },
                   {
                       "term_text":  "zero-trust verification model",
@@ -141,8 +117,8 @@
                       "term_id":  "gqtsp-discovery-endpoint",
                       "anchor":  "#gqtsp-discovery-endpoint",
                       "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "c0a86371e9db4e6eb1d4574acb49cb0f5ef8bba6fb155cde00f5bfc058749891",
-                      "definition_text_excerpt":  "Deployment-defined HTTPS discovery location used to publish evidence metadata and pointers for decentralized verifier retrieval in this profile ( [RFC8615] , [RFC9110] , [GDIS-CORE] )."
+                      "definition_excerpt_hash":  "8e2966cbbd5e56ccfd3120fb01caf5c3ff4d0f1d0816546608b4b15e43724325",
+                      "definition_text_excerpt":  "Deployment-defined HTTPS discovery location used to publish evidence metadata and pointers for decentralized verifier retrieval in this profile ( [RFC8615] , [RFC9110] , [GDIS-CORE] , REQ-GDIS-05 , getSchemeDescriptor , getEndpointKindCatalog , getEventLogView , and getEventHeadMeta )."
                   },
                   {
                       "term_text":  "local signing profile",
@@ -193,22 +169,6 @@
                       "definition_text_excerpt":  "EU legal framework for electronic identification and trust services established by Regulation (EU) No 910/2014 and its amendments ( [EU-910/2014] , [EU-2024/1183] )."
                   },
                   {
-                      "term_text":  "eudi wallet ecosystem",
-                      "term_id":  "eudi-wallet-ecosystem",
-                      "anchor":  "#eudi-wallet-ecosystem",
-                      "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "25328e410d7619b950b6bf70df6cc365fdd500837f09179b5cbafbcab91d5089",
-                      "definition_text_excerpt":  "EU Digital Identity Wallet ecosystem specified by the 2024 eIDAS amendment and implementing acts defining integrity, protocol, and interoperability requirements ( [EU-2024/1183] , [EU-2024/2979] , [EU-2024/2982] )."
-                  },
-                  {
-                      "term_text":  "implementing specification",
-                      "term_id":  "implementing-specification",
-                      "anchor":  "#implementing-specification",
-                      "section_anchor":  "#conformance",
-                      "definition_excerpt_hash":  "f313e886632ca2baa375971762f23c911bfc752edf9f0b5167b0846f86a71d50",
-                      "definition_text_excerpt":  "Companion specification that profiles GQSCD-Core for a specific platform, deployment model, testing method, or jurisdictional evidence workflow while preserving core conformance semantics."
-                  },
-                  {
                       "term_text":  "qscd certification evidence tuple",
                       "term_id":  "qscd-certification-evidence-tuple",
                       "anchor":  "#qscd-certification-evidence-tuple",
@@ -224,7 +184,7 @@
                         "section_anchor":  "#conformance",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
-                        "text_excerpt_hash":  "53c8e8b5074ec92077fc5431fcc758a391e1ac33bed72bc7f68079e30773408b"
+                        "text_excerpt_hash":  "feaeb296941d7db9774757d21d22cb58868664b8bfcfd903b65226f0d98cc618"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-55",
@@ -233,6 +193,17 @@
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
                         "text_excerpt_hash":  "b97a726ccb2e54a5eaa250a5ef2db8faf48c298421b23a25d2bac1b5040cf468"
+                    },
+                    {
+                        "clause_id":  "REQ-GQSCD-56",
+                        "anchor":  "#req-gqscd-56",
+                        "section_anchor":  "#conformance",
+                        "kind":  "requirement",
+                        "normative_keywords_used":  [
+                                                        "MUST NOT",
+                                                        "MUST"
+                                                    ],
+                        "text_excerpt_hash":  "1c14a926f6d060d3c3b6f7e268f64e457143adab2e2ea8b089e8972c91a39f74"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-01",
@@ -264,7 +235,7 @@
                         "section_anchor":  "#data-model-and-proof-profile",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
-                        "text_excerpt_hash":  "88e7874853d31f34d266e83533614ff653f5ae1e34f4fc25265cc33726cd6e59"
+                        "text_excerpt_hash":  "2487d9769ab188c69e346f393f38c30313a739db348c0a661f06da031418dd18"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-05",
@@ -293,7 +264,7 @@
                     {
                         "clause_id":  "REQ-GQSCD-08",
                         "anchor":  "#req-gqscd-08",
-                        "section_anchor":  "#media-type-and-versioning-profile",
+                        "section_anchor":  "#threat-model",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
                         "text_excerpt_hash":  "07fea155be7d993616ecc93d24b6101defa1d29014016078c3383fe3c25aecc1"
@@ -301,7 +272,7 @@
                     {
                         "clause_id":  "REQ-GQSCD-09",
                         "anchor":  "#req-gqscd-09",
-                        "section_anchor":  "#media-type-and-versioning-profile",
+                        "section_anchor":  "#threat-model",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
                         "text_excerpt_hash":  "61c9c9fc378c529d79b6f95a823bd1270b142a906ac4a8c19c57bc7aaf9bd244"
@@ -309,7 +280,7 @@
                     {
                         "clause_id":  "REQ-GQSCD-10",
                         "anchor":  "#req-gqscd-10",
-                        "section_anchor":  "#media-type-and-versioning-profile",
+                        "section_anchor":  "#threat-model",
                         "kind":  "requirement",
                         "normative_keywords_used":  [
                                                         "MUST NOT",
@@ -320,7 +291,7 @@
                     {
                         "clause_id":  "REQ-GQSCD-11",
                         "anchor":  "#req-gqscd-11",
-                        "section_anchor":  "#media-type-and-versioning-profile",
+                        "section_anchor":  "#threat-model",
                         "kind":  "requirement",
                         "normative_keywords_used":  [
                                                         "MUST NOT",
@@ -389,7 +360,7 @@
                         "section_anchor":  "#evidence-artifact-profile",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
-                        "text_excerpt_hash":  "6c1307912b7d62d527974fe5d0d4d4b58d75e5febbc8cd9b16c809c4ec44c579"
+                        "text_excerpt_hash":  "a85a1abfdf232f1c513b60b4ecd24cc3e66aed99f8091a22f59336d5e95d9e69"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-19",
@@ -421,7 +392,7 @@
                         "section_anchor":  "#evidence-publication-discovery",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
-                        "text_excerpt_hash":  "332796dc89274c660972ead15abc69c48874cfd4311b678198d0a289dd8c4d1b"
+                        "text_excerpt_hash":  "44ba18fd60d1ded55b164c6b2f09fe336b3b536742205a298b40f65f16aa199c"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-23",
@@ -440,7 +411,7 @@
                                                         "MUST",
                                                         "MAY"
                                                     ],
-                        "text_excerpt_hash":  "71bfbd01f12d10e3868e278a1171a72cc7b7c0d427eeec1cbaf1d47e2c1bcd5b"
+                        "text_excerpt_hash":  "afaf3596aabbce89487b12678bb45cd591f598f9bade93af8bd6f700af6079a3"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-25",
@@ -448,7 +419,7 @@
                         "section_anchor":  "#evidence-publication-discovery",
                         "kind":  "requirement",
                         "normative_keywords_used":  "SHOULD",
-                        "text_excerpt_hash":  "e2531aa7e1df3d1c108c4b1921a3215545d8b9098bdb068146fc9b33260e559e"
+                        "text_excerpt_hash":  "90fd4f20a4328f99d5d8b72d3b57f31ad69e6b3c7f3775f6e68185845db9ad64"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-26",
@@ -458,7 +429,7 @@
                         "normative_keywords_used":  {
 
                                                     },
-                        "text_excerpt_hash":  "fa9e22e4bf6e9503555cceba179abda220398f74b42233bf0d91ae4f1cf534d7"
+                        "text_excerpt_hash":  "7e294e384fc0199adaeb0ba0a49c541e70de2174a5cbf1f4261447c434e4a1da"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-27",
@@ -485,10 +456,12 @@
                         "anchor":  "#req-gqscd-29",
                         "section_anchor":  "#evidence-verifier-checklist",
                         "kind":  "requirement",
-                        "normative_keywords_used":  {
-
-                                                    },
-                        "text_excerpt_hash":  "dc95bf01566db1edbc03211f50e125b4de880d17722e3caa44cea3a931fa3abc"
+                        "normative_keywords_used":  [
+                                                        "MUST NOT",
+                                                        "MUST",
+                                                        "REQUIRED"
+                                                    ],
+                        "text_excerpt_hash":  "fde86674f5e72fd724385c82116cf56ef205bd5f2254b10b06b1e1ec4a35739a"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-30",
@@ -544,7 +517,7 @@
                         "section_anchor":  "#eu-compatibility-profile",
                         "kind":  "requirement",
                         "normative_keywords_used":  "MUST",
-                        "text_excerpt_hash":  "ecca4858926e66b601068248ff9a7ee456ebae2b324222fa2164f8c4719e9ec8"
+                        "text_excerpt_hash":  "c986ad1d47a74bc1f9d5035583a2a39aa8581f6bcfcd0c8b64ba347c60ac7ad3"
                     },
                     {
                         "clause_id":  "REQ-GQSCD-37",
@@ -693,8 +666,25 @@
                     }
                 ],
     "cross_spec_references":  {
-                                  "type":  "label",
-                                  "value":  "GDIS-CORE"
+                                  "type":  "href",
+                                  "value":  "https://z-base.github.io/gdis/#eu-web-conceptual-mapping"
                               },
-    "openapi":  null
+    "openapi":  {
+                    "operations":  [
+
+                                   ],
+                    "schemas":  [
+                                    {
+                                        "name":  "ProofObject",
+                                        "json_pointer":  "#/components/schemas/ProofObject",
+                                        "key_constraints_hash":  "950dca1d0347a4f98f3013a67ba2cbe855ef3eb9d80602f4e2142a0baba66c50"
+                                    },
+                                    {
+                                        "name":  "DataIntegrityProof",
+                                        "json_pointer":  "#/components/schemas/DataIntegrityProof",
+                                        "key_constraints_hash":  "1c65f9bb12d6a5db45b2a74dc4292e7782a45856c22e769b3c51ed674f52a1ef"
+                                    }
+                                ],
+                    "note":  "Parsed with regex fallback (ConvertFrom-Yaml unavailable)."
+                }
 }

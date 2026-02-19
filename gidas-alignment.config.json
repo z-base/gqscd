@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "self": {
+    "specId": "GQSCD-CORE",
+    "repoFullName": "z-base/gqscd",
+    "homeUrl": "https://z-base.github.io/gqscd/",
+    "indexPath": "index.html",
+    "openapiPath": "openapi.yaml",
+    "agentsPath": "AGENTS.md"
+  },
+  "peers": [
+    {
+      "specId": "GDIS-CORE",
+      "repoFullName": "z-base/gdis",
+      "homeUrl": "https://z-base.github.io/gdis/",
+      "indexPath": "../gdis/index.html",
+      "openapiPath": "../gdis/openapi.yaml",
+      "agentsPath": "../gdis/AGENTS.md"
+    },
+    {
+      "specId": "GQTS-CORE",
+      "repoFullName": "z-base/gqts",
+      "homeUrl": "https://z-base.github.io/gqts/",
+      "indexPath": "../gqts/index.html",
+      "openapiPath": "../gqts/openapi.yaml",
+      "agentsPath": "../gqts/AGENTS.md"
+    }
+  ],
+  "outputDir": ".gidas/alignment",
+  "canonicalOwnership": {
+    "deviceAndKeyTerms": "GQSCD-CORE",
+    "identityAndPidTerms": "GDIS-CORE",
+    "logAndPublicationTerms": "GQTS-CORE",
+    "privateProofArtifactTerms": "GDIS-CORE",
+    "publicVerificationMaterialTerms": "GQTS-CORE"
+  },
+  "canonicalAnchors": {
+    "proof artifact": "GDIS-CORE#evidence-artifact",
+    "binding credential": "GDIS-CORE#gdis-binding-credential",
+    "verification material": "GQTS-CORE#history-invariants"
+  },
+  "historyModel": {
+    "type": "append-only-directed-linear-signed-chain",
+    "rootEvent": "root-key",
+    "nodeConflictHandling": "reject-or-report"
+  }
+}

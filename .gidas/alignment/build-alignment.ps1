@@ -419,10 +419,10 @@ function Determine-CanonicalOwner {
   if ($NormalizedTerm -match '(device|controller|signature creation|attestation|qscd|sole control|user intent|secure boot|trusted execution)') {
     return 'GQSCD-CORE'
   }
-  if ($NormalizedTerm -match '(identity|pid|mrz|binding|issuance|physical|gdis)') {
+  if ($NormalizedTerm -match '(identity|pid|mrz|binding|binding credential|proof artifact|issuance|physical|gdis)') {
     return 'GDIS-CORE'
   }
-  if ($NormalizedTerm -match '(event|log|replication|publication|descriptor|governance code|head digest|mechanical validity|gqts)') {
+  if ($NormalizedTerm -match '(event|log|replication|publication|verification material|descriptor|governance code|head digest|mechanical validity|did document|key history|status|gqts)') {
     return 'GQTS-CORE'
   }
 
@@ -562,6 +562,36 @@ foreach ($entry in $termClusters.GetEnumerator() | Sort-Object Name) {
   }
 }
 
+# Canonical ownership overrides required by cross-spec posture.
+$canonicalTerms += @(
+  [ordered]@{
+    canonical_term = 'proof artifact'
+    canonical_owner_spec_id = 'GDIS-CORE'
+    canonical_anchor = 'GDIS-CORE#evidence-artifact'
+    aliases = @('proof artifact', 'evidence artifact')
+    members = @()
+  },
+  [ordered]@{
+    canonical_term = 'binding credential'
+    canonical_owner_spec_id = 'GDIS-CORE'
+    canonical_anchor = 'GDIS-CORE#gdis-binding-credential'
+    aliases = @('binding credential', 'gdis binding credential')
+    members = @()
+  },
+  [ordered]@{
+    canonical_term = 'verification material'
+    canonical_owner_spec_id = 'GQTS-CORE'
+    canonical_anchor = 'GQTS-CORE#history-invariants'
+    aliases = @('verification material')
+    members = @()
+  }
+)
+
+$canonicalTerms = @(
+  $canonicalTerms |
+    Sort-Object canonical_term, canonical_owner_spec_id
+)
+
 # Clause mapping and OpenAPI requirement namespace conflicts
 $canonicalClauses = @()
 $openapiConflicts = @()
@@ -603,12 +633,12 @@ foreach ($entry in $opsBySignature.GetEnumerator() | Sort-Object Name) {
   $allReqs = @($members | ForEach-Object { $_.x_requirement } | Where-Object { $_ } | Select-Object -Unique)
   $allHashes = @($members.contract_hash | Sort-Object -Unique)
   if ($allReqs.Count -gt 1) {
-    $openapiConflicts += [ordered]@{
-      type = 'requirement-namespace-conflict'
-      operation = $entry.Name
-      requirements = $allReqs
-      member_specs = @($members.spec_id | Sort-Object -Unique)
-    }
+      $openapiConflicts += [ordered]@{
+        type = 'requirement-id-namespace-conflict'
+        operation = $entry.Name
+        requirements = $allReqs
+        member_specs = @($members.spec_id | Sort-Object -Unique)
+      }
   }
   if ($allHashes.Count -gt 1) {
     $openapiConflicts += [ordered]@{
@@ -632,7 +662,7 @@ foreach ($idx in $allIndexes) {
     $norm = Normalize-Term $used
     if ($norm -and -not ($allNormalizedTerms -contains $norm)) {
       $gaps += [ordered]@{
-        type = 'undefined-term-use'
+        type = 'undefined-term'
         spec_id = $idx.spec_id
         term_used = $used
       }
@@ -659,7 +689,10 @@ foreach ($idx in $allIndexes) {
   }
 }
 
-$gaps = $gaps | Sort-Object type, spec_id, term_used, requirement_id -Unique
+$gaps = @(
+  $gaps |
+    Sort-Object type, spec_id, term_used, requirement_id -Unique
+)
 
 $crossSpecMap = [ordered]@{
   canonical_terms = $canonicalTerms
@@ -690,8 +723,8 @@ if (($crossSpecMap.conflicts | Measure-Object).Count -eq 0) {
 }
 else {
   foreach ($c in $crossSpecMap.conflicts) {
-    if ($c.type -eq 'requirement-namespace-conflict') {
-      $report += "- requirement-namespace-conflict: $($c.operation) => $([string]::Join(', ', $c.requirements))"
+    if ($c.type -eq 'requirement-id-namespace-conflict') {
+      $report += "- requirement-id-namespace-conflict: $($c.operation) => $([string]::Join(', ', $c.requirements))"
     }
     elseif ($c.type -eq 'operation-contract-conflict') {
       $report += "- operation-contract-conflict: $($c.operation)"
@@ -711,8 +744,8 @@ if (($crossSpecMap.gaps | Measure-Object).Count -eq 0) {
 }
 else {
   foreach ($g in $crossSpecMap.gaps) {
-    if ($g.type -eq 'undefined-term-use') {
-      $report += "- undefined-term-use: $($g.spec_id) uses '$($g.term_used)' without a known definition."
+    if ($g.type -eq 'undefined-term') {
+      $report += "- undefined-term: $($g.spec_id) uses '$($g.term_used)' without a known definition."
     }
     elseif ($g.type -eq 'requirement-reference-without-anchor') {
       $report += "- requirement-reference-without-anchor: $($g.spec_id) references $($g.requirement_id) without a stable clause anchor."
@@ -726,7 +759,7 @@ $report += ''
 $report += '## Self-repo edit plan'
 $report += '- Add `localBiblio` entries for GDIS-CORE, GQSCD-CORE, GQTS-CORE in `index.html`.'
 $report += '- Add explicit stable IDs for cross-spec terms in this repo (`web profile`, `eu compatibility profile`).'
-$report += '- No SELF OpenAPI ownership edits (no `openapi.yaml` in this repo).'
+$report += '- No SELF OpenAPI ownership edits needed in this run (SELF has no GQTS-hosted endpoint definitions).'
 $report += ''
 $report += '## Changed files'
 $report += '- Pending update after applying edits.'

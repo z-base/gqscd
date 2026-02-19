@@ -18,6 +18,22 @@
                           "definition_text_excerpt":  "A legal and administrative domain that issues and governs identity items and their verification rules."
                       },
                       {
+                          "term_text":  "delegated PID issuer",
+                          "term_id":  "delegated-pid-issuer",
+                          "anchor":  "#delegated-pid-issuer",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "d3e3f252345d7ff6df07c652fb24e40740137f7c8701bd13bb5eacc30eeee29e",
+                          "definition_text_excerpt":  "An issuance delegate that a governance area has legally authorized to issue PID-bound identity evidence under governance policy."
+                      },
+                      {
+                          "term_text":  "remote eID provider",
+                          "term_id":  "remote-eid-provider",
+                          "anchor":  "#remote-eid-provider",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "a1d9c2619be5dd51b9479d388371e7de168de75c4c63976fbcbac372d43922bd",
+                          "definition_text_excerpt":  "A network-mediated identity service used for PID issuance or delegation workflows (for example SIM-based or bank-mediated issuance), distinct from direct physical identity-item issuance."
+                      },
+                      {
                           "term_text":  "physical identity item",
                           "term_id":  "physical-identity-item",
                           "anchor":  "#physical-identity-item",
@@ -114,20 +130,20 @@
                           "definition_text_excerpt":  "A set of data that identifies a person under applicable law or standards contexts."
                       },
                       {
-                          "term_text":  "PID hash",
-                          "term_id":  "pid-hash",
-                          "anchor":  "#pid-hash",
+                          "term_text":  "PID binding value",
+                          "term_id":  "pid-binding-value",
+                          "anchor":  "#pid-binding-value",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "114264fcd28db8e94285b6bf7dc5634b6dbeb3a1f1796e2b2d7a75136848c526",
-                          "definition_text_excerpt":  "A cryptographic hash over canonicalized PID fields extracted from MRZ-compatible document data, represented as a hash tuple expression ."
+                          "definition_excerpt_hash":  "7fd7f0a6c52695b95541ba48c9346adb5668e09bb4278bbc07fccad1c2bad1b0",
+                          "definition_text_excerpt":  "Deterministic subject-binding value derived from canonicalized PID fields extracted from MRZ-compatible document data. Profiles MAY realize this value as a hash, commitment, or hidden proof input, provided verifier outcomes are deterministic and auditable."
                       },
                       {
                           "term_text":  "GDIS binding credential",
                           "term_id":  "gdis-binding-credential",
                           "anchor":  "#gdis-binding-credential",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "f178e4040bf9e81cedf6698fa0e7a1ce9fe5c9d36d366bcd94e0b377c7d34a54",
-                          "definition_text_excerpt":  "A verifiable credential binding a PID hash to a subject DID, issuer evidence, and governance verification material."
+                          "definition_excerpt_hash":  "f2043958712b51518093153bb30c770b64f70d93b24555be074c9cdb213439cf",
+                          "definition_text_excerpt":  "A verifiable credential binding a PID binding value (or equivalent hidden proof input) to a subject DID, issuer evidence, and governance verification material."
                       },
                       {
                           "term_text":  "GDIS subject DID",
@@ -186,6 +202,30 @@
                           "definition_text_excerpt":  "URI query parameter whose value is an RFC 3339 date-time selecting the policy version that was effective at that instant [RFC3339] ."
                       },
                       {
+                          "term_text":  "physical validity method profile",
+                          "term_id":  "physical-validity-method-profile",
+                          "anchor":  "#physical-validity-method-profile",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "eded0566fae403d2c04856a5378fffcc5372c6c331eaeb41d55bccd2fc901b7b",
+                          "definition_text_excerpt":  "Governance-declared method profile describing how physical identity item authenticity and validity are checked (for example MRZ-only or MRZ plus NFC chip checks), including deterministic verifier acceptance/failure rules."
+                      },
+                      {
+                          "term_text":  "governance trust source reference",
+                          "term_id":  "governance-trust-source-reference",
+                          "anchor":  "#governance-trust-source-reference",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "efe249fc6825ad389a6386b9bef347acfe46c122fc88a7c053a739d80a12e495",
+                          "definition_text_excerpt":  "Machine-readable reference to an authoritative governance source used in physical-validity or recognition checks (for example a trusted list, registry, or official legal publication endpoint)."
+                      },
+                      {
+                          "term_text":  "physical validity evidence artifact",
+                          "term_id":  "physical-validity-evidence-artifact",
+                          "anchor":  "#physical-validity-evidence-artifact",
+                          "section_anchor":  "#terminology",
+                          "definition_excerpt_hash":  "2daadf893a8f6c2c674ed0547dc948d8f25a6f6afa2ee8a2ad99d69dda391f88",
+                          "definition_text_excerpt":  "An evidence artifact proving which physical validity method profile was applied, which evidence checks were executed, and which governance trust source reference values were used."
+                      },
+                      {
                           "term_text":  "evidence artifact",
                           "term_id":  "evidence-artifact",
                           "anchor":  "#evidence-artifact",
@@ -208,22 +248,6 @@
                           "section_anchor":  "#terminology",
                           "definition_excerpt_hash":  "99f040b2a6dfafe71735c7893c70befe69b19d6259769d7a0b7a56662fe367f4",
                           "definition_text_excerpt":  "Deterministic output object produced by a verifier after executing the normative processing rules in this specification."
-                      },
-                      {
-                          "term_text":  "web profile",
-                          "term_id":  "web-profile",
-                          "anchor":  "#web-profile",
-                          "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91",
-                          "definition_text_excerpt":  "Imported term from [GQSCD-CORE] ."
-                      },
-                      {
-                          "term_text":  "EU compatibility profile",
-                          "term_id":  "eu-compatibility-profile",
-                          "anchor":  "#eu-compatibility-profile",
-                          "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "fd0de533924db2cc718e962ac6e75c6a7afead163a4f657c463215bef62cbb91",
-                          "definition_text_excerpt":  "Imported term from [GQSCD-CORE] ."
                       }
                   ],
         "clauses":  [
@@ -366,6 +390,26 @@
 
                                                         },
                             "text_excerpt_hash":  "512cf1a1fde3c276884d47c58cb90391281e841a12114ad15a304ebea0874d6a"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-10",
+                            "anchor":  "#req-physical-validity",
+                            "section_anchor":  "#req-physical-validity",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "8a3a98af13c6ae98ff6c07e5a7bfb5d4784f7acb122c76ce9c3acac8b10040dc"
+                        },
+                        {
+                            "clause_id":  "REQ-GDIS-10",
+                            "anchor":  "#REQ-GDIS-10",
+                            "section_anchor":  "#req-physical-validity",
+                            "kind":  "requirement",
+                            "normative_keywords_used":  {
+
+                                                        },
+                            "text_excerpt_hash":  "f8522ffa6d5df7fc5c0527c7306a42e4b71f6953f439696af55cabe79849e6c4"
                         },
                         {
                             "clause_id":  "REQ-GDIS-08",
@@ -527,6 +571,16 @@
                                             "key_constraints_hash":  "29e67499bab447b87910febfaf19e6e51dfadb6f546d05a7a12f95416dc8b4e8"
                                         },
                                         {
+                                            "name":  "GdisPhysicalValidityPolicy",
+                                            "json_pointer":  "#/components/schemas/GdisPhysicalValidityPolicy",
+                                            "key_constraints_hash":  "08a221b786d4b8b9002bc2b9d01784e53e696f51b5e218fd14f76d9a678e1d9c"
+                                        },
+                                        {
+                                            "name":  "GdisDelegatedIssuancePolicy",
+                                            "json_pointer":  "#/components/schemas/GdisDelegatedIssuancePolicy",
+                                            "key_constraints_hash":  "d23bf07553de486303df2b7c97a082b45938d8612d70504dab49dbb589a70389"
+                                        },
+                                        {
                                             "name":  "GdisPidIdentificationPolicy",
                                             "json_pointer":  "#/components/schemas/GdisPidIdentificationPolicy",
                                             "key_constraints_hash":  "6f96dd1ed747cd3fc30825ac18ada8bcb9da5a0a77fe41fcfa3a12e47d1a3120"
@@ -630,16 +684,16 @@
                           "term_id":  "gqts-host",
                           "anchor":  "#gqts-host",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "85ce12269453575f0a7977db200a806722403716b3a1361867955287255aec7e",
-                          "definition_text_excerpt":  "An HTTP origin that serves GQTS resources and MAY ingest, replicate, and gossip append-only event history material."
+                          "definition_excerpt_hash":  "841737337524f3b3296f1576d5c0134febdca6a6c14150c7aa02a34a8be15e38",
+                          "definition_text_excerpt":  "An HTTP origin that serves GQTS resources and MAY ingest, replicate, and gossip append-only signed-token history material."
                       },
                       {
                           "term_text":  "service descriptor",
                           "term_id":  "service-descriptor",
                           "anchor":  "#service-descriptor",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "0123e9fc780defb474d23a625bfff0485281e85d26ff1a4e02c6f157898ce8ab",
-                          "definition_text_excerpt":  "A machine-readable object describing one trust-service instance, its type, and its current event-log head commitment."
+                          "definition_excerpt_hash":  "86ecb8890fe288a9b7debed534546acb3bd875c77048773569dde504f31b5311",
+                          "definition_text_excerpt":  "A machine-readable object describing one trust-service instance, its type, and its current token-chain head state."
                       },
                       {
                           "term_text":  "scheme descriptor",
@@ -654,32 +708,32 @@
                           "term_id":  "event-namespace",
                           "anchor":  "#event-namespace",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "d5e64a7b57ab2f6472365149609a91c46dd07b51d6aded5c8bcb485aeae2d532",
-                          "definition_text_excerpt":  "A scoped event stream identified by a log identifier where entries form an append-only history."
+                          "definition_excerpt_hash":  "dca16e31c0adcf54404a171ec19356621f8d9ea257f739b6a70f66d5d3780f1c",
+                          "definition_text_excerpt":  "A scoped signed-token stream identified by a log identifier where entries form an append-only directed linear history."
                       },
                       {
-                          "term_text":  "head digest",
-                          "term_id":  "head-digest",
-                          "anchor":  "#head-digest",
+                          "term_text":  "head token",
+                          "term_id":  "head-token",
+                          "anchor":  "#head-token",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "d690a7c7b4b502904155445968a38b87d26eef17855113a1f2170165da4f65b9",
-                          "definition_text_excerpt":  "Commitment to the latest accepted history head for an event namespace , used for cheap divergence detection before heavy synchronization."
+                          "definition_excerpt_hash":  "1e25442804de352adc58808acfb03075c384322c6780c8cb0012d8e493f03149",
+                          "definition_text_excerpt":  "Identifier of the latest accepted token for an event namespace , used for cheap synchronization checks before heavy retrieval."
                       },
                       {
-                          "term_text":  "merge event",
-                          "term_id":  "merge-event",
-                          "anchor":  "#merge-event",
+                          "term_text":  "merge token",
+                          "term_id":  "merge-token",
+                          "anchor":  "#merge-token",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "8dae7e7e28e083adf9c3dc1943b18de7015f29706c0b97596c8c61297d0a5453",
-                          "definition_text_excerpt":  "An event entry that references two or more parent heads to represent explicit history convergence."
+                          "definition_excerpt_hash":  "e2e3cb86e30985fcdef40fd320431a0b5b6808332f4b1b222be22478f9f6cfb5",
+                          "definition_text_excerpt":  "A signed token that reconciles competing candidate heads while preserving one canonical previous-token pointer in the accepted chain."
                       },
                       {
                           "term_text":  "mechanical validity",
                           "term_id":  "mechanical-validity",
                           "anchor":  "#mechanical-validity",
                           "section_anchor":  "#terminology",
-                          "definition_excerpt_hash":  "24acc5652e1cd658704d0e16b0909397dbc661cfe9acf4354622f738ecbe3cc0",
-                          "definition_text_excerpt":  "A verifier result stating that schema constraints, signatures/proofs, canonicalization, and hash-chain requirements were satisfied."
+                          "definition_excerpt_hash":  "40204faa3f3e7bce480d7dab3c7067c5b6d7c37be074495c7ee2a18a169760e0",
+                          "definition_text_excerpt":  "A verifier result stating that schema constraints, signatures/proofs, canonicalization, and signed-token chain requirements were satisfied."
                       },
                       {
                           "term_text":  "recognition status",
@@ -721,7 +775,7 @@
                             "section_anchor":  "#requirement-traceability",
                             "kind":  "requirement",
                             "normative_keywords_used":  "MUST",
-                            "text_excerpt_hash":  "b5bbc1c4f0f81021380fd7b77ca30a5e0e330f4da2557cb9222f36a2fb05974e"
+                            "text_excerpt_hash":  "2d4ace06788864bf1a9f994c725395a8aa919688212d9d272aee51db8f1df95e"
                         },
                         {
                             "clause_id":  "REQ-GQTS-04",
@@ -729,7 +783,7 @@
                             "section_anchor":  "#requirement-traceability",
                             "kind":  "requirement",
                             "normative_keywords_used":  "SHOULD",
-                            "text_excerpt_hash":  "f92536714a9481278097da7d3da70b17c6f548ac3473320e7b90a92feea474fd"
+                            "text_excerpt_hash":  "1755b4b049db060a12eb34833459315e4dea2a1e6a7eed9b936f36bf9fb1704e"
                         },
                         {
                             "clause_id":  "REQ-GQTS-05",
@@ -883,11 +937,6 @@
                                             "name":  "Identifier",
                                             "json_pointer":  "#/components/schemas/Identifier",
                                             "key_constraints_hash":  "9b10587f84a2c3749305f3421c8f2838ed88b0ab1e44326ff9eeb48083373144"
-                                        },
-                                        {
-                                            "name":  "DigestTuple",
-                                            "json_pointer":  "#/components/schemas/DigestTuple",
-                                            "key_constraints_hash":  "e55fcf8e219e30c94dcb2a33bbbe9ea0ec134d53cde7c5b289f7dce3a022f153"
                                         },
                                         {
                                             "name":  "UriDigest",
